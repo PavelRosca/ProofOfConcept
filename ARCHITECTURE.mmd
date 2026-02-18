@@ -1,0 +1,20 @@
+%%{init: {"theme":"neutral"}}%%
+graph LR
+  subgraph Backend
+    manage["manage.py"] --> config_settings["config/settings.py"]
+    config_settings --> core["core app (models/admin)"]
+    config_settings --> members["members app"]
+    config_settings --> projects["projects app"]
+    config_settings --> donations["donations app"]
+  end
+  subgraph Frontend
+    gulp["Gulp + Tailwind"] --> src_pages["src/pages/*.html"]
+    src_pages --> scripts["scripts/main.js"]
+  end
+  nginx["(optional) Nginx / Gunicorn"] --> gunicorn["gunicorn -> config.wsgi"]
+  gunicorn --> config_settings
+  whitenoise["WhiteNoise (missing) "] -.-> config_settings
+  src_pages -->|API calls| api["/api/... (DRF) "]
+  api --> config_settings
+
+style config_settings fill:#f9f,stroke:#333,stroke-width:1px

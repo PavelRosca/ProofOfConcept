@@ -1,0 +1,19 @@
+{
+  "project": "Partito Politico - ProofOfConcept",
+  "summary": {
+    "romanian_executive": "Proiect Django + Tailwind pentru site partid politic — membrii, proiecte, donatii. Baza exista; product hardening si functionalitati avansate lipsesc.",
+    "italian_short": "Progetto Django per un partito politico italiano. Backend, admin, modelli e frontend Tailwind. Mancano alcune configurazioni di produzione.",
+    "english_short": "Django + Tailwind proof-of-concept for a political party site. Core models and admin present; production and advanced features pending."
+  },
+  "components": {
+    "backend": "back-end/ (Django 4.2)",
+    "apps": ["core", "members", "projects", "donations"],
+    "frontend": "front-end/ (Tailwind, Gulp)"
+  },
+  "critical_issues": [
+    "Incorrect middleware reference: allauth.account.middleware.AccountMiddleware in back-end/config/settings.py",
+    "whitenoise present in requirements but not configured in settings.py",
+    "DATABASE_URL is not parsed in settings.py despite .env.example and psycopg2 in requirements"
+  ],
+  "next_steps": ["Fix middleware and add whitenoise config", "Add DATABASE_URL support or document SQLite-only", "Wire frontend forms to backend endpoints", "Add Docker and CI"]
+}
