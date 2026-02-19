@@ -24,12 +24,19 @@ if (theme.fonts.font_family.secondary) {
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: [
     "./src/pages/**/*.html",
     "./src/partials/**/*.html",
     "./src/scripts/**/*.js",
   ],
-  safelist: [{ pattern: /^swiper-/ }],
+  safelist: [
+    { pattern: /^swiper-/ },
+    { pattern: /^bg-gray-/ },
+    { pattern: /^text-gray-/ },
+    { pattern: /dark:bg-/ },
+    { pattern: /dark:text-/ },
+  ],
   theme: {
     screens: {
       sm: "540px",

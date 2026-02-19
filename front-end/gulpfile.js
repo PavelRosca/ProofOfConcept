@@ -10,7 +10,6 @@ const fileinclude = require("gulp-file-include");
 const bs = require("browser-sync").create();
 const rimraf = require("rimraf");
 const wrapper = require("gulp-wrapper");
-const comments = require("gulp-header-comment");
 const template = require("gulp-template");
 const theme = require("./src/theme.json");
 const node_env = process.argv.slice(2)[0];
@@ -62,7 +61,6 @@ gulp.task("pages", function () {
         fontSecondary: theme.fonts.font_family.secondary,
       })
     )
-    .pipe(comments(headerComments))
     .pipe(gulp.dest(path.build.dir))
     .pipe(
       bs.reload({
@@ -83,7 +81,6 @@ gulp.task("styles", function () {
     .pipe(
       postcss([tailwindcss("./tailwind.config.js"), require("autoprefixer")])
     )
-    .pipe(comments(headerComments))
     .pipe(gulp.dest(path.build.dir + "styles/"))
     .pipe(
       bs.reload({
@@ -98,8 +95,6 @@ gulp.task("scripts", function () {
     .src(path.src.scripts)
     .pipe(jshint("./.jshintrc"))
     .pipe(jshint.reporter("jshint-stylish"))
-    .on("error", gutil.log)
-    .pipe(comments(headerComments))
     .pipe(gulp.dest(path.build.dir + "scripts/"))
     .pipe(
       bs.reload({
@@ -122,7 +117,14 @@ gulp.task("plugins", function () {
 
 // public files
 gulp.task("public", function () {
-  return gulp.src(path.src.public).pipe(gulp.dest(path.build.dir));
+  return gulp
+    .src(path.src.public, { encoding: false })
+    .pipe(gulp.dest(path.build.dir))
+    .pipe(
+      bs.reload({
+        stream: true,
+      })
+    );
 });
 
 // Clean Theme Folder
@@ -155,6 +157,10 @@ gulp.task(
       bs.init({
         server: {
           baseDir: path.build.dir,
+        },
+        port: 3000,
+        ui: {
+          port: 3001,
         },
       });
     })

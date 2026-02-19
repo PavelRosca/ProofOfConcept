@@ -615,3 +615,84 @@ select:invalid {
   //   border: 0px solid #eee;
   // }
 }
+
+.dark .bg-white {
+  @apply bg-white/5;
+}
+
+.dark .bg-gray-50 {
+  @apply bg-white/5;
+}
+
+.dark .bg-gray-100 {
+  @apply bg-white/10;
+}
+
+.dark .border-border {
+  @apply border-light/20;
+}
+
+.dark .card,
+.dark .accordion,
+.dark .review,
+.dark .panel,
+.dark .footer {
+  @apply bg-white/5;
+}
+
+.dark .rounded,
+.dark .rounded-lg,
+.dark .rounded-xl,
+.dark .rounded-2xl,
+.dark .rounded-3xl {
+  @apply border border-light/20;
+}
+
+.dark [class*="shadow"] {
+  box-shadow: none !important;
+  @apply ring-1 ring-light/20;
+}
+
+.dark .footer-copyright {
+  @apply border-light/20;
+}
+
+.dark .social-icons li a {
+  @apply bg-theme-dark border border-light/20;
+}
+
+.dark .social-icons li a path {
+  fill: #ceced0;
+}
+
+.dark .content {
+  @apply prose-invert;
+}
+
+.dark .tab-nav,
+.dark .tab-nav-item.active {
+  @apply border-light/30;
+}
+
+.dark .tab-nav-item {
+  @apply text-light;
+}
+
+.dark table,
+.dark thead,
+.dark tr,
+.dark td,
+.dark th {
+  @apply border-light/20;
+}
+
+.dark thead {
+  @apply bg-theme-dark;
+}
+
+.dark .form-control,
+.dark .form-select,
+.dark input[type="text"],
+.dark textarea {
+  @apply bg-theme-dark text-light border-light/20;
+}

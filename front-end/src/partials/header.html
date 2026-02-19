@@ -3,7 +3,8 @@
     <!-- logo -->
     <div class="order-0">
       <a href="index.html">
-        <img src="images/logo.svg" height="30" width="147" alt="logo" />
+        <img class="dark:hidden" src="images/logo.svg" height="30" width="147" alt="logo" />
+        <img class="hidden dark:block" src="images/logo-dark.svg" height="30" width="147" alt="logo" />
       </a>
     </div>
     <!-- navbar toggler -->
@@ -51,61 +52,23 @@
       <li class="nav-item">
         <a href="contact.html" class="nav-link" data-i18n="nav.contact">Contatti</a>
       </li>
-      <li class="nav-item nav-dropdown group relative">
-        <span class="nav-link inline-flex items-center">
-          Pages
-          <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
-            <path
-              d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
-            />
-          </svg>
-        </span>
-        <ul
-          class="nav-dropdown-list hidden group-hover:block lg:invisible lg:absolute lg:block lg:opacity-0 lg:group-hover:visible lg:group-hover:opacity-100"
-        >
-          <li class="nav-dropdown-item">
-            <a href="career.html" class="nav-dropdown-link">Career</a>
-          </li>
-          <li class="nav-dropdown-item">
-            <a href="career-single.html" class="nav-dropdown-link"
-              >Career Single</a
-            >
-          </li>
-          <li class="nav-dropdown-item">
-            <a href="integrations.html" class="nav-dropdown-link"
-              >Integrations</a
-            >
-          </li>
-          <li class="nav-dropdown-item">
-            <a href="integration-single.html" class="nav-dropdown-link"
-              >Integration Single</a
-            >
-          </li>
-          <li class="nav-dropdown-item">
-            <a href="pricing.html" class="nav-dropdown-link">Pricing</a>
-          </li>
-          <li class="nav-dropdown-item">
-            <a href="changelogs.html" class="nav-dropdown-link">Changelogs</a>
-          </li>
-          <li class="nav-dropdown-item">
-            <a href="terms-condition.html" class="nav-dropdown-link"
-              >Terms & Conditions</a
-            >
-          </li>
-        </ul>
-      </li>
-      <li class="nav-item">
-        <a href="contact.html" class="nav-link">Contact</a>
+      <li class="nav-item lg:hidden">
+        <button id="theme-toggle-mobile" class="nav-link w-full text-left" type="button">
+          🌙 Night mode
+        </button>
       </li>
       <li class="nav-item mt-3.5 lg:hidden">
         <a class="btn btn-white btn-sm border-border" href="join.html" data-i18n="nav.signup">Iscriviti</a>
       </li>
     </ul>
     <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex space-x-3">
+      <button id="theme-toggle" class="text-sm px-3 py-1.5 rounded border border-border hover:bg-theme-light dark:border-light/30 dark:text-light dark:hover:bg-light/10" type="button">
+        🌙 Night mode
+      </button>
       <!-- Language switch -->
       <div class="flex items-center space-x-2">
-        <button id="lang-it" class="text-sm px-2 py-1 rounded hover:bg-gray-100">IT</button>
-        <button id="lang-en" class="text-sm px-2 py-1 rounded hover:bg-gray-100">EN</button>
+        <button id="lang-it" class="text-sm px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-light/10">IT</button>
+        <button id="lang-en" class="text-sm px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-light/10">EN</button>
       </div>
       <a class="btn btn-white btn-sm" href="join.html" data-i18n="nav.signup">Iscriviti</a>
     </div>

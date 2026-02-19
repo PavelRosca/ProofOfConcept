@@ -3,7 +3,25 @@
 }
 
 .btn-primary {
-  @apply cursor-pointer rounded-[50px] border-0 bg-gradient-to-tl text-center font-medium text-white hover:shadow-[0px_5px_30px_rgba(252,167,111,0.5)];
+  @apply cursor-pointer rounded-[50px] border-0 bg-gradient-to-tl text-center font-medium text-gray-900;
+  background: #f5f5f5;
+  color: #1f2937;
+
+  &:hover {
+    background: #e5e5e5;
+    @apply shadow-[0px_4px_12px_rgba(0,0,0,0.15)];
+  }
+}
+
+.dark .btn-primary {
+  background: #334155;
+  color: #f1f5f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  &:hover {
+    background: #475569;
+    @apply shadow-[0px_6px_16px_rgba(0,0,0,0.4)];
+  }
 }
 
 .btn-outline-primary {
@@ -13,16 +31,47 @@
   }
 }
 
+.dark .btn-outline-primary {
+  @apply border-orange-500 text-orange-400;
+  
+  &:hover {
+    background: rgba(254, 96, 25, 0.2);
+    @apply border-orange-400 text-orange-300 shadow-[0px_4px_12px_rgba(254,96,25,0.2)];
+  }
+}
+
 .btn-outline-white {
   @apply rounded-[50px] bg-transparent text-center capitalize text-dark;
+}
+
+.dark .btn-outline-white {
+  @apply rounded-[50px] bg-transparent text-center capitalize text-light border border-light/30 hover:bg-light/10;
 }
 
 .btn-white {
   @apply min-w-[150px] rounded-[50px] border-white bg-white text-center capitalize text-dark shadow-lg hover:shadow;
 }
 
+.dark .btn-white {
+  @apply border-light/20 bg-theme-dark text-light shadow;
+}
+
 .btn-sm {
   @apply h-[42px] leading-[24px];
+}
+
+.btn-secondary {
+  @apply cursor-pointer rounded-[50px] border-0 bg-gradient-to-tl text-center font-medium text-white hover:shadow-[0px_5px_30px_rgba(252,167,111,0.5)];
+}
+
+.dark .btn-secondary {
+  @apply text-white;
+  background: linear-gradient(184.78deg, #1e3c72 7.64%, #2a5298 120.07%);
+  box-shadow: 0 4px 15px rgba(30, 60, 114, 0.4);
+
+  &:hover {
+    box-shadow: 0 6px 24px rgba(42, 82, 152, 0.5);
+  }
 }
 
 

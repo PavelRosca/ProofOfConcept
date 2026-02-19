@@ -1,20 +1,30 @@
 %%{init: {"theme":"neutral"}}%%
 graph LR
-  subgraph Backend
+  subgraph Backend (Django)
     manage["manage.py"] --> config_settings["config/settings.py"]
-    config_settings --> core["core app (models/admin)"]
-    config_settings --> members["members app"]
-    config_settings --> projects["projects app"]
-    config_settings --> donations["donations app"]
+    config_settings --> config_urls["config/urls.py"]
+    config_urls --> api_root["/api/ -> core.urls"]
+    api_root --> core_views["core viewsets + router"]
+    core_views --> core_models["Sector/Region/Project/Member/Donation/StaticPage"]
+    config_settings --> members["members app (placeholder)"]
+    config_settings --> projects["projects app (placeholder)"]
+    config_settings --> donations["donations app (placeholder)"]
   end
-  subgraph Frontend
+  subgraph Frontend (Tailwind + Gulp)
     gulp["Gulp + Tailwind"] --> src_pages["src/pages/*.html"]
-    src_pages --> scripts["scripts/main.js"]
+    gulp --> src_scripts["src/scripts/*.js"]
+    src_pages --> i18n_keys["data-i18n keys in pages/partials"]
+    src_scripts --> scripts["theme/scripts/main.js + theme/scripts/lang.js"]
+    scripts --> i18n_runtime["lang.js applies IT/EN + localStorage site_lang"]
+    i18n_keys --> i18n_runtime
   end
-  nginx["(optional) Nginx / Gunicorn"] --> gunicorn["gunicorn -> config.wsgi"]
-  gunicorn --> config_settings
-  whitenoise["WhiteNoise (missing) "] -.-> config_settings
-  src_pages -->|API calls| api["/api/... (DRF) "]
-  api --> config_settings
+  runtime["Gunicorn/Nginx (optional)"] --> config_settings
+  src_pages -->|API calls| api["/api/... (DRF)"]
+  api --> api_root
+
+  issues1["Missing: STATIC_ROOT + WhiteNoise config"] -.-> config_settings
+  issues2["Missing: DATABASE_URL parsing"] -.-> config_settings
+  issues3["Duplicate DEBUG static block in config/urls.py"] -.-> config_urls
+  issues4["Legacy npm script mismatch removeDarkMode.js (resolved)"] -.-> src_scripts
 
 style config_settings fill:#f9f,stroke:#333,stroke-width:1px

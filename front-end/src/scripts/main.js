@@ -4,6 +4,37 @@
 (function () {
   "use strict";
 
+  function setTheme(isDark) {
+    document.documentElement.classList.toggle("dark", isDark);
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    const label = isDark ? "☀️ Day mode" : "🌙 Night mode";
+    const toggleDesktop = document.getElementById("theme-toggle");
+    const toggleMobile = document.getElementById("theme-toggle-mobile");
+    if (toggleDesktop) {
+      toggleDesktop.textContent = label;
+    }
+    if (toggleMobile) {
+      toggleMobile.textContent = label;
+    }
+  }
+
+  const toggleDesktop = document.getElementById("theme-toggle");
+  const toggleMobile = document.getElementById("theme-toggle-mobile");
+  if (toggleDesktop || toggleMobile) {
+    const isDark = document.documentElement.classList.contains("dark");
+    setTheme(isDark);
+
+    [toggleDesktop, toggleMobile].forEach((button) => {
+      if (!button) {
+        return;
+      }
+      button.addEventListener("click", () => {
+        const nextIsDark = !document.documentElement.classList.contains("dark");
+        setTheme(nextIsDark);
+      });
+    });
+  }
+
   // Preloader js
   // window.addEventListener("load", (e) => {
   //   document.querySelector(".preloader").style.display = "none";

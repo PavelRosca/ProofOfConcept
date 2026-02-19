@@ -6,6 +6,7 @@ django-crispy-forms==2.5
 crispy-bootstrap5==2024.10
 django-filter==24.1
 python-decouple==3.8
+dj-database-url==2.2.0
 Pillow==10.0.0
 psycopg2-binary==2.9.9
 gunicorn==21.2.0

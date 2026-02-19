@@ -1,15 +1,19 @@
 # TODO — Tasks organized by Phases
 
 ## FAZA 1 — Bază solidă (High priority)
-- [ ] Remove invalid middleware `allauth.account.middleware.AccountMiddleware` from `back-end/config/settings.py` (risk: app import error). See: [back-end/config/settings.py](back-end/config/settings.py#L30-L60)
-- [ ] Add WhiteNoise middleware + `STATIC_ROOT` + `STATICFILES_STORAGE` to serve static files in production. See: [back-end/requirements.txt](back-end/requirements.txt#L1-L20)
-- [ ] Add `dj-database-url` or logic to parse `DATABASE_URL` env var and use Postgres when provided. Update `requirements.txt` accordingly.
-- [ ] Ensure `.env` is not committed; add `.env` to `.gitignore` if missing. See: [.env.example](back-end/.env.example#L1-L40)
+- [x] Define `STATIC_ROOT` in `back-end/config/settings.py` and keep static serving consistent with `back-end/config/urls.py`.
+- [x] Add WhiteNoise middleware + `STATICFILES_STORAGE` for production static serving. See: [back-end/requirements.txt](back-end/requirements.txt#L1-L20)
+- [x] Add `dj-database-url` (or equivalent logic) to parse `DATABASE_URL`; current settings always use SQLite.
+- [x] Remove duplicated `if settings.DEBUG:` static/media block in `back-end/config/urls.py`.
+- [x] Fix frontend script mismatch in `front-end/package.json` (`removeDarkMode.js` vs `removeDarkmode.js`, and `yarn format` vs npm flow).
+- [x] Enforce `SECRET_KEY` in production (`DEBUG=False`) and keep dev-only fallback for local setup.
+- [ ] Keep `.env` out of git (already covered by `back-end/.gitignore`); verify no secrets are committed.
 
 ## FAZA 2 — Conținut public (Medium priority)
-- [ ] Implement API endpoints / views for: registration (`members`), donations (`donations`). Verify `serializers.py` in apps.
-- [ ] Connect `front-end` forms to backend endpoints; add CSRF/DRF protection for API usage.
-- [ ] Add unit tests for models and API endpoints.
+- [ ] Add dedicated registration endpoint/workflow in `members` app (currently member API is read-only in `core`).
+- [ ] Decide donation flow ownership: keep in `core` router or move to `donations` app and update routes consistently.
+- [ ] Connect `front-end` forms (`join`, `support`, `contact`) to backend endpoints with validation and CSRF strategy.
+- [ ] Add unit tests for models, routers and API actions (`featured`, `active`, `statistics`).
 
 ## FAZA 3 — Funcționalități avansate (Low/Medium)
 - [ ] Integrate email notifications (configure SMTP or transactional provider).
