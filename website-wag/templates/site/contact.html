@@ -1,0 +1,43 @@
+﻿{% extends 'site/base.html' %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<section class="section py-12">
+  <div class="container">
+    <div class="row">
+      <div class="lg:col-8 mx-auto">
+        <h1 class="text-3xl font-semibold">{{ cms_page.title|default:"Contatti" }}</h1>
+        {% if cms_page and cms_page.intro %}
+        <div class="mt-4 text-gray-700">{{ cms_page.intro|richtext }}</div>
+        {% else %}
+        <p class="mt-4 text-gray-700" data-i18n="contact.page.intro">Per informazioni, collaborazioni o segnalazioni, contattaci.</p>
+        {% endif %}
+        <form class="mt-6 space-y-4 max-w-xl">
+          <div>
+            <label class="block text-sm" data-i18n="contact.form.name">Nome</label>
+            <input class="input mt-1 w-full" type="text" name="name" />
+          </div>
+          <div>
+            <label class="block text-sm" data-i18n="contact.form.email">Email</label>
+            <input class="input mt-1 w-full" type="email" name="email" />
+          </div>
+          <div>
+            <label class="block text-sm" data-i18n="contact.form.message">Messaggio</label>
+            <textarea class="input mt-1 w-full" rows="5" name="message"></textarea>
+          </div>
+          <div>
+            <button class="btn btn-primary" data-i18n="contact.form.submit">Invia messaggio</button>
+          </div>
+        </form>
+
+        {% if cms_page and cms_page.content_blocks %}
+        <div class="mt-10 space-y-8">
+          {% include 'website/partials/content_blocks.html' with content_blocks=cms_page.content_blocks %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+

@@ -1,0 +1,17 @@
+{% load wagtailcore_tags %}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="/static/styles/main.css" />
+</head>
+<body>
+  <main class="container py-12">
+    <h1 class="text-3xl font-semibold">{{ page.title }}</h1>
+    <div class="mt-4">{{ page.intro|richtext }}</div>
+    <section class="mt-8">{{ page.body|richtext }}</section>
+  </main>
+</body>
+</html>

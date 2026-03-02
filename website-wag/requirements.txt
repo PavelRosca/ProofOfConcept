@@ -1,0 +1,16 @@
+Django==4.2
+djangorestframework==3.16.1
+django-cors-headers==4.3.0
+django-allauth==0.57.0
+django-crispy-forms==2.5
+crispy-bootstrap5==2024.10
+django-filter==24.1
+python-decouple==3.8
+dj-database-url==2.2.0
+Pillow==11.2.1
+psycopg2-binary==2.9.10
+gunicorn==21.2.0
+whitenoise==6.5.0
+celery==5.3.1
+redis==5.0.0
+wagtail==7.3

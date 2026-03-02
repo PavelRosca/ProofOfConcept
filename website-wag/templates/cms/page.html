@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ page_obj.title }}</title>
+  <link rel="stylesheet" href="/static/styles/main.css" />
+</head>
+<body>
+  <main class="section py-16">
+    <div class="container max-w-4xl">
+      <h1 class="text-3xl lg:text-4xl font-semibold mb-6">{{ page_obj.title }}</h1>
+      <article class="prose max-w-none">
+        {{ page_obj.content|safe }}
+      </article>
+    </div>
+  </main>
+</body>
+</html>

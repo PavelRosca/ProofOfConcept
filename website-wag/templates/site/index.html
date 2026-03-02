@@ -1,0 +1,108 @@
+﻿{% extends 'site/base.html' %}
+
+{% block content %}
+<section class="section banner bg-white py-16">
+  <div class="container">
+    <div class="row items-center">
+      <div class="lg:col-6">
+        <h1 class="banner-title text-3xl lg:text-5xl font-semibold">{{ cms_home.hero_title|default:"Per le famiglie, per il futuro â€” Un paese piÃ¹ forte insieme" }}</h1>
+        <p class="mt-6 text-lg text-gray-700">{{ cms_home.hero_subtitle|default:"Sosteniamo politiche concrete per la famiglia, il lavoro e la solidarietÃ . Partecipa, iscriviti, dona: costruisci con noi un futuro piÃ¹ sicuro per i tuoi cari." }}</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a class="btn btn-primary" href="{{ cms_home.hero_primary_cta_link|default:'/join/' }}">{{ cms_home.hero_primary_cta_text|default:"Iscriviti" }}</a>
+          <a class="btn btn-secondary" href="{{ cms_home.hero_secondary_cta_link|default:'/support/' }}">{{ cms_home.hero_secondary_cta_text|default:"Sostienici" }}</a>
+        </div>
+      </div>
+      <div class="lg:col-6">
+        <img class="w-full object-contain" src="/static/images/banner-img.png" width="603" height="396" alt="" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section py-12 bg-gray-50">
+  <div class="container">
+    <div class="row text-center">
+      <div class="lg:col-8 mx-auto">
+        <h2 class="text-2xl lg:text-3xl font-semibold">{{ cms_home.mission_title|default:"La nostra missione" }}</h2>
+        <p class="mt-4 text-gray-700">{{ cms_home.mission_text|default:"Promuovere politiche che mettano al centro la famiglia, il lavoro dignitoso e la coesione sociale. Trasparenza, responsabilitÃ  e partecipazione civica guidano ogni nostra iniziativa." }}</p>
+      </div>
+    </div>
+    <div class="row mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      {% if cms_home and cms_home.value_cards.all %}
+        {% for card in cms_home.value_cards.all %}
+          <div class="p-6 bg-white rounded shadow">
+            <h3 class="font-semibold">{{ card.title }}</h3>
+            <p class="mt-2 text-sm text-gray-600">{{ card.text }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="p-6 bg-white rounded shadow">
+          <h3 class="font-semibold" data-i18n="home.values.family.title">Sostegno alle famiglie</h3>
+          <p class="mt-2 text-sm text-gray-600" data-i18n="home.values.family.text">Misure concrete per la cura, l'istruzione e il benessere dei nuclei familiari.</p>
+        </div>
+        <div class="p-6 bg-white rounded shadow">
+          <h3 class="font-semibold" data-i18n="home.values.civic.title">Partecipazione civica</h3>
+          <p class="mt-2 text-sm text-gray-600" data-i18n="home.values.civic.text">Coinvolgiamo i cittadini nelle scelte locali e nazionali, favorendo trasparenza e dialogo.</p>
+        </div>
+        <div class="p-6 bg-white rounded shadow">
+          <h3 class="font-semibold" data-i18n="home.values.work.title">Economia e lavoro</h3>
+          <p class="mt-2 text-sm text-gray-600" data-i18n="home.values.work.text">Sosteniamo politiche per l'occupazione, le piccole imprese e il lavoro stabile.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="section py-12">
+  <div class="container">
+    <div class="row justify-between items-center">
+      <div class="lg:col-6">
+        <h2 class="text-2xl lg:text-3xl font-semibold">{{ cms_home.featured_title|default:"Progetti in evidenza" }}</h2>
+        <p class="mt-4 text-gray-700">{{ cms_home.featured_text|default:"Iniziative locali e nazionali pensate per migliorare la vita quotidiana delle famiglie." }}</p>
+      </div>
+      <div class="lg:col-4 text-right">
+        <a href="/projects/" class="text-sm text-blue-600 hover:underline" data-i18n="actions.viewProjects">Vedi tutti i progetti</a>
+      </div>
+    </div>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      {% if cms_home and cms_home.featured_cards.all %}
+        {% for card in cms_home.featured_cards.all %}
+          <article class="p-6 bg-white rounded shadow">
+            <h3 class="font-semibold">{{ card.title }}</h3>
+            <p class="mt-2 text-sm text-gray-600">{{ card.text }}</p>
+          </article>
+        {% endfor %}
+      {% else %}
+        <article class="p-6 bg-white rounded shadow">
+          <h3 class="font-semibold" data-i18n="home.featured.card1.title">Centro di supporto familiare</h3>
+          <p class="mt-2 text-sm text-gray-600" data-i18n="home.featured.card1.text">Servizi locali per la cura dei bambini e supporto alle famiglie in difficoltÃ .</p>
+        </article>
+        <article class="p-6 bg-white rounded shadow">
+          <h3 class="font-semibold" data-i18n="home.featured.card2.title">Borse lavoro giovanili</h3>
+          <p class="mt-2 text-sm text-gray-600" data-i18n="home.featured.card2.text">Programmi di inserimento per giovani e formazione professionale.</p>
+        </article>
+        <article class="p-6 bg-white rounded shadow">
+          <h3 class="font-semibold" data-i18n="home.featured.card3.title">Rete di volontariato</h3>
+          <p class="mt-2 text-sm text-gray-600" data-i18n="home.featured.card3.text">Coordinamento nazionale di volontari per servizi sociali e assistenza.</p>
+        </article>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="section py-12 bg-blue-600 text-white">
+  <div class="container">
+    <div class="row items-center">
+      <div class="lg:col-8">
+        <h2 class="text-2xl lg:text-3xl font-semibold">{{ cms_home.cta_title|default:"Sostieni il nostro lavoro" }}</h2>
+        <p class="mt-2">{{ cms_home.cta_text|default:"Con il tuo contributo possiamo ampliare i servizi e raggiungere piÃ¹ famiglie. Ogni donazione conta." }}</p>
+      </div>
+      <div class="lg:col-4 text-right">
+        <a href="/support/" class="btn btn-white text-blue-600">Dona ora</a>
+        <a href="/join/" class="btn btn-outline-white ml-3">Iscriviti</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
