@@ -76,3 +76,45 @@ python manage.py collectstatic --noinput
 - Enable HTTPS hardening (`SECURE_SSL_REDIRECT`, secure cookies, HSTS)
 - Use managed PostgreSQL in `DATABASE_URL`
 - Add CI and deployment pipeline
+
+## 8) Public demo `.env` checklist (recommended)
+
+Use these values as a starting point for a public demo deployment:
+
+```bash
+DEBUG=False
+PUBLIC_DEMO=True
+SECRET_KEY=<generate-a-long-random-secret>
+
+# Comma separated domains only (no scheme)
+ALLOWED_HOSTS=your-demo-domain.com,www.your-demo-domain.com
+
+# PostgreSQL (recommended for public demo)
+DATABASE_URL=postgresql://<user>:<password>@<host>:5432/<database>
+
+# CORS/CSRF
+CORS_ALLOWED_ORIGINS=https://your-demo-domain.com
+CSRF_TRUSTED_ORIGINS=https://your-demo-domain.com
+
+# Keep donations API disabled until Stripe integration is ready
+ENABLE_DONATIONS_API=False
+
+# HTTPS hardening
+SECURE_SSL_REDIRECT=True
+SESSION_COOKIE_SECURE=True
+CSRF_COOKIE_SECURE=True
+SECURE_HSTS_SECONDS=31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS=True
+SECURE_HSTS_PRELOAD=True
+
+# Wagtail admin base URL
+WAGTAILADMIN_BASE_URL=https://your-demo-domain.com
+```
+
+Deployment commands:
+
+```bash
+python manage.py migrate
+python manage.py collectstatic --noinput
+python manage.py check --deploy
+```

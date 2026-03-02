@@ -48,8 +48,8 @@ website-wag/
 - `GET /api/projects/featured/`
 - `GET /api/projects/active/`
 - `GET /api/members/` (read-only)
-- `GET/POST /api/donations/`
-- `GET /api/donations/statistics/`
+- `GET/POST /api/donations/` *(only when `ENABLE_DONATIONS_API=True`)*
+- `GET /api/donations/statistics/` *(only when `ENABLE_DONATIONS_API=True`)*
 - `GET /api/pages/`
 - `GET /api-status/`
 
