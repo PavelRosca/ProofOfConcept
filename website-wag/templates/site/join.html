@@ -1,4 +1,4 @@
-﻿{% extends 'site/base.html' %}
+{% extends 'site/base.html' %}
 {% load wagtailcore_tags %}
 
 {% block content %}
@@ -10,7 +10,7 @@
         {% if cms_page and cms_page.intro %}
         <div class="mt-4 text-gray-700">{{ cms_page.intro|richtext }}</div>
         {% else %}
-        <p class="mt-4 text-gray-700" data-i18n="join.page.intro">Diventa membro: compila il modulo per ricevere informazioni e partecipare alle attivitÃ  locali.</p>
+        <p class="mt-4 text-gray-700" data-i18n="join.page.intro">Diventa membro: compila il modulo per ricevere informazioni e partecipare alle attività locali.</p>
         {% endif %}
         <form class="mt-6 space-y-4 max-w-xl">
           <div>
@@ -42,4 +42,3 @@
   </div>
 </section>
 {% endblock %}
-
