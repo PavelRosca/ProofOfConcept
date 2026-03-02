@@ -36,6 +36,9 @@ if not SECRET_KEY:
         raise ImproperlyConfigured('SECRET_KEY must be set when DEBUG=False')
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
+RENDER_EXTERNAL_HOSTNAME = config('RENDER_EXTERNAL_HOSTNAME', default='').strip()
+if RENDER_EXTERNAL_HOSTNAME and RENDER_EXTERNAL_HOSTNAME not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 
 # Application definition
@@ -100,6 +103,10 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:3000,http://127.0.0.1:3000', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
 CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://localhost:8000,http://127.0.0.1:8000', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
+if RENDER_EXTERNAL_HOSTNAME:
+    render_origin = f'https://{RENDER_EXTERNAL_HOSTNAME}'
+    if render_origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(render_origin)
 
 ROOT_URLCONF = 'config.urls'
 
@@ -202,7 +209,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Wagtail
 WAGTAIL_SITE_NAME = 'Partito CMS'
-WAGTAILADMIN_BASE_URL = config('WAGTAILADMIN_BASE_URL', default='http://127.0.0.1:8000')
+WAGTAILADMIN_BASE_URL = config(
+    'WAGTAILADMIN_BASE_URL',
+    default=f'https://{RENDER_EXTERNAL_HOSTNAME}' if RENDER_EXTERNAL_HOSTNAME else 'http://127.0.0.1:8000'
+)
 
 # Security defaults for public deployments
 if not DEBUG or PUBLIC_DEMO:
