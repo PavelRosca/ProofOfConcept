@@ -14,3 +14,4 @@ whitenoise==6.5.0
 celery==5.3.1
 redis==5.0.0
 wagtail==7.3
+wagtail-localize
