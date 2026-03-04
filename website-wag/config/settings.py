@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'wagtail',
     'modelcluster',
     'taggit',
+    'wagtail_localize',
     
     # Third-party
     'rest_framework',
@@ -92,6 +93,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -161,7 +163,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'it'
+LANGUAGES = [
+    ('it', 'Italiano'),
+    ('en', 'English'),
+]
+
+WAGTAIL_I18N_ENABLED = True
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES
 
 TIME_ZONE = 'Europe/Rome'
 

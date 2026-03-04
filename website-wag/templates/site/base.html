@@ -64,25 +64,25 @@
     </label>
     <ul id="nav-menu" class="navbar-nav order-2 hidden w-full flex-[0_0_100%] lg:order-1 lg:flex lg:w-auto lg:flex-auto lg:justify-center lg:space-x-5">
       <li class="nav-item">
-        <a href="/" class="nav-link{% if request.path == '/' %} active{% endif %}" data-i18n="nav.home">Home</a>
+        <a href="/" class="nav-link{% if request.path == '/' %} active{% endif %}" data-i18n="nav.home">{% if request.LANGUAGE_CODE == 'en' %}Home{% else %}Home{% endif %}</a>
       </li>
       <li class="nav-item">
-        <a href="/projects/" class="nav-link{% if request.path == '/projects/' %} active{% endif %}" data-i18n="nav.projects">Progetti</a>
+        <a href="/projects/" class="nav-link{% if request.path == '/projects/' %} active{% endif %}" data-i18n="nav.projects">{% if request.LANGUAGE_CODE == 'en' %}Projects{% else %}Progetti{% endif %}</a>
       </li>
       <li class="nav-item">
-        <a href="/support/" class="nav-link{% if request.path == '/support/' %} active{% endif %}" data-i18n="nav.support">Sostienici</a>
+        <a href="/support/" class="nav-link{% if request.path == '/support/' %} active{% endif %}" data-i18n="nav.support">{% if request.LANGUAGE_CODE == 'en' %}Support Us{% else %}Sostienici{% endif %}</a>
       </li>
       <li class="nav-item">
-        <a href="/join/" class="nav-link{% if request.path == '/join/' %} active{% endif %}" data-i18n="nav.join">Iscriviti</a>
+        <a href="/join/" class="nav-link{% if request.path == '/join/' %} active{% endif %}" data-i18n="nav.join">{% if request.LANGUAGE_CODE == 'en' %}Join{% else %}Iscriviti{% endif %}</a>
       </li>
       <li class="nav-item">
-        <a href="/contact/" class="nav-link{% if request.path == '/contact/' %} active{% endif %}" data-i18n="nav.contact">Contatti</a>
+        <a href="/contact/" class="nav-link{% if request.path == '/contact/' %} active{% endif %}" data-i18n="nav.contact">{% if request.LANGUAGE_CODE == 'en' %}Contact{% else %}Contatti{% endif %}</a>
       </li>
       <li class="nav-item lg:hidden">
         <button id="theme-toggle-mobile" class="nav-link w-full text-left" type="button">ðŸŒ™ Night mode</button>
       </li>
       <li class="nav-item mt-3.5 lg:hidden">
-        <a class="btn btn-white btn-sm border-border" href="/join/" data-i18n="nav.signup">Iscriviti</a>
+        <a class="btn btn-white btn-sm border-border" href="/join/" data-i18n="nav.signup">{% if request.LANGUAGE_CODE == 'en' %}Sign up{% else %}Iscriviti{% endif %}</a>
       </li>
     </ul>
     <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex space-x-3">
@@ -91,7 +91,7 @@
         <button id="lang-it" class="text-sm px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-light/10">IT</button>
         <button id="lang-en" class="text-sm px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-light/10">EN</button>
       </div>
-      <a class="btn btn-white btn-sm" href="/join/" data-i18n="nav.signup">Iscriviti</a>
+      <a class="btn btn-white btn-sm" href="/join/" data-i18n="nav.signup">{% if request.LANGUAGE_CODE == 'en' %}Sign up{% else %}Iscriviti{% endif %}</a>
     </div>
   </nav>
 </header>

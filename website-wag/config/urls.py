@@ -6,6 +6,7 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.i18n import i18n_patterns
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
@@ -25,8 +26,12 @@ urlpatterns = [
     path('api/', include('core.urls')),
     path('api/auth/', include('rest_framework.urls')),
     path('accounts/', include('allauth.urls')),
-    path('', include(wagtail_urls)),
 ]
+
+urlpatterns += i18n_patterns(
+    path('', include(wagtail_urls)),
+    prefix_default_language=False,
+)
 
 # Media files (development only)
 if settings.DEBUG:
