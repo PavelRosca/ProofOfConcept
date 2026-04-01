@@ -1,0 +1,95 @@
+GUIDA SETUP - website-wag (ITALIANO)
+======================================
+
+REQUISITI
+---------
+- Python 3.12+ (scarica da https://www.python.org/downloads/)
+- PowerShell o Command Prompt
+
+INSTALLAZIONE (5 MINUTI)
+------------------------
+
+1. ATTIVA L'AMBIENTE VIRTUALE
+   cd C:\percorso\a\website-wag
+   .venv\Scripts\activate
+
+   Dovresti vedere (.venv) all'inizio del prompt.
+
+2. INSTALLA DIPENDENZE
+   pip install -r requirements.txt
+
+3. CREA FILE .env
+   - Copia .env.example e rinominalo in .env
+   - Oppure usa:
+     copy .env.example .env
+
+4. APPLICA MIGRAZIONI DATABASE
+   python manage.py migrate
+
+5. CREA ACCOUNT ADMIN
+   python manage.py createsuperuser
+   
+   Segui le istruzioni e salva le credenziali.
+
+6. AVVIA IL SERVER
+   python manage.py runserver
+
+   Dovresti vedere: "Starting development server at http://127.0.0.1:8000/"
+
+
+ACCEDI ALL'APPLICAZIONE
+-----------------------
+
+Apri il browser e vai a:
+
+- SITO PUBBLICO:     http://127.0.0.1:8000/
+- WAGTAIL CMS:       http://127.0.0.1:8000/cms/
+- ADMIN DJANGO:      http://127.0.0.1:8000/admin/
+- API:               http://127.0.0.1:8000/api/
+
+Log in con le credenziali del superuser che hai creato.
+
+
+COMANDI UTILI
+-------------
+
+Interrompi il server:           CTRL+BREAK (o CTRL+C)
+Controlla salute del progetto:  python manage.py check
+Accedi al database (shell):     python manage.py shell
+Colleziona file statici:        python manage.py collectstatic --noinput
+
+
+PROBLEMI COMUNI
+---------------
+
+❌ "Python non trovato"
+   → Reinstalla Python e seleziona "Add Python to PATH"
+
+❌ "No module named 'django'"
+   → Verifica che (.venv) sia nel prompt
+   → Esegui: pip install -r requirements.txt
+
+❌ "Port 8000 già in uso"
+   → Esegui: python manage.py runserver 8001
+   → Vai a http://127.0.0.1:8001/
+
+❌ "Permission denied su db.sqlite3"
+   → Chiudi altre app che usano il database
+   → O ricrea la base dati: rm db.sqlite3 && python manage.py migrate
+
+
+RIAVVIO DOPO CHIUSURA
+---------------------
+
+1. cd C:\percorso\a\website-wag
+2. .venv\Scripts\activate
+3. python manage.py runserver
+4. Vai a http://127.0.0.1:8000/
+
+
+DOCUMENTI AGGIUNTIVI
+--------------------
+
+- SETUP.md (guida completa in inglese)
+- .env.example (tutte le variabili d'ambiente)
+- NOTES/ (documentazione progetto)

@@ -1,0 +1,166 @@
+RAPORT DE LUCRU - 2026-03-04
+Proiect: ProofOfConcept / website-wag
+Subiect principal: reparare flux bilingv IT/EN (frontend + Wagtail CMS + deploy)
+Autor sesiune: lucrat asistat (pair-programming)
+
+============================================================
+1) CONTEXT INITIAL / PROBLEMA RAPORTATA
+============================================================
+Problema inițială: după editări în CMS, butonul de limbă EN/IT nu mai funcționa corect.
+Simptome observate pe parcurs:
+- click pe buton nu schimba corect limba sau părea că nu face nimic;
+- în unele cazuri apăreau 404 pe /en/ sau /it/;
+- în CMS, conținutul paginilor de locale era inversat (EN conținea text IT și invers);
+- în producție (Render), /cms/pages/ cădea cu eroare DB legată de wagtail_localize.
+
+Obiectiv: stabilizare completă pentru:
+- CMS cu localizare Wagtail funcțională;
+- rutare limbă corectă (IT default fără prefix, EN cu /en/);
+- buton EN/IT funcțional și predictibil;
+- meniul vizibil tradus corect;
+- deploy producție fără erori pe paginile CMS.
+
+============================================================
+2) DIAGNOSTIC TEHNIC - CAUZE IDENTIFICATE
+============================================================
+A) Cauză pe client-side (frontend):
+- Switch-ul de limbă era bazat pe logică JS locală + elemente data-i18n, dar multe texte din homepage veneau direct din câmpuri CMS.
+- După editări CMS, conținutul server-rendered nu mai putea fi tradus corect doar cu dicționar JS.
+
+B) Cauză pe server routing:
+- /en/ dădea 404 deoarece URL routing nu era configurat cu i18n_patterns.
+- Fără i18n_patterns, /en/ era tratat ca slug normal de Wagtail serve.
+
+C) Cauză legată de middleware/cookie:
+- LocaleMiddleware folosește cookie django_language.
+- Butonul seta localStorage, dar nu seta django_language => navigarea putea reveni în EN/IT neașteptat.
+
+D) Cauză de date Wagtail (locale/site config):
+- Structura paginilor locale a ajuns inversată în conținut.
+- Situații fără Site default corect configurat către root-page IT pot duce la comportament confuz la creare pagini noi.
+
+E) Cauză deploy Render:
+- wagtail-localize nu era în requirements.txt.
+- Pe server lipseau pachetul și/sau migrațiile lui => eroare: no such table wagtail_localize_translatableobject.
+
+============================================================
+3) MODIFICARI EFECTIVE FACUTE IN COD
+============================================================
+[1] config/settings.py
+- adăugat LocaleMiddleware în MIDDLEWARE imediat după SessionMiddleware;
+- activat Wagtail i18n:
+  WAGTAIL_I18N_ENABLED = True
+  WAGTAIL_CONTENT_LANGUAGES = LANGUAGES
+- LANGUAGES configurat pentru it/en;
+- LANGUAGE_CODE setat la 'it' (italiana = limba default).
+
+[2] config/urls.py
+- introdus i18n routing prin i18n_patterns;
+- mutat includerea wagtail_urls în i18n_patterns cu:
+  prefix_default_language=False
+- rezultat dorit:
+  IT => /...
+  EN => /en/...
+
+[3] static/scripts/lang.js
+- refactor pentru comportament mai robust:
+  - detectare limbă din pathname;
+  - construire URL localizat (/ + /en/);
+  - click pe EN/IT face redirect real pe URL corect;
+  - păstrat fallback applyTranslations pentru elemente data-i18n;
+  - sincronizare stare limbă vizuală butoane;
+  - adăugat setare cookie django_language (esențial pentru LocaleMiddleware);
+  - păstrat MutationObserver pentru reaplicare traduceri pe mutații DOM.
+
+[4] templates/site/base.html
+- meniul principal trecut pe afișare server-side în funcție de request.LANGUAGE_CODE:
+  - Projects / Progetti
+  - Support Us / Sostienici
+  - Join / Iscriviti
+  - Contact / Contatti
+  - Sign up / Iscriviti (desktop + mobil)
+- scop: meniul să reflecte limba paginii chiar dacă JS nu rulează sau rulează târziu.
+
+[5] requirements.txt
+- adăugat pachetul:
+  wagtail-localize
+- necesar pentru ca Render să instaleze pluginul în producție.
+
+============================================================
+4) OPERATIUNI DE DATE / ADMIN / SHELL
+============================================================
+Au fost rulate verificări și operațiuni pentru alinierea mediului:
+- manage.py check (multiplu) => fără issues;
+- inspectare locale/site/pages în shell;
+- creare locale 'it' în DB când lipsea;
+- aplicare migrații wagtail_localize (0001 ... 0016);
+- setare/configurare intrări Site pentru localhost și 127.0.0.1 pe root page IT;
+- verificări status URL-uri:
+  / => 200
+  /en/ => 200
+  /it/ => 404 (corect în setup cu italiană default).
+
+============================================================
+5) EROARE CRITICA REZOLVATA
+============================================================
+Eroare:
+OperationalError: no such table: wagtail_localize_translatableobject
+Loc: /cms/pages/
+
+Rezolvare:
+- instalare pachet wagtail-localize în mediul țintă;
+- rulare migrații wagtail_localize;
+- verificare finală cu manage.py check.
+
+============================================================
+6) STARE CURENTA (REZULTAT)
+============================================================
+- Butoanele EN/IT funcționează la nivel de routing.
+- / și /en/ sunt active corect.
+- /it/ rămâne invalid (by design, deoarece IT este default fără prefix).
+- Meniul se schimbă pe baza limbii curente (server-side).
+- CMS/Wagtail localize este activat și funcțional după migrații.
+- Deploy-ul Render are dependența adăugată (necesar push + redeploy).
+
+============================================================
+7) CE MAI TREBUIE FACUT MANUAL IN CMS (IMPORTANT)
+============================================================
+Conținutul poate fi încă inversat dacă în paginile locale s-au introdus texte în limba opusă.
+Pași recomandați:
+1. păstrezi Home IT ca sursă principală;
+2. verifici Home EN și corectezi textele în engleză;
+3. dacă relația e neclară, recreezi traducerea EN din Home IT;
+4. publici ambele versiuni;
+5. repeți pentru paginile copil (projects/support/join/contact) dacă există traduceri separate.
+
+============================================================
+8) COMENZI OPERATIONALE RECOMANDATE (LOCAL / PROD)
+============================================================
+LOCAL sanity:
+- python manage.py check
+- python manage.py migrate
+- python manage.py runserver
+
+RENDER Build Command:
+- pip install -r requirements.txt && python manage.py collectstatic --noinput
+
+RENDER Start Command:
+- python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+
+Dacă /cms/pages/ mai cade pe Render:
+- python manage.py showmigrations wagtail_localize
+- python manage.py migrate wagtail_localize
+- python manage.py migrate
+- python manage.py check
+
+============================================================
+9) CONCLUZIE
+============================================================
+S-a rezolvat partea de infrastructură i18n (setări, route-uri, middleware, cookie, plugin, migrații, meniu).
+Problemele rămase (dacă apar) sunt de conținut editorial inversat în paginile locale din CMS, nu de cod/routing.
+Fluxul corect de acum:
+- IT este limba default pe /
+- EN este pe /en/
+- traducerile se gestionează în Wagtail CMS prin localize.
+
+EOF
