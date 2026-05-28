@@ -1,71 +1,16 @@
-# Partito Politico — website-wag (Django + Wagtail)
+# Partito Politico — ProofOfConcept
 
-Unified web runtime for the project.
+Django 4.2 + Wagtail 7.3 web platform for an Italian political party. Bilingual IT/EN.
 
-## Current state
+**Full context (architecture, models, API, roadmap):** see [`CLAUDE.md`](../CLAUDE.md) at the repo root.
 
-This app is launched locally from this folder only:
-
-```bash
-cd website-wag
-python manage.py runserver
-```
-
-The project is no longer organized as separate backend/frontend runtime folders.
-Public pages are served by Django/Wagtail templates and static assets.
-
-## Tech stack
-
-- Django 4.2
-- Django REST Framework
-- Wagtail CMS
-- django-allauth
-- WhiteNoise
-- SQLite by default (`DATABASE_URL` supported via `dj-database-url`)
-
-## Main structure
-
-```text
-website-wag/
-├── config/              # Django settings + urls + utility views
-├── core/                # Domain models + DRF serializers/views/urls
-├── website/             # Wagtail page models
-├── members/             # Placeholder app
-├── projects/            # Placeholder app
-├── donations/           # Placeholder app
-├── templates/           # Site templates (site/, cms/)
-├── static/              # CSS/JS/images
-├── manage.py
-└── requirements.txt
-```
-
-## Active endpoints
-
-- `GET /api/sectors/`
-- `GET /api/regions/`
-- `GET /api/projects/`
-- `GET /api/projects/{id}/`
-- `GET /api/projects/featured/`
-- `GET /api/projects/active/`
-- `GET /api/members/` (read-only)
-- `GET/POST /api/donations/` *(only when `ENABLE_DONATIONS_API=True`)*
-- `GET /api/donations/statistics/` *(only when `ENABLE_DONATIONS_API=True`)*
-- `GET /api/pages/`
-- `GET /api-status/`
-
-Auth/admin routes:
-- `/admin/` (Django admin)
-- `/cms/` (Wagtail admin)
-- `/api/auth/` (DRF session auth)
-- `/accounts/` (allauth)
+**Setup guide (Windows, step-by-step):** see [`SETUP.md`](SETUP.md)  
+**Setup guide (Italian):** see [`SETUP-IT.md`](SETUP-IT.md)
 
 ## Quick start
 
-```bash
-cd website-wag
-python -m venv venv
-# Windows: venv\Scripts\activate
-# Linux/macOS: source venv/bin/activate
+```powershell
+.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 cp .env.example .env
 python manage.py migrate
@@ -73,8 +18,4 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-## Notes
-
-- Core business logic currently lives in `core`.
-- `members/projects/donations` are mostly placeholders.
-- Production hardening and broader automated tests are still pending.
+App runs at `http://127.0.0.1:8000/`
