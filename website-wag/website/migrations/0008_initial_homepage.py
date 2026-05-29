@@ -14,15 +14,27 @@ def create_initial_homepage(apps, schema_editor):
     if not root_page:
         return
 
-    root_page.get_children().delete()
-
+    # treebeard 4.8.0 bug: add_child() checks is_leaf() (numchild==0).
+    # If we delete children first via bulk delete (which doesn't update
+    # numchild), is_leaf() returns False and get_last_child() returns None,
+    # causing AttributeError on ._inc_path(). Fix: add BEFORE deleting so
+    # get_last_child() returns the existing "Welcome" page (non-None).
+    # Use a temp slug to avoid conflict with the existing slug='home' page.
     homepage = HomePage(
         title='Home',
-        slug='home',
+        slug='home-init',
         live=True,
         locale=locale_it,
     )
     root_page.add_child(instance=homepage)
+
+    # Delete the default "Welcome to your new Wagtail site!" pages
+    root_page.get_children().exclude(pk=homepage.pk).delete()
+    # Bulk delete doesn't update numchild — fix it
+    actual = root_page.get_children().count()
+    Page.objects.filter(pk=root_page.pk).update(numchild=actual)
+    # Rename to final slug now that the conflicting 'home' page is gone
+    Page.objects.filter(pk=homepage.pk).update(slug='home')
 
     site = Site.objects.filter(is_default_site=True).first()
     if site:

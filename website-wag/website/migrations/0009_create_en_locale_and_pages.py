@@ -2,6 +2,22 @@ import uuid
 from django.db import migrations
 
 
+def _safe_add_child(parent, instance):
+    """Workaround for treebeard 4.8.0 bug: add_child() crashes when the parent
+    has no children because it calls get_last_child()._inc_path() without a
+    None check. Fall back to manual path calculation for the first child."""
+    from django.db.models import F
+    try:
+        parent.add_child(instance=instance)
+    except AttributeError:
+        steplen = type(parent).steplen
+        instance.path = parent.path + '1'.rjust(steplen, '0')
+        instance.depth = parent.depth + 1
+        instance.numchild = 0
+        instance.save()
+        type(parent).objects.filter(pk=parent.pk).update(numchild=F('numchild') + 1)
+
+
 IT_SUBPAGES = [
     ('about',    'Informazioni'),
     ('projects', 'Progetti'),
@@ -73,7 +89,7 @@ def create_en_locale_and_pages(apps, schema_editor):
     if not StandardPage.objects.filter(locale=locale_it).exists():
         for slug, title in IT_SUBPAGES:
             sp = StandardPage(title=title, slug=slug, live=True, locale=locale_it)
-            homepage_it.add_child(instance=sp)
+            _safe_add_child(homepage_it, sp)
 
     # Create EN subpages as translations of IT subpages
     if not StandardPage.objects.filter(locale=locale_en).exists():
@@ -88,7 +104,7 @@ def create_en_locale_and_pages(apps, schema_editor):
                 locale=locale_en,
                 translation_key=translation_key,
             )
-            homepage_en.add_child(instance=sp)
+            _safe_add_child(homepage_en, sp)
 
 
 class Migration(migrations.Migration):
