@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.redirects',
 
     # Wagtail CMS
+    'wagtail.contrib.settings',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.embeds',
