@@ -65,20 +65,19 @@ create_doc(
     name="Alex Bere",
     p1=(
         "Definirea cadrului metodologic de evaluare a performanței sistemului integrat și stabilirea "
-        "indicatorilor de performanță per subsistem. Inițierea cercetării soluțiilor de încărcare "
-        "solară și definirea parametrilor de analiză: necesar energetic, variabile meteorologice și "
-        "criterii de dimensionare a infrastructurii de alimentare."
+        "indicatorilor per subsistem. Inițierea cercetării soluțiilor de încărcare solară: necesar "
+        "energetic, variabile meteorologice și criterii de dimensionare. Supervizarea distribuirii "
+        "sarcinilor de evaluare între membrii echipei."
     ),
     p2=(
         "Supervizarea evaluării componentei AI pentru detecția panourilor și a anomaliilor termice, "
-        "inclusiv validarea metricilor de acuratețe obținute. Coordonarea analizei energetice a "
-        "platformelor mobile în condiții meteorologice variate și integrarea rezultatelor într-un "
-        "model unitar de evaluare transversală."
+        "inclusiv validarea metricilor de acuratețe. Coordonarea analizei energetice a platformelor "
+        "mobile în condiții meteorologice variate și integrarea rezultatelor într-un model unitar."
     ),
     p3=(
         "Coordonarea sintezei transversale a performanței sistemului și formularea ajustărilor "
         "recomandate la nivelul algoritmilor AI și al specificațiilor de echipamente. Validarea "
-        "raportului tehnic al subactivității 1.4 și a direcțiilor de continuare a cercetării."
+        "raportului tehnic al subactivității 1.4 și a direcțiilor de continuare."
     )
 )
 
@@ -90,18 +89,17 @@ create_doc(
     p1=(
         "Definirea indicatorilor de performanță pentru platforma software: timpi de răspuns API, "
         "debit de interogări și comportamentul fondului de conexiuni. Analiza interogărilor cu risc "
-        "de degradare a performanței, pornind de la arhitectura validată în subactivitatea 1.3."
+        "de degradare, pornind de la arhitectura documentată în subactivitatea 1.3."
     ),
     p2=(
         "Evaluarea performanței platformei în condiții de sarcină realistă și identificarea "
-        "principalelor pârghii de optimizare: absența cache-ului și a compresiei HTTP. Analiza "
-        "metricilor componentei AI integrate în fluxul backend: latența inferenței și debitul de "
-        "procesare a imaginilor."
+        "pârghiilor de optimizare: absența cache-ului și a compresiei HTTP. Analiza metricilor "
+        "componentei AI integrate în fluxul backend: latența inferenței și debitul de procesare."
     ),
     p3=(
-        "Documentarea recomandărilor de optimizare a platformei software pentru etapele următoare. "
-        "Contribuție la ajustările specificațiilor de echipamente privind infrastructura server "
-        "necesară execuției accelerate a modelelor AI (CPU față de GPU cu accelerare TensorRT)."
+        "Documentarea recomandărilor de optimizare a platformei software și contribuție la "
+        "ajustările specificațiilor de echipamente privind infrastructura server pentru execuția "
+        "accelerată a modelelor AI — CPU față de GPU cu TensorRT."
     )
 )
 
@@ -111,21 +109,18 @@ create_doc(
     role_title="Expert în drone și realitate augmentată",
     name="Pavel Rosca",
     p1=(
-        "Cercetarea soluțiilor de încărcare autonomă bazate pe energie solară pentru platforma "
-        "aeriană, cu analiza specificațiilor tehnice ale stațiilor de andocare comerciale compatibile "
-        "cu drona DJI Matrice. Evaluarea necesarului energetic al dronei și a timpilor de reîncărcare "
-        "în funcție de condițiile de operare."
+        "Cercetarea soluțiilor de încărcare autonomă solară pentru platforma aeriană: specificații "
+        "tehnice ale stațiilor de andocare comerciale compatibile cu DJI Matrice, necesar energetic "
+        "al dronei și timpi de reîncărcare în funcție de condițiile meteo."
     ),
     p2=(
-        "Evaluarea performanței subsistemului aerian în condiții meteorologice variate: impactul "
-        "vântului și al temperaturilor scăzute asupra autonomiei de zbor. Analiza performanței "
-        "fluxurilor de comunicare — telemetrie MQTT, latența comenzilor și latența video WebRTC — "
-        "și documentarea scenariilor de încărcare solară aplicabile platformei aeriene."
+        "Evaluarea autonomiei de zbor în condiții meteorologice variate: impactul vântului și al "
+        "temperaturilor scăzute. Analiza performanței fluxurilor de comunicare — telemetrie MQTT, "
+        "latența comenzilor, video WebRTC — și documentarea scenariilor de încărcare solară aplicabile."
     ),
     p3=(
-        "Documentarea rezultatelor cercetării privind autonomia energetică a dronei și fezabilitatea "
-        "soluțiilor de andocare solară pe un parc fotovoltaic de 1 MW. Contribuție la ajustările "
-        "specificațiilor de echipamente: numărul optim de stații de andocare și validarea bilanțului "
+        "Documentarea fezabilității soluțiilor de andocare solară pe un parc de 1 MW și contribuție "
+        "la ajustările specificațiilor: numărul optim de stații de andocare și validarea bilanțului "
         "energetic din raportul 1.4."
     )
 )
@@ -136,22 +131,19 @@ create_doc(
     role_title="Expert în big data și baze de date",
     name="Alexandru Indries",
     p1=(
-        "Proiectarea cadrului de colectare a datelor de performanță pentru sistemul integrat: "
-        "metrici de telemetrie, indicatori AI și date de consum energetic al platformelor mobile. "
-        "Analiza volumelor de date generate de subsisteme în operare continuă și a cerințelor de "
-        "stocare pentru un parc fotovoltaic de 1 MW."
+        "Proiectarea cadrului de colectare a datelor de performanță: metrici de telemetrie, "
+        "indicatori AI și consum energetic al platformelor mobile. Analiza volumelor de date "
+        "generate în operare continuă și a cerințelor de stocare pentru un parc de 1 MW."
     ),
     p2=(
-        "Implementarea mecanismelor de colectare și agregare a metricilor de performanță, inclusiv "
-        "evaluarea cache-ului Redis și a consistenței datelor de telemetrie. Analiza performanței "
-        "modelelor de date: eficiența indexurilor, interogările cu cost ridicat și comportamentul "
-        "fondului de conexiuni în scenarii de concurență."
+        "Implementarea mecanismelor de colectare și agregare a metricilor de performanță și "
+        "evaluarea consistenței datelor de telemetrie. Analiza modelelor de date: eficiența "
+        "indexurilor, interogările cu cost ridicat și comportamentul fondului de conexiuni."
     ),
     p3=(
-        "Generarea analizei de performanță pe baza datelor colectate și validarea consistenței "
-        "datelor de consum energetic al platformelor mobile. Contribuție la analiza bilanțului "
-        "energetic pentru scenariile de încărcare solară prin structurarea datelor de referință "
-        "privind producția parcurilor fotovoltaice și necesarul echipamentelor."
+        "Validarea consistenței datelor de consum energetic și generarea analizei de performanță "
+        "pe baza metricilor colectate. Contribuție la bilanțul energetic al scenariilor de încărcare "
+        "solară prin structurarea datelor de referință privind producția parcurilor fotovoltaice."
     )
 )
 
@@ -161,21 +153,20 @@ create_doc(
     role_title="Expert în securitate cibernetică",
     name="Vlad Botis",
     p1=(
-        "Evaluarea overhead-ului mecanismelor de securitate implementate în subactivitatea 1.3 "
-        "asupra performanței sistemului: cost computațional al validării JWT, al funcțiilor argon2id "
-        "și bcrypt și al interogărilor de autentificare per cerere. Documentarea relației dintre "
-        "măsurile de securitate aplicate și bugetul de performanță disponibil per subsistem."
+        "Evaluarea overhead-ului mecanismelor de securitate din subactivitatea 1.3 asupra "
+        "performanței sistemului: cost computațional JWT, argon2id, bcrypt și interogările de "
+        "autentificare per cerere. Documentarea relației dintre securitate și bugetul de "
+        "performanță per subsistem."
     ),
     p2=(
-        "Benchmarking-ul overhead-ului de securitate pe componentele platformei: impactul "
-        "middleware-ului de autentificare, al validării datelor de intrare și al logging-ului "
-        "structurat. Estimarea overhead-ului activării TLS pe canalele necriptate identificate în "
-        "subactivitatea 1.3 și a impactului acestuia asupra latenței operaționale."
+        "Benchmarking-ul overhead-ului de securitate: impactul middleware-ului de autentificare, "
+        "al validării datelor de intrare și al logging-ului structurat. Estimarea overhead-ului "
+        "activării TLS pe canalele necriptate identificate în 1.3 și a impactului asupra latenței."
     ),
     p3=(
-        "Documentarea compromisurilor acceptabile dintre securitate și performanță pentru fiecare "
-        "subsistem în parte. Contribuție la ajustările specificațiilor de echipamente din perspectiva "
-        "securității și validarea secțiunilor din raportul 1.4 privind relația performanță–securitate."
+        "Documentarea compromisurilor acceptabile dintre securitate și performanță per subsistem. "
+        "Contribuție la ajustările specificațiilor de echipamente din perspectiva securității și "
+        "validarea secțiunilor din raportul 1.4 privind relația performanță–securitate."
     )
 )
 
