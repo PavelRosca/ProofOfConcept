@@ -4,7 +4,7 @@
 
 A proof-of-concept web platform for an Italian political party ("Sciarrone"). Handles public content, member management, party projects, donations, and regional organization. Bilingual: Italian (IT) and English (EN).
 
-**Git remote:** `https://github.com/VaraTechRepo/ProofOfConcept.git`  
+**Git remote:** `https://github.com/PavelRosca/ProofOfConcept.git`  
 **Branch:** `main`  
 **Python:** 3.12.8
 
@@ -256,6 +256,7 @@ ngrok http 8000
 | `SECRET_KEY` | Generate: `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"` |
 | `PUBLIC_DEMO` | `True` |
 | `DATABASE_URL` | Create a free Render PostgreSQL → paste the connection URL |
+| `PYTHON_VERSION` | `3.12.8` — **critical**: `runtime.txt` is ignored by Render; set this env var explicitly |
 
 **After first deploy — create admin user via Render Shell tab:**
 ```bash

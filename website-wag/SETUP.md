@@ -751,28 +751,8 @@ After setup is complete:
 - **Django Documentation**: https://docs.djangoproject.com/4.2/
 - **Wagtail Documentation**: https://docs.wagtail.org/
 - **Django REST Framework**: https://www.django-rest-framework.org/  
-- **Project Notes**: See `NOTES/` folder for architecture and design docs
+- **Project Notes**: See [`CLAUDE.md`](../CLAUDE.md) for architecture, models, API, and roadmap
 
 ---
 
 **Last Update**: This guide was created for Python 3.12.8, Django 4.2, Wagtail 7.3.
-
-# HTTPS hardening
-SECURE_SSL_REDIRECT=True
-SESSION_COOKIE_SECURE=True
-CSRF_COOKIE_SECURE=True
-SECURE_HSTS_SECONDS=31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS=True
-SECURE_HSTS_PRELOAD=True
-
-# Wagtail admin base URL
-WAGTAILADMIN_BASE_URL=https://your-demo-domain.com
-```
-
-Deployment commands:
-
-```bash
-python manage.py migrate
-python manage.py collectstatic --noinput
-python manage.py check --deploy
-```

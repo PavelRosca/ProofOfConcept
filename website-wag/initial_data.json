@@ -1,0 +1,175 @@
+[
+{
+  "model": "website.homepage",
+  "pk": 16,
+  "fields": {
+    "hero_title": "Per le famiglie, per il futuro — Un paese più forte insieme",
+    "hero_subtitle": "Sosteniamo politiche concrete per la famiglia, il lavoro e la solidarietà. Partecipa, iscriviti, dona: costruisci con noi un futuro più sicuro per i tuoi cari.",
+    "hero_primary_cta_text": "Iscriviti",
+    "hero_primary_cta_link": "/join/",
+    "hero_secondary_cta_text": "Sostienici",
+    "hero_secondary_cta_link": "/support/",
+    "mission_title": "La nostra missione",
+    "mission_text": "Promuovere politiche che mettano al centro la famiglia, il lavoro dignitoso e la coesione sociale. Trasparenza, responsabilità e partecipazione civica guidano ogni nostra iniziativa.",
+    "featured_title": "Progetti in evidenza",
+    "featured_text": "Iniziative locali e nazionali pensate per migliorare la vita quotidiana delle famiglie.",
+    "cta_title": "Sostieni il nostro lavoro",
+    "cta_text": "Con il tuo contributo possiamo ampliare i servizi e raggiungere più famiglie. Ogni donazione conta.",
+    "body": ""
+  }
+},
+{
+  "model": "website.homepage",
+  "pk": 23,
+  "fields": {
+    "hero_title": "For families, for the future — A stronger country together",
+    "hero_subtitle": "We support concrete policies for family, work, and solidarity.Take part, join, donate: build with us a safer future for your loved ones.",
+    "hero_primary_cta_text": "Sign up",
+    "hero_primary_cta_link": "/join/",
+    "hero_secondary_cta_text": "Support us",
+    "hero_secondary_cta_link": "/support/",
+    "mission_title": "Our mission",
+    "mission_text": "Promote policies that put family, decent work, and social cohesion at the center. Transparency, accountability, and civic participation guide every initiative we undertake.",
+    "featured_title": "Featured projects",
+    "featured_text": "Local and national initiatives designed to improve the daily lives of families.",
+    "cta_title": "Support our work",
+    "cta_text": "With your contribution, we can expand services and reach more families. Every donation counts.",
+    "body": ""
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 10,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 11,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 12,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 13,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 14,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 18,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 19,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 20,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 21,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 22,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 24,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 25,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 26,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 27,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+},
+{
+  "model": "website.standardpage",
+  "pk": 28,
+  "fields": {
+    "intro": "",
+    "body": "",
+    "content_blocks": "[]"
+  }
+}
+]

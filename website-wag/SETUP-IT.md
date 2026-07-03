@@ -140,4 +140,4 @@ python manage.py runserver
 
 - **SETUP.md** — Guida completa e dettagliata in inglese
 - **.env.example** — Tutte le variabili d'ambiente disponibili
-- **NOTES/** — Documentazione del progetto
+- **CLAUDE.md** — Documentazione completa del progetto (architettura, modelli, API, roadmap)
