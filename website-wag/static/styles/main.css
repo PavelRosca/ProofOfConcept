@@ -2098,6 +2098,11 @@ select:invalid {
   padding-top: 0.25rem;
   padding-bottom: 1.5rem;
 }
+
+/* Hide the debug breakpoint banner globally */
+.fixed.left-0.top-0.z-50 {
+  display: none !important;
+}
 .faqs .accordion.active .accordion-content p + p {
   margin-top: 1.5rem;
 }
