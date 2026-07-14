@@ -5,18 +5,6 @@
   const DEFAULT_LANG = "it";
   const SUPPORTED_LANGS = ["it", "en"];
 
-  const translations = {
-    it: {
-      // Replace these example keys with your real i18n keys
-      "hello": "Ciao",
-      "welcome": "Benvenuto",
-    },
-    en: {
-      "hello": "Hello",
-      "welcome": "Welcome",
-    },
-  };
-
   function getLangFromPath(pathname) {
     const segments = pathname.split("/").filter(Boolean);
     const maybeLang = segments.length ? segments[0] : "";
@@ -55,22 +43,8 @@
   }
 
   function applyTranslations(lang) {
-    document.querySelectorAll("[data-i18n]").forEach(function (element) {
-      const skipTranslation = element.getAttribute("data-i18n-skip");
-      if (skipTranslation !== null && skipTranslation !== "false") return;
-
-      const key = element.getAttribute("data-i18n");
-      const text = translations[lang] && translations[lang][key];
-      if (!text) return;
-
-      const targetAttr = element.getAttribute("data-i18n-attr");
-      if (targetAttr) {
-        element.setAttribute(targetAttr, text);
-      } else {
-        element.textContent = text;
-      }
-    });
-
+    // Text content is rendered server-side per locale (request.LANGUAGE_CODE);
+    // this just keeps the lang attribute, cookie, and toggle button in sync.
     setLanguageState(lang === "en" ? "en" : "it");
   }
 

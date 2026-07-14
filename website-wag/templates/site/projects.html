@@ -10,18 +10,18 @@
         {% if cms_page and cms_page.intro %}
         <div class="mt-4 text-gray-700">{{ cms_page.intro|richtext }}</div>
         {% else %}
-        <p class="mt-4 text-gray-700" data-i18n="projects.page.intro">Elenco delle iniziative e dei progetti in corso, divisi per regione e settore.</p>
+        <p class="mt-4 text-gray-700" data-i18n="projects.page.intro">{% if request.LANGUAGE_CODE == 'en' %}List of initiatives and ongoing projects, organized by region and sector.{% else %}Elenco delle iniziative e dei progetti in corso, divisi per regione e settore.{% endif %}</p>
         {% endif %}
       </div>
     </div>
     <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
       <article class="p-6 bg-white rounded shadow">
-        <h3 class="font-semibold" data-i18n="projects.card1.title">Centro di supporto familiare — NORD-01</h3>
-        <p class="mt-2 text-sm text-gray-600" data-i18n="projects.card1.text">Progetto pilota per servizi di sostegno alla genitorialità.</p>
+        <h3 class="font-semibold" data-i18n="projects.card1.title">{% if request.LANGUAGE_CODE == 'en' %}Family Support Center — NORTH-01{% else %}Centro di supporto familiare — NORD-01{% endif %}</h3>
+        <p class="mt-2 text-sm text-gray-600" data-i18n="projects.card1.text">{% if request.LANGUAGE_CODE == 'en' %}Pilot project for parenting support services.{% else %}Progetto pilota per servizi di sostegno alla genitorialità.{% endif %}</p>
       </article>
       <article class="p-6 bg-white rounded shadow">
-        <h3 class="font-semibold" data-i18n="projects.card2.title">Borse lavoro per giovani — CENTRO-02</h3>
-        <p class="mt-2 text-sm text-gray-600" data-i18n="projects.card2.text">Formazione e inserimento nel mondo del lavoro.</p>
+        <h3 class="font-semibold" data-i18n="projects.card2.title">{% if request.LANGUAGE_CODE == 'en' %}Youth Work Grants — CENTER-02{% else %}Borse lavoro per giovani — CENTRO-02{% endif %}</h3>
+        <p class="mt-2 text-sm text-gray-600" data-i18n="projects.card2.text">{% if request.LANGUAGE_CODE == 'en' %}Training and job placement support.{% else %}Formazione e inserimento nel mondo del lavoro.{% endif %}</p>
       </article>
     </div>
 

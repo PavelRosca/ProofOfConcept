@@ -10,11 +10,11 @@
         {% if cms_page and cms_page.intro %}
         <div class="mt-4 text-gray-700">{{ cms_page.intro|richtext }}</div>
         {% else %}
-        <p class="mt-4 text-gray-700" data-i18n="join.page.intro">Diventa membro: compila il modulo per ricevere informazioni e partecipare alle attività locali.</p>
+        <p class="mt-4 text-gray-700" data-i18n="join.page.intro">{% if request.LANGUAGE_CODE == 'en' %}Become a member: fill out the form to receive information and take part in local activities.{% else %}Diventa membro: compila il modulo per ricevere informazioni e partecipare alle attività locali.{% endif %}</p>
         {% endif %}
         <form class="mt-6 space-y-4 max-w-xl">
           <div>
-            <label class="block text-sm" data-i18n="join.form.name">Nome e Cognome</label>
+            <label class="block text-sm" data-i18n="join.form.name">{% if request.LANGUAGE_CODE == 'en' %}Full Name{% else %}Nome e Cognome{% endif %}</label>
             <input class="input mt-1 w-full" type="text" name="name" />
           </div>
           <div>
@@ -22,13 +22,13 @@
             <input class="input mt-1 w-full" type="email" name="email" />
           </div>
           <div>
-            <label class="block text-sm" data-i18n="join.form.region">Regione</label>
+            <label class="block text-sm" data-i18n="join.form.region">{% if request.LANGUAGE_CODE == 'en' %}Region{% else %}Regione{% endif %}</label>
             <select class="input mt-1 w-full" name="region">
-              <option data-i18n="join.form.regionPlaceholder">Seleziona regione</option>
+              <option data-i18n="join.form.regionPlaceholder">{% if request.LANGUAGE_CODE == 'en' %}Select region{% else %}Seleziona regione{% endif %}</option>
             </select>
           </div>
           <div>
-            <button class="btn btn-primary" data-i18n="join.form.submit">Invia iscrizione</button>
+            <button class="btn btn-primary" data-i18n="join.form.submit">{% if request.LANGUAGE_CODE == 'en' %}Submit application{% else %}Invia iscrizione{% endif %}</button>
           </div>
         </form>
 

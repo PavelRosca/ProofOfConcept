@@ -71,7 +71,8 @@ INSTALLED_APPS = [
     'modelcluster',
     'taggit',
     'wagtail_localize',
-    
+    'wagtail_localize.locales',
+
     # Third-party
     'rest_framework',
     'corsheaders',

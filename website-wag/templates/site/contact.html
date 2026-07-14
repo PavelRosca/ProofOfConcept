@@ -10,11 +10,11 @@
         {% if cms_page and cms_page.intro %}
         <div class="mt-4 text-gray-700">{{ cms_page.intro|richtext }}</div>
         {% else %}
-        <p class="mt-4 text-gray-700" data-i18n="contact.page.intro">Per informazioni, collaborazioni o segnalazioni, contattaci.</p>
+        <p class="mt-4 text-gray-700" data-i18n="contact.page.intro">{% if request.LANGUAGE_CODE == 'en' %}For information, collaborations, or reports, contact us.{% else %}Per informazioni, collaborazioni o segnalazioni, contattaci.{% endif %}</p>
         {% endif %}
         <form class="mt-6 space-y-4 max-w-xl">
           <div>
-            <label class="block text-sm" data-i18n="contact.form.name">Nome</label>
+            <label class="block text-sm" data-i18n="contact.form.name">{% if request.LANGUAGE_CODE == 'en' %}Name{% else %}Nome{% endif %}</label>
             <input class="input mt-1 w-full" type="text" name="name" />
           </div>
           <div>
@@ -22,11 +22,11 @@
             <input class="input mt-1 w-full" type="email" name="email" />
           </div>
           <div>
-            <label class="block text-sm" data-i18n="contact.form.message">Messaggio</label>
+            <label class="block text-sm" data-i18n="contact.form.message">{% if request.LANGUAGE_CODE == 'en' %}Message{% else %}Messaggio{% endif %}</label>
             <textarea class="input mt-1 w-full" rows="5" name="message"></textarea>
           </div>
           <div>
-            <button class="btn btn-primary" data-i18n="contact.form.submit">Invia messaggio</button>
+            <button class="btn btn-primary" data-i18n="contact.form.submit">{% if request.LANGUAGE_CODE == 'en' %}Send message{% else %}Invia messaggio{% endif %}</button>
           </div>
         </form>
 
