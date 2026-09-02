@@ -13,6 +13,7 @@ from django.views.generic.base import RedirectView
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail import urls as wagtail_urls
+from core.views import contact_submit
 from .views import api_status, cms_page, legacy_html_page_redirect
 
 urlpatterns = [
@@ -24,6 +25,8 @@ urlpatterns = [
     path('pages/<slug:slug>/', cms_page, name='cms-page'),
     path('<slug:page>.html', legacy_html_page_redirect, name='legacy-html-page'),
     path('api/', include('core.urls')),
+    path('contact/submit/', contact_submit, name='contact-submit'),
+    path('members/', include('members.urls')),
     path('api/auth/', include('rest_framework.urls')),
     path('accounts/', include('allauth.urls')),
 ]

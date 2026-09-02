@@ -3,7 +3,16 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Sector, Region, Project, Member, Donation, StaticPage
+
+from django.conf import settings
+from django.core.mail import send_mail
+from django.shortcuts import redirect
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.views.decorators.http import require_http_methods
+from django_ratelimit.decorators import ratelimit
+
+from .models import Sector, Region, Project, Member, Donation, StaticPage, ContactLead
+from .forms import ContactLeadForm
 from .serializers import (
     SectorSerializer, RegionSerializer, ProjectSerializer,
     MemberSerializer, DonationSerializer, StaticPageSerializer
@@ -141,3 +150,44 @@ class StaticPageViewSet(viewsets.ReadOnlyModelViewSet):
     filterset_fields = ['page_type']
     search_fields = ['title', 'slug']
     lookup_field = 'slug'
+
+
+def _redirect_next(request):
+    """Preserves the current language prefix (site uses i18n_patterns) instead of
+    hardcoding '/', which would silently bounce an /en/ visitor back to the default
+    language homepage. 'next' is a same-origin path the template sets from
+    request.path — validated to rule out an open-redirect via a forged POST."""
+    next_url = request.POST.get('next', '/')
+    if not url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+        next_url = '/'
+    return redirect(next_url)
+
+
+@require_http_methods(['POST'])
+@ratelimit(key='ip', rate='10/h', method='POST', block=True)
+def contact_submit(request):
+    """Phase 2: only the contact form's email field is real — validates, stores a
+    ContactLead, and notifies ADMINS. Name/message stay decorative (disabled) in
+    the template, so they're never present in request.POST."""
+    form = ContactLeadForm(request.POST)
+    if not form.is_valid():
+        request.session['contact_errors'] = {field: list(msgs) for field, msgs in form.errors.items()}
+        return _redirect_next(request)
+
+    email = form.cleaned_data['email']
+    ContactLead.objects.create(email=email, ip_address=request.META.get('REMOTE_ADDR'))
+
+    if settings.ADMINS:
+        try:
+            send_mail(
+                'New contact lead',
+                f'New contact form submission: {email}',
+                settings.DEFAULT_FROM_EMAIL,
+                [admin_email for _, admin_email in settings.ADMINS],
+                fail_silently=True,
+            )
+        except Exception:
+            pass
+
+    request.session['contact_success'] = True
+    return _redirect_next(request)

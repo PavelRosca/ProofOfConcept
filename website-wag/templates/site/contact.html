@@ -12,21 +12,49 @@
         {% else %}
         <p class="mt-4 text-gray-700" data-i18n="contact.page.intro">{% if request.LANGUAGE_CODE == 'en' %}For information, collaborations, or reports, contact us.{% else %}Per informazioni, collaborazioni o segnalazioni, contattaci.{% endif %}</p>
         {% endif %}
-        <form class="mt-6 space-y-4 max-w-xl">
-          <div>
-            <label class="block text-sm" data-i18n="contact.form.name">{% if request.LANGUAGE_CODE == 'en' %}Name{% else %}Nome{% endif %}</label>
-            <input class="input mt-1 w-full" type="text" name="name" />
+        {% if contact_success %}
+        <div class="mt-4 notice info">
+          <div class="notice-body">
+            <p>{% if request.LANGUAGE_CODE == 'en' %}Thanks — we've received your email and will be in touch.{% else %}Grazie — abbiamo ricevuto la tua email e ti contatteremo.{% endif %}</p>
+          </div>
+        </div>
+        {% endif %}
+        {% if contact_errors %}
+        <div class="mt-4 notice info">
+          <div class="notice-body">
+            {% for field, errors in contact_errors.items %}{% for error in errors %}<p>{{ error }}</p>{% endfor %}{% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <form class="mt-6 space-y-4 max-w-xl" method="post" action="{% url 'contact-submit' %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <div class="field-inactive">
+            <label class="form-label" data-i18n="contact.form.name">{% if request.LANGUAGE_CODE == 'en' %}Name{% else %}Nome{% endif %}</label>
+            <input class="form-control mt-1 w-full" type="text" disabled />
+            <p class="field-inactive-note">{% if request.LANGUAGE_CODE == 'en' %}Unlocks once you're registered.{% else %}Si sblocca dopo la registrazione.{% endif %}</p>
           </div>
           <div>
-            <label class="block text-sm" data-i18n="contact.form.email">Email</label>
-            <input class="input mt-1 w-full" type="email" name="email" />
+            <label class="form-label" data-i18n="contact.form.email">Email</label>
+            <input class="form-control form-control-highlight mt-1 w-full" type="email" name="email" required />
+          </div>
+          <div class="field-inactive">
+            <label class="form-label">{% if request.LANGUAGE_CODE == 'en' %}Phone{% else %}Telefono{% endif %}</label>
+            <input class="form-control mt-1 w-full" type="text" disabled />
+            <p class="field-inactive-note">{% if request.LANGUAGE_CODE == 'en' %}Unlocks for confirmed members.{% else %}Si sblocca per i soci confermati.{% endif %}</p>
+          </div>
+          <div class="field-inactive">
+            <label class="form-label" data-i18n="contact.form.message">{% if request.LANGUAGE_CODE == 'en' %}Message{% else %}Messaggio{% endif %}</label>
+            <textarea class="form-control mt-1 w-full" rows="5" disabled></textarea>
+            <p class="field-inactive-note">{% if request.LANGUAGE_CODE == 'en' %}Unlocks once you're registered.{% else %}Si sblocca dopo la registrazione.{% endif %}</p>
+          </div>
+          <div class="field-inactive" style="display:flex; align-items:center; gap:10px;">
+            <button type="button" class="btn btn-pill-outline" disabled>{% if request.LANGUAGE_CODE == 'en' %}Live Chat{% else %}Live Chat{% endif %}</button>
+            <span class="badge-coming-soon">{% if request.LANGUAGE_CODE == 'en' %}Members only{% else %}Solo soci{% endif %}</span>
           </div>
           <div>
-            <label class="block text-sm" data-i18n="contact.form.message">{% if request.LANGUAGE_CODE == 'en' %}Message{% else %}Messaggio{% endif %}</label>
-            <textarea class="input mt-1 w-full" rows="5" name="message"></textarea>
-          </div>
-          <div>
-            <button class="btn btn-primary" data-i18n="contact.form.submit">{% if request.LANGUAGE_CODE == 'en' %}Send message{% else %}Invia messaggio{% endif %}</button>
+            <button type="submit" class="btn btn-pill-primary" data-i18n="contact.form.submit">{% if request.LANGUAGE_CODE == 'en' %}Send message{% else %}Invia messaggio{% endif %}</button>
           </div>
         </form>
 

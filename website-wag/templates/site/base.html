@@ -73,7 +73,7 @@
         <a href="/support/" class="nav-link{% if request.path == '/support/' %} active{% endif %}" data-i18n="nav.support">{% if request.LANGUAGE_CODE == 'en' %}Support Us{% else %}Sostienici{% endif %}</a>
       </li>
       <li class="nav-item">
-        <a href="/join/" class="nav-link{% if request.path == '/join/' %} active{% endif %}" data-i18n="nav.join">{% if request.LANGUAGE_CODE == 'en' %}Join{% else %}Iscriviti{% endif %}</a>
+        <a href="{% if request.LANGUAGE_CODE == 'en' %}/en/#registration{% else %}/#registration{% endif %}" class="nav-link" data-i18n="nav.join">{% if request.LANGUAGE_CODE == 'en' %}Join{% else %}Iscriviti{% endif %}</a>
       </li>
       <li class="nav-item">
         <a href="/contact/" class="nav-link{% if request.path == '/contact/' %} active{% endif %}" data-i18n="nav.contact">{% if request.LANGUAGE_CODE == 'en' %}Contact{% else %}Contatti{% endif %}</a>
@@ -82,32 +82,23 @@
         <button id="theme-toggle-mobile" class="nav-link w-full text-left" type="button">ðŸŒ™ Night mode</button>
       </li>
       <li class="nav-item mt-3.5 lg:hidden">
-        <a class="btn btn-white btn-sm border-border" href="/join/" data-i18n="nav.signup">{% if request.LANGUAGE_CODE == 'en' %}Sign up{% else %}Iscriviti{% endif %}</a>
+        <a class="btn-pill-primary" href="{% if request.LANGUAGE_CODE == 'en' %}/en/#registration{% else %}/#registration{% endif %}" data-i18n="nav.signup">{% if request.LANGUAGE_CODE == 'en' %}Sign up{% else %}Iscriviti{% endif %}</a>
       </li>
     </ul>
     <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex space-x-3">
-      <button id="theme-toggle" class="text-sm px-3 py-1.5 rounded border border-border hover:bg-theme-light dark:border-light/30 dark:text-light dark:hover:bg-light/10" type="button">ðŸŒ™ Night mode</button>
+      <button id="theme-toggle" class="header-action" type="button">ðŸŒ™ Night mode</button>
       <div class="flex items-center space-x-2">
-        <button id="lang-it" class="text-sm px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-light/10">IT</button>
-        <button id="lang-en" class="text-sm px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-light/10">EN</button>
+        <button id="lang-it" class="header-lang">IT</button>
+        <button id="lang-en" class="header-lang">EN</button>
       </div>
-      <a class="btn btn-white btn-sm" href="/join/" data-i18n="nav.signup">{% if request.LANGUAGE_CODE == 'en' %}Sign up{% else %}Iscriviti{% endif %}</a>
+      <a class="btn-pill-primary" href="{% if request.LANGUAGE_CODE == 'en' %}/en/#registration{% else %}/#registration{% endif %}" data-i18n="nav.signup">{% if request.LANGUAGE_CODE == 'en' %}Sign up{% else %}Iscriviti{% endif %}</a>
     </div>
   </nav>
 </header>
 
 {% block content %}{% endblock %}
 
-<div class="fixed left-0 top-0 z-50 flex w-[30px] items-center justify-center bg-gray-200 py-[2.5px] text-[12px] uppercase text-black sm:bg-red-200 md:bg-yellow-200 lg:bg-green-200 xl:bg-blue-200 2xl:bg-pink-200">
-  <span class="block sm:hidden">all</span>
-  <span class="hidden sm:block md:hidden">sm</span>
-  <span class="hidden md:block lg:hidden">md</span>
-  <span class="hidden lg:block xl:hidden">lg</span>
-  <span class="hidden xl:block 2xl:hidden">xl</span>
-  <span class="hidden 2xl:block">2xl</span>
-</div>
-
-<footer class="footer bg-theme-light/50">
+<footer class="footer footer-warm">
   <div class="container">
     <div class="row gx-5 pb-10 pt-[52px]">
       <div class="col-12 mt-12 md:col-6 lg:col-3">
@@ -126,7 +117,7 @@
           <li><a href="/" data-i18n="nav.home">Home</a></li>
           <li><a href="/projects/" data-i18n="nav.projects">Progetti</a></li>
           <li><a href="/support/" data-i18n="nav.support">Sostienici</a></li>
-          <li><a href="/join/" data-i18n="nav.join">Iscriviti</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'en' %}/en/#registration{% else %}/#registration{% endif %}" data-i18n="nav.join">Iscriviti</a></li>
           <li><a href="/contact/" data-i18n="nav.contact">Contatti</a></li>
         </ul>
       </div>

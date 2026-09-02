@@ -1,25 +1,171 @@
 {% extends 'site/base.html' %}
 
 {% block content %}
-<section class="section banner bg-white py-16">
-  <div class="container">
+<section class="section banner py-16" style="position:relative; overflow:hidden;">
+  <div class="hero-blob-a" aria-hidden="true"></div>
+  <div class="hero-blob-b" aria-hidden="true"></div>
+  <div class="container" style="position:relative;">
     <div class="row items-center">
       <div class="lg:col-6">
         <h1 class="banner-title text-3xl lg:text-5xl font-semibold">{{ cms_home.hero_title|default:"Per le famiglie, per il futuro — Un paese più forte insieme" }}</h1>
         <p class="mt-6 text-lg text-gray-700">{{ cms_home.hero_subtitle|default:"Sosteniamo politiche concrete per la famiglia, il lavoro e la solidarietà. Partecipa, iscriviti, dona: costruisci con noi un futuro più sicuro per i tuoi cari." }}</p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a class="btn btn-primary" href="{{ cms_home.hero_primary_cta_link|default:'/join/' }}">{{ cms_home.hero_primary_cta_text|default:"Iscriviti" }}</a>
-          <a class="btn btn-secondary" href="{{ cms_home.hero_secondary_cta_link|default:'/support/' }}">{{ cms_home.hero_secondary_cta_text|default:"Sostienici" }}</a>
+        <div class="mt-8 flex flex-wrap items-center gap-3 field-inactive">
+          <button type="button" class="btn btn-pill-lg btn-pill-primary" disabled>{{ cms_home.hero_primary_cta_text|default:"Iscriviti" }}</button>
+          <button type="button" class="btn btn-pill-lg btn-pill-outline" disabled>{{ cms_home.hero_secondary_cta_text|default:"Sostienici" }}</button>
+          <span class="badge-coming-soon">{% if request.LANGUAGE_CODE == 'en' %}Coming soon{% else %}Prossimamente{% endif %}</span>
         </div>
+        <p class="field-inactive-note">{% if request.LANGUAGE_CODE == 'en' %}Join now using the form below.{% else %}Iscriviti subito compilando il modulo qui sotto.{% endif %}</p>
       </div>
       <div class="lg:col-6">
-        <img class="w-full object-contain" src="/static/images/banner-img.png" width="603" height="396" alt="" />
+        <div class="hero-visual">
+          <svg width="140" height="140" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z" stroke="#8a6a4f" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section py-12 bg-gray-50">
+<section class="section py-16" id="registration">
+  <div class="container">
+    <div class="row justify-center">
+      <div class="lg:col-8 mx-auto">
+        {% if request.user.is_authenticated %}
+        <div class="p-8 card-form-warm text-center">
+          <h2 class="text-2xl lg:text-3xl font-semibold">
+            {% if request.LANGUAGE_CODE == 'en' %}Welcome, {{ request.user.first_name }}!{% else %}Benvenuto/a, {{ request.user.first_name }}!{% endif %}
+          </h2>
+          <p class="mt-4 text-gray-700">
+            {% if request.LANGUAGE_CODE == 'en' %}
+              Your registration is complete. Thank you for joining us.
+            {% else %}
+              La tua iscrizione è completata. Grazie per esserti unito/a a noi.
+            {% endif %}
+          </p>
+        </div>
+
+        {% elif pending_registration %}
+        <div class="p-8 card-form-warm">
+          <h2 class="text-2xl lg:text-3xl font-semibold">
+            {% if request.LANGUAGE_CODE == 'en' %}Enter your verification code{% else %}Inserisci il codice di verifica{% endif %}
+          </h2>
+          <p class="mt-2 text-gray-700">
+            {% if request.LANGUAGE_CODE == 'en' %}
+              We've emailed you a 6-digit code. It expires in 10 minutes.
+            {% else %}
+              Ti abbiamo inviato via email un codice di 6 cifre. Scade tra 10 minuti.
+            {% endif %}
+          </p>
+
+          {% if otp_errors %}
+          <div class="mt-4 notice info">
+            <div class="notice-body">
+              {% for error in otp_errors %}<p>{{ error }}</p>{% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          <form class="mt-6 space-y-4" style="max-width:24rem;" method="post" action="{% url 'members:otp-verify' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <div>
+              <label class="form-label" for="id_code">{% if request.LANGUAGE_CODE == 'en' %}Verification code{% else %}Codice di verifica{% endif %}</label>
+              <input class="form-control" type="text" id="id_code" name="code" maxlength="6" inputmode="numeric" autocomplete="one-time-code" required>
+            </div>
+            <button type="submit" class="btn btn-pill-primary">{% if request.LANGUAGE_CODE == 'en' %}Verify{% else %}Verifica{% endif %}</button>
+          </form>
+
+          <div class="mt-3" style="display:flex; gap:16px; flex-wrap:wrap;">
+            <form method="post" action="{% url 'members:otp-resend' %}">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ request.path }}">
+              <button type="submit" class="link-accent">{% if request.LANGUAGE_CODE == 'en' %}Resend code{% else %}Invia di nuovo il codice{% endif %}</button>
+            </form>
+            <form method="post" action="{% url 'members:register-cancel' %}">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ request.path }}">
+              <button type="submit" class="link-muted">{% if request.LANGUAGE_CODE == 'en' %}Wrong email or details? Go back{% else %}Email o dati sbagliati? Torna indietro{% endif %}</button>
+            </form>
+          </div>
+        </div>
+
+        {% else %}
+        <div class="p-8 card-form-warm">
+          <h2 class="text-2xl lg:text-3xl font-semibold">{% if request.LANGUAGE_CODE == 'en' %}Join us{% else %}Iscriviti{% endif %}</h2>
+          <p class="mt-2 text-gray-700">
+            {% if request.LANGUAGE_CODE == 'en' %}
+              Fill in your details below — we'll email you a verification code to complete your registration.
+            {% else %}
+              Compila i tuoi dati qui sotto: ti invieremo un codice di verifica via email per completare l'iscrizione.
+            {% endif %}
+          </p>
+
+          {% if registration_errors %}
+          <div class="mt-4 notice info">
+            <div class="notice-body">
+              {% for field, errors in registration_errors.items %}{% for error in errors %}<p>{{ error }}</p>{% endfor %}{% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          <form class="mt-6 space-y-4" method="post" action="{% url 'members:register-submit' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <div class="row">
+              <div class="lg:col-6">
+                <label class="form-label" for="id_first_name">{% if request.LANGUAGE_CODE == 'en' %}First name{% else %}Nome{% endif %}</label>
+                <input class="form-control" type="text" id="id_first_name" name="first_name" value="{{ registration_values.first_name|default:'' }}" required>
+              </div>
+              <div class="lg:col-6">
+                <label class="form-label" for="id_last_name">{% if request.LANGUAGE_CODE == 'en' %}Last name{% else %}Cognome{% endif %}</label>
+                <input class="form-control" type="text" id="id_last_name" name="last_name" value="{{ registration_values.last_name|default:'' }}" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="lg:col-6">
+                <label class="form-label" for="id_email">Email</label>
+                <input class="form-control" type="email" id="id_email" name="email" value="{{ registration_values.email|default:'' }}" required>
+              </div>
+              <div class="lg:col-6">
+                <label class="form-label" for="id_phone">{% if request.LANGUAGE_CODE == 'en' %}Phone{% else %}Telefono{% endif %}</label>
+                <input class="form-control" type="text" id="id_phone" name="phone" value="{{ registration_values.phone|default:'' }}" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="lg:col-8">
+                <label class="form-label" for="id_address_street">{% if request.LANGUAGE_CODE == 'en' %}Street{% else %}Via{% endif %}</label>
+                <input class="form-control" type="text" id="id_address_street" name="address_street" value="{{ registration_values.address_street|default:'' }}" required>
+              </div>
+              <div class="lg:col-4">
+                <label class="form-label" for="id_address_number">N.</label>
+                <input class="form-control" type="text" id="id_address_number" name="address_number" value="{{ registration_values.address_number|default:'' }}" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="lg:col-4">
+                <label class="form-label" for="id_address_postal_code">{% if request.LANGUAGE_CODE == 'en' %}Postal code{% else %}Cod. Pos.{% endif %}</label>
+                <input class="form-control" type="text" id="id_address_postal_code" name="address_postal_code" maxlength="5" value="{{ registration_values.address_postal_code|default:'' }}" required>
+              </div>
+              <div class="lg:col-5">
+                <label class="form-label" for="id_address_city">{% if request.LANGUAGE_CODE == 'en' %}City{% else %}Città{% endif %}</label>
+                <input class="form-control" type="text" id="id_address_city" name="address_city" value="{{ registration_values.address_city|default:'' }}" required>
+              </div>
+              <div class="lg:col-3">
+                <label class="form-label" for="id_address_province">{% if request.LANGUAGE_CODE == 'en' %}Province{% else %}Provincia{% endif %}</label>
+                <input class="form-control" type="text" id="id_address_province" name="address_province" maxlength="2" value="{{ registration_values.address_province|default:'' }}" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-pill-primary">{% if request.LANGUAGE_CODE == 'en' %}Send verification code{% else %}Invia codice di verifica{% endif %}</button>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section py-16">
   <div class="container">
     <div class="row text-center">
       <div class="lg:col-8 mx-auto">
@@ -30,30 +176,30 @@
     <div class="row mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
       {% if cms_home and cms_home.value_cards.all %}
         {% for card in cms_home.value_cards.all %}
-          <div class="p-6 bg-white rounded shadow">
-            <h3 class="font-semibold">{{ card.title }}</h3>
-            <p class="mt-2 text-sm text-gray-600">{{ card.text }}</p>
+          <div class="card-warm {% cycle 'card-warm-terracotta' 'card-warm-teal' 'card-warm-terracotta' %}">
+            <h3>{{ card.title }}</h3>
+            <p>{{ card.text }}</p>
           </div>
         {% endfor %}
       {% else %}
-        <div class="p-6 bg-white rounded shadow">
-          <h3 class="font-semibold" data-i18n="home.values.family.title">Sostegno alle famiglie</h3>
-          <p class="mt-2 text-sm text-gray-600" data-i18n="home.values.family.text">Misure concrete per la cura, l'istruzione e il benessere dei nuclei familiari.</p>
+        <div class="card-warm card-warm-terracotta">
+          <h3 data-i18n="home.values.family.title">{% if request.LANGUAGE_CODE == 'en' %}Support for families{% else %}Sostegno alle famiglie{% endif %}</h3>
+          <p data-i18n="home.values.family.text">{% if request.LANGUAGE_CODE == 'en' %}Concrete measures for the care, education, and wellbeing of families.{% else %}Misure concrete per la cura, l'istruzione e il benessere dei nuclei familiari.{% endif %}</p>
         </div>
-        <div class="p-6 bg-white rounded shadow">
-          <h3 class="font-semibold" data-i18n="home.values.civic.title">Partecipazione civica</h3>
-          <p class="mt-2 text-sm text-gray-600" data-i18n="home.values.civic.text">Coinvolgiamo i cittadini nelle scelte locali e nazionali, favorendo trasparenza e dialogo.</p>
+        <div class="card-warm card-warm-teal">
+          <h3 data-i18n="home.values.civic.title">{% if request.LANGUAGE_CODE == 'en' %}Civic participation{% else %}Partecipazione civica{% endif %}</h3>
+          <p data-i18n="home.values.civic.text">{% if request.LANGUAGE_CODE == 'en' %}We involve citizens in local and national decisions, promoting transparency and dialogue.{% else %}Coinvolgiamo i cittadini nelle scelte locali e nazionali, favorendo trasparenza e dialogo.{% endif %}</p>
         </div>
-        <div class="p-6 bg-white rounded shadow">
-          <h3 class="font-semibold" data-i18n="home.values.work.title">Economia e lavoro</h3>
-          <p class="mt-2 text-sm text-gray-600" data-i18n="home.values.work.text">Sosteniamo politiche per l'occupazione, le piccole imprese e il lavoro stabile.</p>
+        <div class="card-warm card-warm-terracotta">
+          <h3 data-i18n="home.values.work.title">{% if request.LANGUAGE_CODE == 'en' %}Economy and jobs{% else %}Economia e lavoro{% endif %}</h3>
+          <p data-i18n="home.values.work.text">{% if request.LANGUAGE_CODE == 'en' %}We support policies for employment, small businesses, and stable jobs.{% else %}Sosteniamo politiche per l'occupazione, le piccole imprese e il lavoro stabile.{% endif %}</p>
         </div>
       {% endif %}
     </div>
   </div>
 </section>
 
-<section class="section py-12">
+<section class="section py-16">
   <div class="container">
     <div class="row justify-between items-center">
       <div class="lg:col-6">
@@ -61,45 +207,46 @@
         <p class="mt-4 text-gray-700">{{ cms_home.featured_text|default:"Iniziative locali e nazionali pensate per migliorare la vita quotidiana delle famiglie." }}</p>
       </div>
       <div class="lg:col-4 text-right">
-        <a href="/projects/" class="text-sm text-blue-600 hover:underline" data-i18n="actions.viewProjects">Vedi tutti i progetti</a>
+        <a href="/projects/" class="text-sm" style="color:#d9622a; opacity:0.55; pointer-events:none; cursor:not-allowed;" data-i18n="actions.viewProjects" aria-disabled="true" tabindex="-1">{% if request.LANGUAGE_CODE == 'en' %}View all projects{% else %}Vedi tutti i progetti{% endif %}</a>
       </div>
     </div>
     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
       {% if cms_home and cms_home.featured_cards.all %}
         {% for card in cms_home.featured_cards.all %}
-          <article class="p-6 bg-white rounded shadow">
-            <h3 class="font-semibold">{{ card.title }}</h3>
-            <p class="mt-2 text-sm text-gray-600">{{ card.text }}</p>
+          <article class="card-warm {% cycle 'card-warm-teal' 'card-warm-terracotta' 'card-warm-teal' %}">
+            <h3>{{ card.title }}</h3>
+            <p>{{ card.text }}</p>
           </article>
         {% endfor %}
       {% else %}
-        <article class="p-6 bg-white rounded shadow">
-          <h3 class="font-semibold" data-i18n="home.featured.card1.title">Centro di supporto familiare</h3>
-          <p class="mt-2 text-sm text-gray-600" data-i18n="home.featured.card1.text">Servizi locali per la cura dei bambini e supporto alle famiglie in difficoltà.</p>
+        <article class="card-warm card-warm-teal">
+          <h3 data-i18n="home.featured.card1.title">{% if request.LANGUAGE_CODE == 'en' %}Family support center{% else %}Centro di supporto familiare{% endif %}</h3>
+          <p data-i18n="home.featured.card1.text">{% if request.LANGUAGE_CODE == 'en' %}Local services for childcare and support for families in need.{% else %}Servizi locali per la cura dei bambini e supporto alle famiglie in difficoltà.{% endif %}</p>
         </article>
-        <article class="p-6 bg-white rounded shadow">
-          <h3 class="font-semibold" data-i18n="home.featured.card2.title">Borse lavoro giovanili</h3>
-          <p class="mt-2 text-sm text-gray-600" data-i18n="home.featured.card2.text">Programmi di inserimento per giovani e formazione professionale.</p>
+        <article class="card-warm card-warm-terracotta">
+          <h3 data-i18n="home.featured.card2.title">{% if request.LANGUAGE_CODE == 'en' %}Youth job grants{% else %}Borse lavoro giovanili{% endif %}</h3>
+          <p data-i18n="home.featured.card2.text">{% if request.LANGUAGE_CODE == 'en' %}Job placement and professional training programs for young people.{% else %}Programmi di inserimento per giovani e formazione professionale.{% endif %}</p>
         </article>
-        <article class="p-6 bg-white rounded shadow">
-          <h3 class="font-semibold" data-i18n="home.featured.card3.title">Rete di volontariato</h3>
-          <p class="mt-2 text-sm text-gray-600" data-i18n="home.featured.card3.text">Coordinamento nazionale di volontari per servizi sociali e assistenza.</p>
+        <article class="card-warm card-warm-teal">
+          <h3 data-i18n="home.featured.card3.title">{% if request.LANGUAGE_CODE == 'en' %}Volunteer network{% else %}Rete di volontariato{% endif %}</h3>
+          <p data-i18n="home.featured.card3.text">{% if request.LANGUAGE_CODE == 'en' %}National coordination of volunteers for social services and assistance.{% else %}Coordinamento nazionale di volontari per servizi sociali e assistenza.{% endif %}</p>
         </article>
       {% endif %}
     </div>
   </div>
 </section>
 
-<section class="section py-12 bg-blue-600 text-white">
+<section class="section py-16 cta-band-warm">
   <div class="container">
     <div class="row items-center">
       <div class="lg:col-8">
         <h2 class="text-2xl lg:text-3xl font-semibold">{{ cms_home.cta_title|default:"Sostieni il nostro lavoro" }}</h2>
         <p class="mt-2">{{ cms_home.cta_text|default:"Con il tuo contributo possiamo ampliare i servizi e raggiungere più famiglie. Ogni donazione conta." }}</p>
       </div>
-      <div class="lg:col-4 text-right">
-        <a href="/support/" class="btn btn-white text-blue-600">Dona ora</a>
-        <a href="/join/" class="btn btn-outline-white ml-3">Iscriviti</a>
+      <div class="lg:col-4 text-right field-inactive">
+        <button type="button" class="btn btn-pill-primary" disabled>Dona ora</button>
+        <button type="button" class="btn btn-pill-outline ml-3" disabled style="color:#fdf3ea; border-color:rgba(253,243,234,0.4);">Iscriviti</button>
+        <span class="badge-coming-soon">{% if request.LANGUAGE_CODE == 'en' %}Coming soon{% else %}Prossimamente{% endif %}</span>
       </div>
     </div>
   </div>

@@ -91,6 +91,11 @@ class Member(models.Model):
     tessera_number = models.CharField(max_length=50, unique=True, blank=True, null=True)  # Membership card
     status = models.CharField(max_length=20, choices=MEMBERSHIP_STATUS, default='attivo')
     phone = models.CharField(max_length=20, blank=True, null=True)
+    address_street = models.CharField(max_length=200, blank=True, default='')  # Via
+    address_number = models.CharField(max_length=20, blank=True, default='')  # N. civico (e.g. "12/A")
+    address_postal_code = models.CharField(max_length=10, blank=True, default='')  # Cod. Pos. (text, preserves leading zeros)
+    address_city = models.CharField(max_length=100, blank=True, default='')  # Città
+    address_province = models.CharField(max_length=2, blank=True, default='')  # Provincia (2-letter code)
     bio = models.TextField(blank=True, null=True)
     profile_image = models.ImageField(upload_to='profiles/', blank=True, null=True)
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -158,6 +163,19 @@ class StaticPage(models.Model):
     class Meta:
         ordering = ['order']
         verbose_name_plural = 'Static Pages'
-        
+
     def __str__(self):
         return self.title
+
+
+class ContactLead(models.Model):
+    """Email-only lead captured from the gated contact form (Phase 2)."""
+    email = models.EmailField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.email

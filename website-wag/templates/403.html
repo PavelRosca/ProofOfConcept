@@ -1,0 +1,22 @@
+{% extends 'site/base.html' %}
+
+{% block content %}
+<section class="section py-16">
+  <div class="container">
+    <div class="row">
+      <div class="lg:col-8 mx-auto text-center">
+        <h1 class="text-2xl lg:text-3xl font-semibold">
+          {% if request.LANGUAGE_CODE == 'en' %}Too many requests{% else %}Troppe richieste{% endif %}
+        </h1>
+        <p class="mt-4 text-gray-700">
+          {% if request.LANGUAGE_CODE == 'en' %}
+            You've made too many requests in a short time. Please wait a few minutes and try again.
+          {% else %}
+            Hai effettuato troppe richieste in poco tempo. Attendi qualche minuto e riprova.
+          {% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

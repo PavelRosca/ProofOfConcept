@@ -15,3 +15,4 @@ celery==5.3.1
 redis==5.0.0
 wagtail==7.3
 wagtail-localize
+django-ratelimit==4.1.0

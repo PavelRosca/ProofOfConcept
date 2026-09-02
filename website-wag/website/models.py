@@ -54,6 +54,11 @@ class HomePage(Page):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context['cms_home'] = self
+        context['pending_registration'] = bool(request.session.get('pending_registration_id'))
+        context['registration_errors'] = request.session.pop('registration_errors', None)
+        context['registration_values'] = request.session.pop('registration_values', None)
+        context['otp_errors'] = request.session.pop('otp_errors', None)
+        context['registration_success'] = request.session.pop('registration_success', False)
         return context
 
 
@@ -107,6 +112,9 @@ class StandardPage(Page):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context['cms_page'] = self
+        if self.slug == 'contact':
+            context['contact_errors'] = request.session.pop('contact_errors', None)
+            context['contact_success'] = request.session.pop('contact_success', False)
         return context
 
 

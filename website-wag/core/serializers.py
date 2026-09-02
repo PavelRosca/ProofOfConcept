@@ -37,7 +37,10 @@ class MemberSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Member
-        fields = ('id', 'user', 'user_data', 'region', 'region_name', 'tessera_number', 'status', 'phone', 'bio', 'date_joined')
+        fields = (
+            'id', 'user', 'user_data', 'region', 'region_name', 'tessera_number', 'status', 'phone', 'bio',
+            'date_joined',
+        )
 
 
 class DonationSerializer(serializers.ModelSerializer):

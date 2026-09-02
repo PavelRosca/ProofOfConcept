@@ -81,6 +81,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',  # no providers configured — required only so allauth's stock
+                               # account/login.html (which unconditionally does
+                               # {% load socialaccount %}) doesn't 500 with KeyError
     'django_filters',
     
     # Local apps
@@ -227,6 +230,52 @@ WAGTAILADMIN_BASE_URL = config(
     'WAGTAILADMIN_BASE_URL',
     default=f'https://{RENDER_EXTERNAL_HOSTNAME}' if RENDER_EXTERNAL_HOSTNAME else 'http://127.0.0.1:8000'
 )
+
+# Email
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='webmaster@localhost')
+if not DEBUG or PUBLIC_DEMO:
+    EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+    EMAIL_HOST = config('EMAIL_HOST', default='')
+    EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+    EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+    EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+    EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Admin error notifications — required for Django's default LOGGING config
+# (django.request errors -> AdminEmailHandler) to actually deliver anything.
+ADMINS = config(
+    'ADMINS',
+    default='',
+    cast=lambda v: [tuple(pair.split(':', 1)) for pair in v.split(',') if pair.strip() and ':' in pair]
+)
+MANAGERS = ADMINS
+SERVER_EMAIL = config('SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
+
+# Prevents a hung request thread if the SMTP host is unreachable/slow.
+EMAIL_TIMEOUT = config('EMAIL_TIMEOUT', default=10, cast=int)
+
+# Cache — backs django-ratelimit (RATELIMIT_USE_CACHE). Must be shared across
+# processes in production: gunicorn runs multiple workers on the Aruba VPS, each
+# with its own separate LocMemCache if CACHES isn't set explicitly — rate limits
+# would be enforced per-worker, not globally. DatabaseCache (backed by the existing
+# PostgreSQL DB) fixes this without adding a new service/port/credential to secure —
+# preferred here over Redis for a purely security-surface-minimizing reason, not a
+# performance one. Requires `python manage.py createcachetable` once (not a migration).
+if not DEBUG or PUBLIC_DEMO:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+            'LOCATION': 'django_cache',
+        }
+    }
+else:
+    CACHES = {
+        'default': {'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'}
+    }
+
+RATELIMIT_USE_CACHE = 'default'
 
 # Security defaults for public deployments
 if not DEBUG or PUBLIC_DEMO:

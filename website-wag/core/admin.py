@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sector, Region, Project, Member, Donation, StaticPage
+from .models import Sector, Region, Project, Member, Donation, StaticPage, ContactLead
 
 
 @admin.register(Sector)
@@ -64,6 +64,9 @@ class MemberAdmin(admin.ModelAdmin):
         ('Contact', {
             'fields': ('phone', 'bio')
         }),
+        ('Address', {
+            'fields': ('address_street', 'address_number', 'address_postal_code', 'address_city', 'address_province')
+        }),
         ('Dates', {
             'fields': ('date_joined', 'last_updated'),
             'classes': ('collapse',)
@@ -112,3 +115,14 @@ class StaticPageAdmin(admin.ModelAdmin):
             'fields': ('order', 'is_published')
         }),
     )
+
+
+@admin.register(ContactLead)
+class ContactLeadAdmin(admin.ModelAdmin):
+    list_display = ('email', 'created_at', 'ip_address')
+    list_filter = ('created_at',)
+    search_fields = ('email',)
+    readonly_fields = ('email', 'created_at', 'ip_address')
+
+    def has_add_permission(self, request):
+        return False

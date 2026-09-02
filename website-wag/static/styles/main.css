@@ -704,8 +704,8 @@ input:where([type='file']):focus {
   body {
   overflow-x: hidden;
   --tw-bg-opacity: 1;
-  background-color: rgb(250 250 250 / var(--tw-bg-opacity, 1));
-  background-image: url('/images/body-bg.svg');
+  background-color: #fffaf5;
+  background-image: url('/static/images/body-bg.svg');
   background-size: cover;
   background-repeat: no-repeat;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -715,13 +715,13 @@ input:where([type='file']):focus {
   color: rgb(136 136 136 / var(--tw-text-opacity, 1));
 }
   .dark body {
-    background-color: #1a202c;
+    background-color: #211a15;
     background-image: none;
-    color: #ceced0;
+    color: #c9bfb3;
   }
   html.dark {
   --tw-bg-opacity: 1;
-  background-color: rgb(26 32 44 / var(--tw-bg-opacity, 1));
+  background-color: #211a15;
 }
   h1,
   h2,
@@ -997,10 +997,10 @@ input:where([type='file']):focus {
 }
 
   .dark .form-control,
-  .dark 
+  .dark
   .form-select {
   border-width: 1px;
-  border-color: rgb(206 206 208 / 0.2);
+  border-color: rgba(245, 239, 233, 0.16);
 }
 .form-control,
   .form-select {
@@ -1024,7 +1024,7 @@ input:where([type='file']):focus {
 .form-control:focus,
   .form-select:focus {
   --tw-border-opacity: 1;
-  border-color: rgb(254 96 25 / var(--tw-border-opacity, 1));
+  border-color: #d9622a;
   --tw-ring-color: transparent;
 }
 .form-label {
@@ -1034,9 +1034,58 @@ input:where([type='file']):focus {
   --tw-text-opacity: 1;
   color: rgb(85 85 85 / var(--tw-text-opacity, 1));
 }
+.dark .form-label {
+  color: rgb(206 206 208 / 0.9);
+}
 select:invalid {
     color: #b0b0b0 !important;
   }
+
+/* Inactive/decorative form elements — visually present, not yet functional */
+.field-inactive {
+  position: relative;
+}
+.field-inactive .form-control,
+.field-inactive .form-select,
+.field-inactive .input {
+  cursor: not-allowed;
+  opacity: 0.55;
+  background-color: rgb(235 235 235 / 0.4);
+}
+.dark .field-inactive .form-control,
+.dark .field-inactive .form-select,
+.dark .field-inactive .input {
+  background-color: rgb(206 206 208 / 0.08);
+}
+.field-inactive .btn {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.field-inactive-note {
+  display: block;
+  margin-top: 0.375rem;
+  font-size: 0.8125rem;
+  color: #888888;
+}
+.dark .field-inactive-note {
+  color: #ceced0;
+}
+.badge-coming-soon {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  background-color: rgb(255 195 146 / 0.35);
+  color: #b45309;
+}
+.dark .badge-coming-soon {
+  background-color: rgb(254 96 25 / 0.15);
+  color: #fdba8c;
+}
 .content {
   color: var(--tw-prose-body);
   max-width: 65ch;
@@ -2239,11 +2288,11 @@ select:invalid {
   .dark .form-select,
   .dark input[type=text],
   .dark textarea {
-  border-color: rgb(206 206 208 / 0.2);
+  border-color: rgba(245, 239, 233, 0.16);
   --tw-bg-opacity: 1;
-  background-color: rgb(26 32 44 / var(--tw-bg-opacity, 1));
+  background-color: rgba(245, 239, 233, 0.06);
   --tw-text-opacity: 1;
-  color: rgb(206 206 208 / var(--tw-text-opacity, 1));
+  color: #f5efe9;
 }
 input#nav-toggle:checked ~ label#show-button {
   display: none;
@@ -2274,7 +2323,7 @@ input#nav-toggle:checked ~ #nav-menu {
   top: 0px;
   z-index: 50;
   --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  background-color: #fffaf5;
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   transition-property: all;
@@ -2288,21 +2337,21 @@ input#nav-toggle:checked ~ #nav-menu {
   }
 }
 .dark .header-sticky {
-  background-color: rgb(255 255 255 / 0.05);
+  background-color: rgb(33 26 21 / 0.95);
 }
 .header-sticky {
   --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  background-color: #fffaf5;
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     box-shadow: 0px 10px 45px rgba(0, 0, 0, 0.05);
 }
 .dark .header {
-  background-color: rgb(26 32 44 / 0.95);
+  background-color: rgb(33 26 21 / 0.95);
 }
 .dark .header-sticky {
-  background-color: rgb(26 32 44 / 0.95);
+  background-color: rgb(33 26 21 / 0.95);
 }
 .navbar {
   position: relative;
@@ -2321,32 +2370,25 @@ input#nav-toggle:checked ~ #nav-menu {
   }
 }
 .nav-link {
-  display: block;
-  padding: 0.75rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 12px;
   font-size: 15px;
   --tw-text-opacity: 1;
-  color: rgb(34 34 34 / var(--tw-text-opacity, 1));
+  color: #241d18;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
 .nav-link:hover {
   --tw-text-opacity: 1;
-  color: rgb(254 96 25 / var(--tw-text-opacity, 1));
-}
-@media (min-width: 768px) {
-
-  .nav-link {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
+  color: #d9622a;
 }
 @media (min-width: 1024px) {
 
   .nav-link {
-    display: inline-block;
+    display: inline-flex;
   }
 }
 .nav-link.active {
@@ -2354,18 +2396,24 @@ input#nav-toggle:checked ~ #nav-menu {
 }
 .nav-link.active::after {
   position: absolute;
-  bottom: 0px;
-  left: 0.5rem;
-  right: 0.5rem;
-  height: 0.125rem;
-  background-image: linear-gradient(to top left, var(--tw-gradient-stops));
+  bottom: 4px;
+  left: 12px;
+  right: 12px;
+  height: 2px;
   --tw-content: '';
   content: var(--tw-content);
-    background-image: linear-gradient(184.78deg, #fa709a 7.64%, #fee140 120.07%);
+  background-image: none;
+  background-color: #d9622a;
 }
 .dark .nav-link {
   --tw-text-opacity: 1;
-  color: rgb(206 206 208 / var(--tw-text-opacity, 1));
+  color: #c9bfb3;
+}
+.dark .nav-link:hover {
+  color: #e8794a;
+}
+.dark .nav-link.active {
+  color: #f5efe9;
 }
 .dark #show-button,
   .dark #hide-button {
@@ -5637,4 +5685,291 @@ select,
 textarea,
 label {
   font-family: Verdana, Geneva, sans-serif;
+}
+
+/* ============================================================
+   Homepage "warm human-centered" redesign (header/footer are
+   global; hero/mission/featured/CTA are index.html-scoped classes)
+   ============================================================ */
+
+/* Header action buttons (theme toggle, IT/EN) — normalized to the
+   same 40px height as .nav-link so the whole header row lines up. */
+.header-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #241d18;
+  background: transparent;
+  border: 1px solid rgba(36, 29, 24, 0.14);
+  transition: background-color 0.15s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.header-action:hover {
+  background-color: rgba(36, 29, 24, 0.05);
+}
+.dark .header-action {
+  color: #f5efe9;
+  border-color: rgba(245, 239, 233, 0.16);
+}
+.dark .header-action:hover {
+  background-color: rgba(245, 239, 233, 0.07);
+}
+.header-lang {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #241d18;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.header-lang:hover {
+  background-color: rgba(36, 29, 24, 0.05);
+}
+.dark .header-lang {
+  color: #c9bfb3;
+}
+.dark .header-lang:hover {
+  background-color: rgba(245, 239, 233, 0.07);
+}
+
+/* Pill buttons — used for the header sign-up + homepage CTAs.
+   Kept alongside the base .btn class so .field-inactive .btn's
+   dimming rule still applies to disabled/placeholder buttons. */
+.btn-pill-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 40px;
+  color: #ffffff;
+  background: #d9622a;
+  text-decoration: none;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+.btn-pill-primary:hover {
+  background: #b34c1e;
+  transform: translateY(-1px);
+}
+.dark .btn-pill-primary {
+  background: #d9622a;
+  color: #ffffff;
+}
+.dark .btn-pill-primary:hover {
+  background: #e8794a;
+}
+.btn-pill-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(36, 29, 24, 0.22);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 37px;
+  color: #241d18;
+  background: transparent;
+  text-decoration: none;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+.btn-pill-outline:hover {
+  background: rgba(36, 29, 24, 0.05);
+  transform: translateY(-1px);
+}
+.dark .btn-pill-outline {
+  color: #f5efe9;
+  border-color: rgba(245, 239, 233, 0.25);
+}
+.dark .btn-pill-outline:hover {
+  background: rgba(245, 239, 233, 0.07);
+}
+.btn-pill-lg {
+  height: 52px;
+  padding: 0 28px;
+  font-size: 15px;
+}
+
+/* Hero decorative blobs — replace the old irrelevant stock-photo
+   dashboard graphic with soft brand-colored shapes (no fabricated
+   imagery). Purely decorative, aria-hidden in the markup. */
+.hero-blob-a {
+  position: absolute;
+  top: -60px;
+  left: -80px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: rgba(217, 98, 42, 0.12);
+  filter: blur(4px);
+  pointer-events: none;
+}
+.hero-blob-b {
+  position: absolute;
+  bottom: -60px;
+  right: 60px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(58, 143, 120, 0.12);
+  filter: blur(4px);
+  pointer-events: none;
+}
+.dark .hero-blob-a {
+  background: rgba(217, 98, 42, 0.1);
+}
+.dark .hero-blob-b {
+  background: rgba(58, 143, 120, 0.1);
+}
+.hero-visual {
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #f3d9c4, #e8c3a8);
+}
+.dark .hero-visual {
+  background: linear-gradient(160deg, #3a2c22, #4a3626);
+}
+.hero-visual svg {
+  opacity: 0.55;
+}
+
+/* Warm tinted cards — thin-border-free, soft hover lift. Two tint
+   variants alternate for rhythm across a 3-up grid. */
+.card-warm {
+  border-radius: 20px;
+  padding: 26px;
+  transition: transform 0.25s ease;
+}
+.card-warm:hover {
+  transform: scale(1.02);
+}
+.card-warm h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #241d18;
+}
+.card-warm p {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #6b5f54;
+}
+.dark .card-warm h3 {
+  color: #f5efe9;
+}
+.dark .card-warm p {
+  color: #c9bfb3;
+}
+.card-warm-terracotta {
+  background: rgba(217, 98, 42, 0.08);
+}
+.card-warm-teal {
+  background: rgba(58, 143, 120, 0.09);
+}
+.dark .card-warm-terracotta {
+  background: rgba(217, 98, 42, 0.1);
+}
+.dark .card-warm-teal {
+  background: rgba(58, 143, 120, 0.1);
+}
+
+/* Registration form card. Padding is set explicitly here (not via a
+   Tailwind p-8 utility) because this main.css is a pre-compiled,
+   external Tailwind build with no live build step in this repo —
+   only utility classes already used in the original templates exist
+   in the file, so an unused one like .p-8 silently does nothing. */
+.card-form-warm {
+  background: rgba(217, 98, 42, 0.05);
+  border-radius: 20px;
+  padding: 32px;
+}
+.dark .card-form-warm {
+  background: rgba(245, 239, 233, 0.04);
+}
+@media (max-width: 640px) {
+  .card-form-warm {
+    padding: 24px;
+  }
+}
+
+/* Bottom CTA band — replaces the old off-brand blue band. */
+.cta-band-warm {
+  background: #2c2018;
+  color: #fdf3ea;
+}
+.cta-band-warm h2 {
+  color: #fdf3ea;
+}
+.dark .cta-band-warm {
+  background: #17110d;
+}
+
+/* Footer */
+.footer-warm {
+  background: #fdf3ea;
+}
+.dark .footer-warm {
+  background: rgba(245, 239, 233, 0.04);
+}
+
+/* Small text-link buttons (resend code / go back) — plain <button> reset plus
+   colors that pair correctly in dark mode, unlike an inline style="color:...". */
+.link-accent {
+  color: #d9622a;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.875rem;
+}
+.dark .link-accent {
+  color: #e8794a;
+}
+.link-muted {
+  color: #6b5f54;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.875rem;
+}
+.dark .link-muted {
+  color: #c9bfb3;
+}
+
+/* Contact form (Phase 2) — the one real field gets a visible accent
+   border + soft glow so it reads as "this is the one that works",
+   distinct from the disabled fields beside it. */
+.form-control-highlight {
+  border-width: 2px !important;
+  border-color: #d9622a !important;
+  box-shadow: 0 0 0 4px rgba(217, 98, 42, 0.12);
+}
+.dark .form-control-highlight {
+  border-color: #e8794a !important;
+  box-shadow: 0 0 0 4px rgba(232, 121, 74, 0.16);
 }
