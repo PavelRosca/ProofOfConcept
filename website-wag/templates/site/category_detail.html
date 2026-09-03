@@ -1,0 +1,30 @@
+{% extends 'site/base.html' %}
+
+{% block page_title %}{% if request.LANGUAGE_CODE == 'en' %}{{ category.label_en }}{% else %}{{ category.label_it }}{% endif %}{% endblock %}
+
+{% block content %}
+<section class="section py-16">
+  <div class="container">
+    <div class="row justify-center">
+      <div class="lg:col-8 mx-auto">
+        <div class="p-8 card-form-warm text-center">
+          <h1 class="text-2xl lg:text-3xl font-semibold">
+            {% if request.LANGUAGE_CODE == 'en' %}{{ category.label_en }}{% else %}{{ category.label_it }}{% endif %}
+            <span class="badge-coming-soon">{% if request.LANGUAGE_CODE == 'en' %}Coming soon{% else %}Prossimamente{% endif %}</span>
+          </h1>
+          <p class="mt-4 text-gray-700">
+            {% if request.LANGUAGE_CODE == 'en' %}
+              This section is under construction. Content for this category will be available soon.
+            {% else %}
+              Questa sezione è in costruzione. I contenuti di questa categoria saranno disponibili a breve.
+            {% endif %}
+          </p>
+          <a href="/" class="btn btn-pill-primary" style="display:inline-flex; margin-top:1.5rem;">
+            {% if request.LANGUAGE_CODE == 'en' %}Back to home{% else %}Torna alla home{% endif %}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,4 +1,7 @@
 {% extends 'site/base.html' %}
+{% load member_tags %}
+
+{% block page_title %}{% if request.LANGUAGE_CODE == 'en' %}Sciarrone — For families, for the future{% else %}Sciarrone — Per le famiglie, per il futuro{% endif %}{% endblock %}
 
 {% block content %}
 <section class="section banner py-16" style="position:relative; overflow:hidden;">
@@ -43,6 +46,18 @@
               La tua iscrizione è completata. Grazie per esserti unito/a a noi.
             {% endif %}
           </p>
+
+          {% if request.user|is_active_member %}
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% for category in categories %}
+            <a href="{% url 'projects:category-detail' key=category.key %}"
+               class="card-warm {% cycle 'card-warm-terracotta' 'card-warm-teal' %}"
+               style="display:block; text-decoration:none;">
+              <h3>{% if request.LANGUAGE_CODE == 'en' %}{{ category.label_en }}{% else %}{{ category.label_it }}{% endif %}</h3>
+            </a>
+            {% endfor %}
+          </div>
+          {% endif %}
         </div>
 
         {% elif pending_registration %}
@@ -112,6 +127,10 @@
           <form class="mt-6 space-y-4" method="post" action="{% url 'members:register-submit' %}">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ request.path }}">
+            <div class="hp-field" aria-hidden="true">
+              <label for="id_reg_website">Website</label>
+              <input type="text" id="id_reg_website" name="website" tabindex="-1" autocomplete="off">
+            </div>
             <div class="row">
               <div class="lg:col-6">
                 <label class="form-label" for="id_first_name">{% if request.LANGUAGE_CODE == 'en' %}First name{% else %}Nome{% endif %}</label>
@@ -173,7 +192,7 @@
         <p class="mt-4 text-gray-700">{{ cms_home.mission_text|default:"Promuovere politiche che mettano al centro la famiglia, il lavoro dignitoso e la coesione sociale. Trasparenza, responsabilità e partecipazione civica guidano ogni nostra iniziativa." }}</p>
       </div>
     </div>
-    <div class="row mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
       {% if cms_home and cms_home.value_cards.all %}
         {% for card in cms_home.value_cards.all %}
           <div class="card-warm {% cycle 'card-warm-terracotta' 'card-warm-teal' 'card-warm-terracotta' %}">

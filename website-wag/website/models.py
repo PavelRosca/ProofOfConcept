@@ -1,10 +1,13 @@
 from django.db import models
+from django.http import HttpResponseRedirect
 
 from modelcluster.fields import ParentalKey
 
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
+
+from projects.models import Category
 
 from .blocks import STANDARD_PAGE_BLOCKS
 
@@ -59,6 +62,7 @@ class HomePage(Page):
         context['registration_values'] = request.session.pop('registration_values', None)
         context['otp_errors'] = request.session.pop('otp_errors', None)
         context['registration_success'] = request.session.pop('registration_success', False)
+        context['categories'] = Category.objects.filter(is_active=True).order_by('order')
         return context
 
 
@@ -89,9 +93,21 @@ class StandardPage(Page):
         'about': 'site/about.html',
         'projects': 'site/projects.html',
         'support': 'site/support.html',
-        'join': 'site/join.html',
         'contact': 'site/contact.html',
     }
+
+    # Registration moved to the homepage's #registration section — this
+    # slug is kept alive as a redirect only, for old bookmarks/search-index
+    # links, rather than maintaining a second, duplicate registration page.
+    REDIRECT_SLUGS = {'join': '/#registration'}
+
+    def serve(self, request, *args, **kwargs):
+        target = self.REDIRECT_SLUGS.get(self.slug)
+        if target:
+            if request.LANGUAGE_CODE == 'en':
+                target = f'/en{target}'
+            return HttpResponseRedirect(target)
+        return super().serve(request, *args, **kwargs)
 
     intro = RichTextField(blank=True, features=['h2', 'h3', 'bold', 'italic', 'link'])
     body = RichTextField(blank=True)

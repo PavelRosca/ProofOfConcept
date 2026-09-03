@@ -1,16 +1,20 @@
 {% extends 'site/base.html' %}
 {% load wagtailcore_tags %}
 
+{% block page_title %}{{ cms_page.title|default:"Contatti" }}{% endblock %}
+
 {% block content %}
-<section class="section py-12">
+{% if request.LANGUAGE_CODE == 'en' %}
+  {% include 'site/partials/page_hero.html' with title=cms_page.title|default:"Contact" subtitle=cms_page.intro|richtext %}
+{% else %}
+  {% include 'site/partials/page_hero.html' with title=cms_page.title|default:"Contatti" subtitle=cms_page.intro|richtext %}
+{% endif %}
+<section class="section pt-4 pb-12">
   <div class="container">
     <div class="row">
       <div class="lg:col-8 mx-auto">
-        <h1 class="text-3xl font-semibold">{{ cms_page.title|default:"Contatti" }}</h1>
-        {% if cms_page and cms_page.intro %}
-        <div class="mt-4 text-gray-700">{{ cms_page.intro|richtext }}</div>
-        {% else %}
-        <p class="mt-4 text-gray-700" data-i18n="contact.page.intro">{% if request.LANGUAGE_CODE == 'en' %}For information, collaborations, or reports, contact us.{% else %}Per informazioni, collaborazioni o segnalazioni, contattaci.{% endif %}</p>
+        {% if not cms_page.intro %}
+        <p class="text-gray-700" data-i18n="contact.page.intro">{% if request.LANGUAGE_CODE == 'en' %}For information, collaborations, or reports, contact us.{% else %}Per informazioni, collaborazioni o segnalazioni, contattaci.{% endif %}</p>
         {% endif %}
         {% if contact_success %}
         <div class="mt-4 notice info">
@@ -30,6 +34,10 @@
         <form class="mt-6 space-y-4 max-w-xl" method="post" action="{% url 'contact-submit' %}">
           {% csrf_token %}
           <input type="hidden" name="next" value="{{ request.path }}">
+          <div class="hp-field" aria-hidden="true">
+            <label for="id_contact_website">Website</label>
+            <input type="text" id="id_contact_website" name="website" tabindex="-1" autocomplete="off">
+          </div>
           <div class="field-inactive">
             <label class="form-label" data-i18n="contact.form.name">{% if request.LANGUAGE_CODE == 'en' %}Name{% else %}Nome{% endif %}</label>
             <input class="form-control mt-1 w-full" type="text" disabled />

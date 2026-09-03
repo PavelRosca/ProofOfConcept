@@ -24,6 +24,9 @@ class RegistrationForm(forms.Form):
     address_province = forms.CharField(
         max_length=2, validators=[PROVINCE_VALIDATOR], widget=forms.TextInput(attrs=FORM_CONTROL)
     )
+    # Honeypot: real users never see/fill this (hidden off-screen in the
+    # template); a non-empty value means a bot filled every input it found.
+    website = forms.CharField(required=False, widget=forms.HiddenInput)
 
     def clean_email(self):
         # Deliberately does NOT check whether the email is already registered here —

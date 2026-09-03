@@ -1,17 +1,18 @@
+{% extends 'site/base.html' %}
 {% load wagtailcore_tags %}
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ page.title }}</title>
-  <link rel="stylesheet" href="/static/styles/main.css" />
-</head>
-<body>
-  <main class="container py-12">
-    <h1 class="text-3xl font-semibold">{{ page.title }}</h1>
-    <div class="mt-4">{{ page.intro|richtext }}</div>
-    <section class="mt-8">{{ page.body|richtext }}</section>
-  </main>
-</body>
-</html>
+
+{% block page_title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+{% include 'site/partials/page_hero.html' with title=page.title subtitle=page.intro|richtext %}
+<section class="section pt-4 pb-12">
+  <div class="container">
+    <div class="lg:col-8 mx-auto">{{ page.body|richtext }}</div>
+    {% if page.content_blocks %}
+    <div class="mt-10 space-y-8">
+      {% include 'website/partials/content_blocks.html' with content_blocks=page.content_blocks %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

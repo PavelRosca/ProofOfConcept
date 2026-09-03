@@ -1,27 +1,20 @@
 ﻿<!DOCTYPE html>
-<html lang="zxx">
+<html lang="{% if request.LANGUAGE_CODE == 'en' %}en{% else %}it{% endif %}">
 <head>
   {% include 'site/partials/favicon.html' %}
-  <meta name="theme-name" content="Pinwheel" />
-  <meta name="msapplication-TileColor" content="#000000" />
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
-  <meta name="generator" content="gulp" />
+  <meta name="msapplication-TileColor" content="#d9622a" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fffaf5" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#211a15" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
   <base href="/" />
-  <title>{% block page_title %}Demo-Py{% endblock %}</title>
-  <meta name="robots" content="" />
-  <meta name="description" content="meta description" />
-  <meta name="author" content="{config.metadata.meta_author}" />
-  <meta property="og:title" content="" />
-  <meta property="og:description" content="" />
+  <title>{% block page_title %}{% if request.LANGUAGE_CODE == 'en' %}Sciarrone{% else %}Sciarrone{% endif %}{% endblock %}</title>
+  <meta name="robots" content="index, follow" />
+  <meta name="description" content="{% if request.LANGUAGE_CODE == 'en' %}A civic movement for families, dignified work, and citizen participation.{% else %}Un movimento civico per la famiglia, il lavoro dignitoso e la partecipazione civica.{% endif %}" />
+  <meta property="og:title" content="{% block og_title %}Sciarrone{% endblock %}" />
+  <meta property="og:description" content="{% if request.LANGUAGE_CODE == 'en' %}A civic movement for families, dignified work, and citizen participation.{% else %}Un movimento civico per la famiglia, il lavoro dignitoso e la partecipazione civica.{% endif %}" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="/" />
-  <meta name="twitter:title" content="" />
-  <meta name="twitter:description" content="" />
-  <meta property="og:image" content="" />
-  <meta name="twitter:image" content="" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <script>
@@ -81,6 +74,12 @@
       <li class="nav-item lg:hidden">
         <button id="theme-toggle-mobile" class="nav-link w-full text-left" type="button">ðŸŒ™ Night mode</button>
       </li>
+      <li class="nav-item lg:hidden">
+        <div class="nav-link w-full text-left flex items-center space-x-2">
+          <button id="lang-it-mobile" data-lang="it" class="header-lang">IT</button>
+          <button id="lang-en-mobile" data-lang="en" class="header-lang">EN</button>
+        </div>
+      </li>
       <li class="nav-item mt-3.5 lg:hidden">
         <a class="btn-pill-primary" href="{% if request.LANGUAGE_CODE == 'en' %}/en/#registration{% else %}/#registration{% endif %}" data-i18n="nav.signup">{% if request.LANGUAGE_CODE == 'en' %}Sign up{% else %}Iscriviti{% endif %}</a>
       </li>
@@ -88,8 +87,8 @@
     <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex space-x-3">
       <button id="theme-toggle" class="header-action" type="button">ðŸŒ™ Night mode</button>
       <div class="flex items-center space-x-2">
-        <button id="lang-it" class="header-lang">IT</button>
-        <button id="lang-en" class="header-lang">EN</button>
+        <button id="lang-it" data-lang="it" class="header-lang">IT</button>
+        <button id="lang-en" data-lang="en" class="header-lang">EN</button>
       </div>
       <a class="btn-pill-primary" href="{% if request.LANGUAGE_CODE == 'en' %}/en/#registration{% else %}/#registration{% endif %}" data-i18n="nav.signup">{% if request.LANGUAGE_CODE == 'en' %}Sign up{% else %}Iscriviti{% endif %}</a>
     </div>
@@ -105,7 +104,7 @@
         <a href="/">
           <img class="max-h-12 w-auto" src="/static/images/Logo-IT.svg" alt="" />
         </a>
-        <p class="mt-6" data-i18n="footer.about">Siamo un movimento dedicato al sostegno delle famiglie e alla partecipazione civica. Trasparenza, solidarietÃ , responsabilitÃ .</p>
+        <p class="mt-6" data-i18n="footer.about">{% if request.LANGUAGE_CODE == 'en' %}We are a movement dedicated to supporting families and civic participation. Transparency, solidarity, responsibility.{% else %}Siamo un movimento dedicato al sostegno delle famiglie e alla partecipazione civica. Trasparenza, solidarietà, responsabilità.{% endif %}</p>
       </div>
       <div class="col-12 mt-12 md:col-6 lg:col-3">
         <h6 data-i18n="footer.socials">Social</h6>
@@ -130,7 +129,7 @@
   </div>
   <div class="container max-w-[1440px]">
     <div class="footer-copyright mx-auto border-t border-border pb-10 pt-7 text-center">
-      <p>Designed And Developed by <a href="https://themefisher.com" target="_blank">Themefisher</a></p>
+      <p>&copy; {% now "Y" %} Sciarrone</p>
     </div>
   </div>
 </footer>

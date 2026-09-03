@@ -1,0 +1,13 @@
+{% comment %}
+Shared page hero for about/projects/support/contact (and the generic
+StandardPage fallback). Usage: {% include 'site/partials/page_hero.html' with title=... subtitle=... %}
+subtitle is optional.
+{% endcomment %}
+<section class="page-hero-warm section pt-12 pb-4">
+  <div class="container">
+    <h1 class="text-3xl lg:text-4xl font-semibold">{{ title }}</h1>
+    {% if subtitle %}
+    <p class="mt-4 text-gray-700 max-w-2xl">{{ subtitle }}</p>
+    {% endif %}
+  </div>
+</section>

@@ -29,17 +29,9 @@
     localStorage.setItem("site_lang", lang);
     document.cookie = `django_language=${lang}; path=/; max-age=31536000; SameSite=Lax`;
 
-    const itButton = document.getElementById("lang-it");
-    const enButton = document.getElementById("lang-en");
-    if (itButton && enButton) {
-      if (lang === "it") {
-        itButton.classList.add("font-semibold");
-        enButton.classList.remove("font-semibold");
-      } else {
-        enButton.classList.add("font-semibold");
-        itButton.classList.remove("font-semibold");
-      }
-    }
+    document.querySelectorAll("[data-lang]").forEach(function (btn) {
+      btn.classList.toggle("font-semibold", btn.dataset.lang === lang);
+    });
   }
 
   function applyTranslations(lang) {
@@ -59,11 +51,11 @@
 
     // Event delegation — survives DOM re-renders
     document.addEventListener("click", function (e) {
-      const btn = e.target.closest("#lang-it, #lang-en");
+      const btn = e.target.closest("[data-lang]");
       if (!btn) return;
 
       e.preventDefault();
-      const targetLang = btn.id === "lang-it" ? "it" : "en";
+      const targetLang = btn.dataset.lang === "en" ? "en" : "it";
       setLanguageState(targetLang);
 
       const nextPath = buildLocalizedPath(targetLang, window.location.pathname);

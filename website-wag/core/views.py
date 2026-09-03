@@ -174,6 +174,13 @@ def contact_submit(request):
         request.session['contact_errors'] = {field: list(msgs) for field, msgs in form.errors.items()}
         return _redirect_next(request)
 
+    if form.cleaned_data.get('website'):
+        # Honeypot tripped — behave exactly like a real submission (same
+        # success flash, no error) so a bot can't tell it was dropped, but
+        # skip creating a ContactLead or notifying ADMINS.
+        request.session['contact_success'] = True
+        return _redirect_next(request)
+
     email = form.cleaned_data['email']
     ContactLead.objects.create(email=email, ip_address=request.META.get('REMOTE_ADDR'))
 

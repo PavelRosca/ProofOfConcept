@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/', include('core.urls')),
     path('contact/submit/', contact_submit, name='contact-submit'),
     path('members/', include('members.urls')),
+    path('categories/', include('projects.urls')),
     path('api/auth/', include('rest_framework.urls')),
     path('accounts/', include('allauth.urls')),
 ]

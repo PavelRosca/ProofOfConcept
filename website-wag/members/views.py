@@ -79,6 +79,12 @@ def register_submit(request):
         request.session['registration_values'] = request.POST.dict()
         return _redirect_next(request)
 
+    if form.cleaned_data.get('website'):
+        # Honeypot tripped — behave exactly like a real submission (same
+        # redirect, no error) so a bot can't tell it was dropped, but skip
+        # creating any RegistrationOTP or sending any email.
+        return _redirect_next(request)
+
     data = form.cleaned_data
     email = data['email']
     now = timezone.now()
