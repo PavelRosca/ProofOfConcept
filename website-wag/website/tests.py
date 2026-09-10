@@ -1,11 +1,9 @@
 from django.contrib.auth.models import User
-from django.test import RequestFactory, TestCase
+from django.test import TestCase
 from django.urls import reverse
 
 from core.models import Member
 from projects.models import Category
-
-from website.models import StandardPage
 
 
 class HomepageCategoryGridTests(TestCase):
@@ -42,23 +40,3 @@ class HomepageCategoryGridTests(TestCase):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'Agricoltura')
-
-
-class JoinRedirectTests(TestCase):
-    """Registration moved to the homepage — /join/ is kept alive only as a
-    redirect for old bookmarks/search-index links, not a real page."""
-
-    def _serve(self, language_code):
-        request = RequestFactory().get('/join/')
-        request.LANGUAGE_CODE = language_code
-        return StandardPage(slug='join').serve(request)
-
-    def test_join_redirects_to_registration_it(self):
-        response = self._serve('it')
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, '/#registration')
-
-    def test_join_redirects_to_registration_en(self):
-        response = self._serve('en')
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, '/en/#registration')

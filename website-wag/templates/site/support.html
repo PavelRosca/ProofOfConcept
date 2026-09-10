@@ -34,7 +34,7 @@
       <div class="card-warm card-warm-terracotta text-center flex flex-col">
         <h3 data-i18n="support.card3.title">{% if request.LANGUAGE_CODE == 'en' %}Volunteering{% else %}Volontariato{% endif %}</h3>
         <p data-i18n="support.card3.text">{% if request.LANGUAGE_CODE == 'en' %}Take part in local initiatives as a volunteer.{% else %}Partecipa alle iniziative locali come volontario.{% endif %}</p>
-        <a href="{% if request.LANGUAGE_CODE == 'en' %}/en/#registration{% else %}/#registration{% endif %}" class="btn btn-pill-outline mt-4 mt-auto" data-i18n="cta.join">{% if request.LANGUAGE_CODE == 'en' %}Join{% else %}Iscriviti{% endif %}</a>
+        <a href="{% url 'join-page' %}" class="btn btn-pill-outline mt-4 mt-auto" data-i18n="cta.join">{% if request.LANGUAGE_CODE == 'en' %}Join{% else %}Iscriviti{% endif %}</a>
       </div>
     </div>
 

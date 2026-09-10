@@ -220,6 +220,17 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+# Members never authenticate through Django's stock login views — actual
+# login lives on the dedicated /login/ page (members.pages.login_page +
+# members.login_views, a passwordless OTP flow, same as registration).
+# These three are set only as a documented fallback/no-op for any future
+# code that uses Django's stock @login_required/LoginRequiredMixin — the
+# app's own views always redirect via members.views._redirect_next or
+# members.access.active_member_required instead of consulting these settings.
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

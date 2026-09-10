@@ -163,12 +163,19 @@ def _redirect_next(request):
     return redirect(next_url)
 
 
+CONTACT_RATE_LIMIT_ERROR = 'Troppe richieste. Riprova tra qualche minuto.'
+
+
 @require_http_methods(['POST'])
-@ratelimit(key='ip', rate='10/h', method='POST', block=True)
+@ratelimit(key='ip', rate='10/h', method='POST', block=False)
 def contact_submit(request):
     """Phase 2: only the contact form's email field is real — validates, stores a
     ContactLead, and notifies ADMINS. Name/message stay decorative (disabled) in
     the template, so they're never present in request.POST."""
+    if getattr(request, 'limited', False):
+        request.session['contact_errors'] = {'__all__': [CONTACT_RATE_LIMIT_ERROR]}
+        return _redirect_next(request)
+
     form = ContactLeadForm(request.POST)
     if not form.is_valid():
         request.session['contact_errors'] = {field: list(msgs) for field, msgs in form.errors.items()}

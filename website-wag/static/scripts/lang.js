@@ -4,11 +4,23 @@
 
   const DEFAULT_LANG = "it";
   const SUPPORTED_LANGS = ["it", "en"];
+  // Routes NOT wrapped in Django's i18n_patterns (see config/urls.py) — these
+  // never take an /en/ prefix and already render in whatever language the
+  // django_language cookie says, so switching language here must reload the
+  // same path rather than rewrite it (rewriting produces a 404, since no
+  // translated equivalent of e.g. /members/login/ or /categories/x/ exists).
+  const NON_I18N_PREFIXES = ["members", "categories", "api", "admin", "cms", "documents", "pages", "api-status"];
 
   function getLangFromPath(pathname) {
     const segments = pathname.split("/").filter(Boolean);
     const maybeLang = segments.length ? segments[0] : "";
     return SUPPORTED_LANGS.includes(maybeLang) ? maybeLang : DEFAULT_LANG;
+  }
+
+  function isNonI18nPath(pathname) {
+    const segments = pathname.split("/").filter(Boolean);
+    const first = segments.length && SUPPORTED_LANGS.includes(segments[0]) ? segments[1] : segments[0];
+    return NON_I18N_PREFIXES.includes(first);
   }
 
   function buildLocalizedPath(targetLang, pathname) {
@@ -57,6 +69,14 @@
       e.preventDefault();
       const targetLang = btn.dataset.lang === "en" ? "en" : "it";
       setLanguageState(targetLang);
+
+      if (isNonI18nPath(window.location.pathname)) {
+        // No translated equivalent exists for this route — the cookie just
+        // set above is enough for LocaleMiddleware to re-render this same
+        // URL in the new language, so reload instead of rewriting the path.
+        window.location.reload();
+        return;
+      }
 
       const nextPath = buildLocalizedPath(targetLang, window.location.pathname);
       const nextUrl = `${nextPath}${window.location.search}${window.location.hash}`;

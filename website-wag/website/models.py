@@ -57,11 +57,9 @@ class HomePage(Page):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context['cms_home'] = self
-        context['pending_registration'] = bool(request.session.get('pending_registration_id'))
-        context['registration_errors'] = request.session.pop('registration_errors', None)
-        context['registration_values'] = request.session.pop('registration_values', None)
-        context['otp_errors'] = request.session.pop('otp_errors', None)
-        context['registration_success'] = request.session.pop('registration_success', False)
+        # Login/registration moved to their own pages (members.pages.login_page/
+        # join_page) — this only needs what the authenticated "Welcome back" +
+        # category-grid card still shown here actually uses.
         context['categories'] = Category.objects.filter(is_active=True).order_by('order')
         return context
 
@@ -96,10 +94,14 @@ class StandardPage(Page):
         'contact': 'site/contact.html',
     }
 
-    # Registration moved to the homepage's #registration section — this
-    # slug is kept alive as a redirect only, for old bookmarks/search-index
-    # links, rather than maintaining a second, duplicate registration page.
-    REDIRECT_SLUGS = {'join': '/#registration'}
+    # Legacy Wagtail-page slugs that should redirect elsewhere instead of
+    # rendering their own content (e.g. old bookmarks/search-index links).
+    # 'join'/'accedi' used to redirect here to the homepage's registration/
+    # login anchors; both are now real pages (/join/, /login/, see
+    # config/urls.py) mounted ahead of Wagtail's catch-all, so those two
+    # slugs are permanently unreachable regardless of this dict — left empty
+    # as reusable infrastructure for the next legacy-slug redirect.
+    REDIRECT_SLUGS = {}
 
     def serve(self, request, *args, **kwargs):
         target = self.REDIRECT_SLUGS.get(self.slug)

@@ -17,6 +17,7 @@ from .models import MAX_OTP_ATTEMPTS, MAX_RESENDS, OTP_TTL, RESEND_COOLDOWN, Reg
 
 GENERIC_OTP_ERROR = 'Codice non valido o scaduto.'
 SEND_FAILURE_ERROR = 'Non è stato possibile inviare il codice. Riprova tra qualche minuto.'
+RATE_LIMIT_ERROR = 'Troppe richieste. Riprova tra qualche minuto.'
 
 
 def _client_ip(request):
@@ -37,6 +38,19 @@ def _redirect_next(request):
 def _form_errors(form):
     """Plain dict[str, list[str]] — session-JSON-safe (form.errors values are ErrorList, not list)."""
     return {field: list(msgs) for field, msgs in form.errors.items()}
+
+
+def _safe_next_param(request):
+    """Validates a GET '?next=' the same way _redirect_next validates POST's
+    'next' — used by the login/join page views to accept a gated-redirect
+    target (see members.access.active_member_required) without risking an
+    open redirect via a forged query string."""
+    next_param = request.GET.get('next')
+    if next_param and url_has_allowed_host_and_scheme(
+        next_param, allowed_hosts={request.get_host()}, require_https=request.is_secure()
+    ):
+        return next_param
+    return None
 
 
 def _send_otp_email(otp_obj, code):
@@ -70,9 +84,13 @@ def pending_registration_key(group, request):
 
 
 @require_http_methods(['POST'])
-@ratelimit(key='ip', rate='5/h', method='POST', block=True)
+@ratelimit(key='ip', rate='5/h', method='POST', block=False)
 def register_submit(request):
     """Step 1: validate personal info, issue (or resend) a hashed OTP by email."""
+    if getattr(request, 'limited', False):
+        request.session['registration_errors'] = {'__all__': [RATE_LIMIT_ERROR]}
+        return _redirect_next(request)
+
     form = RegistrationForm(request.POST)
     if not form.is_valid():
         request.session['registration_errors'] = _form_errors(form)
@@ -173,9 +191,13 @@ def cancel_registration(request):
 
 
 @require_http_methods(['POST'])
-@ratelimit(key='ip', rate='3/h', method='POST', block=True)
+@ratelimit(key='ip', rate='3/h', method='POST', block=False)
 def resend_otp(request):
     """Reissue a fresh OTP against the already-pending, session-bound registration."""
+    if getattr(request, 'limited', False):
+        request.session['otp_errors'] = [RATE_LIMIT_ERROR]
+        return _redirect_next(request)
+
     otp_id = request.session.get('pending_registration_id')
     if not otp_id:
         return _redirect_next(request)
@@ -212,10 +234,14 @@ def resend_otp(request):
 
 
 @require_http_methods(['POST'])
-@ratelimit(key='ip', rate='15/h', method='POST', block=True)
-@ratelimit(key=pending_registration_key, rate='8/10m', method='POST', block=True)
+@ratelimit(key='ip', rate='15/h', method='POST', block=False)
+@ratelimit(key=pending_registration_key, rate='8/10m', method='POST', block=False)
 def verify_otp(request):
     """Step 2: check the submitted code; on success, create User+Member and log in."""
+    if getattr(request, 'limited', False):
+        request.session['otp_errors'] = [RATE_LIMIT_ERROR]
+        return _redirect_next(request)
+
     otp_id = request.session.get('pending_registration_id')
     if not otp_id:
         return _redirect_next(request)

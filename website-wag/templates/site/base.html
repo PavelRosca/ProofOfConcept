@@ -66,7 +66,7 @@
         <a href="/support/" class="nav-link{% if request.path == '/support/' %} active{% endif %}" data-i18n="nav.support">{% if request.LANGUAGE_CODE == 'en' %}Support Us{% else %}Sostienici{% endif %}</a>
       </li>
       <li class="nav-item">
-        <a href="{% if request.LANGUAGE_CODE == 'en' %}/en/#registration{% else %}/#registration{% endif %}" class="nav-link" data-i18n="nav.join">{% if request.LANGUAGE_CODE == 'en' %}Join{% else %}Iscriviti{% endif %}</a>
+        <a href="{% url 'join-page' %}" class="nav-link" data-i18n="nav.join">{% if request.LANGUAGE_CODE == 'en' %}Join{% else %}Iscriviti{% endif %}</a>
       </li>
       <li class="nav-item">
         <a href="/contact/" class="nav-link{% if request.path == '/contact/' %} active{% endif %}" data-i18n="nav.contact">{% if request.LANGUAGE_CODE == 'en' %}Contact{% else %}Contatti{% endif %}</a>
@@ -80,9 +80,25 @@
           <button id="lang-en-mobile" data-lang="en" class="header-lang">EN</button>
         </div>
       </li>
-      <li class="nav-item mt-3.5 lg:hidden">
-        <a class="btn-pill-primary" href="{% if request.LANGUAGE_CODE == 'en' %}/en/#registration{% else %}/#registration{% endif %}" data-i18n="nav.signup">{% if request.LANGUAGE_CODE == 'en' %}Sign up{% else %}Iscriviti{% endif %}</a>
+      {% if not request.user.is_authenticated %}
+      <li class="nav-item lg:hidden">
+        <a class="nav-link" href="{% url 'login-page' %}" data-i18n="nav.login">{% if request.LANGUAGE_CODE == 'en' %}Log in{% else %}Accedi{% endif %}</a>
       </li>
+      <li class="nav-item mt-3.5 lg:hidden">
+        <a class="btn-pill-primary" href="{% url 'join-page' %}" data-i18n="nav.signup">{% if request.LANGUAGE_CODE == 'en' %}Sign up{% else %}Iscriviti{% endif %}</a>
+      </li>
+      {% else %}
+      <li class="nav-item lg:hidden">
+        <span class="nav-link w-full text-left">{% if request.LANGUAGE_CODE == 'en' %}Hi, {{ request.user.first_name }}{% else %}Ciao, {{ request.user.first_name }}{% endif %}</span>
+      </li>
+      <li class="nav-item mt-3.5 lg:hidden">
+        <form method="post" action="{% url 'members:logout' %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <button type="submit" class="btn-pill-primary" style="width:100%;">{% if request.LANGUAGE_CODE == 'en' %}Log out{% else %}Esci{% endif %}</button>
+        </form>
+      </li>
+      {% endif %}
     </ul>
     <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex space-x-3">
       <button id="theme-toggle" class="header-action" type="button">ðŸŒ™ Night mode</button>
@@ -90,7 +106,17 @@
         <button id="lang-it" data-lang="it" class="header-lang">IT</button>
         <button id="lang-en" data-lang="en" class="header-lang">EN</button>
       </div>
-      <a class="btn-pill-primary" href="{% if request.LANGUAGE_CODE == 'en' %}/en/#registration{% else %}/#registration{% endif %}" data-i18n="nav.signup">{% if request.LANGUAGE_CODE == 'en' %}Sign up{% else %}Iscriviti{% endif %}</a>
+      {% if not request.user.is_authenticated %}
+      <a class="nav-link" href="{% url 'login-page' %}" data-i18n="nav.login">{% if request.LANGUAGE_CODE == 'en' %}Log in{% else %}Accedi{% endif %}</a>
+      <a class="btn-pill-primary" href="{% url 'join-page' %}" data-i18n="nav.signup">{% if request.LANGUAGE_CODE == 'en' %}Sign up{% else %}Iscriviti{% endif %}</a>
+      {% else %}
+      <span class="header-action">{% if request.LANGUAGE_CODE == 'en' %}Hi, {{ request.user.first_name }}{% else %}Ciao, {{ request.user.first_name }}{% endif %}</span>
+      <form method="post" action="{% url 'members:logout' %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <button type="submit" class="btn-pill-primary">{% if request.LANGUAGE_CODE == 'en' %}Log out{% else %}Esci{% endif %}</button>
+      </form>
+      {% endif %}
     </div>
   </nav>
 </header>
@@ -116,7 +142,7 @@
           <li><a href="/" data-i18n="nav.home">Home</a></li>
           <li><a href="/projects/" data-i18n="nav.projects">Progetti</a></li>
           <li><a href="/support/" data-i18n="nav.support">Sostienici</a></li>
-          <li><a href="{% if request.LANGUAGE_CODE == 'en' %}/en/#registration{% else %}/#registration{% endif %}" data-i18n="nav.join">Iscriviti</a></li>
+          <li><a href="{% url 'join-page' %}" data-i18n="nav.join">Iscriviti</a></li>
           <li><a href="/contact/" data-i18n="nav.contact">Contatti</a></li>
         </ul>
       </div>

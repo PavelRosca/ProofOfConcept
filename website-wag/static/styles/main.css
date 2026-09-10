@@ -936,7 +936,14 @@ input:where([type='file']):focus {
   background-color: rgb(255 195 146 / var(--tw-bg-opacity, 1));
 }
 .notice.info .notice-body {
-  background-color: rgb(240 179 126 / 0.25);
+  background-color: rgba(217, 98, 42, 0.08);
+  border-left: 3px solid rgba(217, 98, 42, 0.35);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+.dark .notice.info .notice-body {
+  background-color: rgba(245, 239, 233, 0.06);
+  border-left: 3px solid rgba(232, 121, 74, 0.35);
 }
 .tab-nav {
     list-style: none;
@@ -5763,13 +5770,14 @@ label {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
-  padding: 0 22px;
+  min-height: 40px;
+  padding: 8px 22px;
   border-radius: 999px;
   border: none;
   font-size: 14px;
   font-weight: 600;
-  line-height: 40px;
+  line-height: 1.3;
+  text-align: center;
   color: #ffffff;
   background: #d9622a;
   text-decoration: none;
@@ -5790,13 +5798,14 @@ label {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
-  padding: 0 22px;
+  min-height: 40px;
+  padding: 8px 22px;
   border-radius: 999px;
   border: 1.5px solid rgba(36, 29, 24, 0.22);
   font-size: 14px;
   font-weight: 600;
-  line-height: 37px;
+  line-height: 1.3;
+  text-align: center;
   color: #241d18;
   background: transparent;
   text-decoration: none;
@@ -5814,8 +5823,8 @@ label {
   background: rgba(245, 239, 233, 0.07);
 }
 .btn-pill-lg {
-  height: 52px;
-  padding: 0 28px;
+  min-height: 52px;
+  padding: 10px 28px;
   font-size: 15px;
 }
 
@@ -6012,4 +6021,57 @@ label {
 .dark .form-control-highlight {
   border-color: #e8794a !important;
   box-shadow: 0 0 0 4px rgba(232, 121, 74, 0.16);
+}
+
+/* Dialog-look pages (login/join, base_dialog.html) — a focused, minimal-chrome
+   page styled to read as a pop-up/dialog rather than a full site page, per
+   the 2026-09-10 UX pass. No JS/overlay — just a plain page with a muted
+   background and a centered card. */
+.dialog-page {
+  min-height: 100vh;
+  background: #f3ece3;
+  display: flex;
+  flex-direction: column;
+}
+.dark .dialog-page {
+  background: #17110d;
+}
+.dialog-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  row-gap: 10px;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(217, 98, 42, 0.12);
+}
+.dark .dialog-topbar {
+  border-bottom-color: rgba(245, 239, 233, 0.08);
+}
+.dialog-close {
+  font-size: 1.75rem;
+  line-height: 1;
+  color: #6b5f54;
+  text-decoration: none;
+  padding: 0 4px;
+}
+.dialog-close:hover {
+  color: #d9622a;
+}
+.dark .dialog-close {
+  color: #c9bfb3;
+}
+.dark .dialog-close:hover {
+  color: #e8794a;
+}
+.dialog-backdrop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 48px 20px;
+}
+.dialog-backdrop > * {
+  width: 100%;
+  max-width: 32rem;
 }

@@ -1,9 +1,10 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from .models import ContactLead
 
 
+@override_settings(RATELIMIT_ENABLE=False)
 class ContactSubmitHoneypotTests(TestCase):
     def test_honeypot_filled_creates_no_lead(self):
         response = self.client.post(reverse('contact-submit'), {

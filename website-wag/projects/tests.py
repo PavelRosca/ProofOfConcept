@@ -24,9 +24,13 @@ class CategoryDetailViewTests(TestCase):
         Member.objects.create(user=user, status=status)
         return user
 
-    def test_anonymous_redirected_to_home(self):
-        response = self.client.get(reverse('projects:category-detail', kwargs={'key': 'agricoltura'}))
-        self.assertRedirects(response, '/', fetch_redirect_response=False)
+    def test_anonymous_redirected_to_login(self):
+        # Not authenticated at all: bounced to the homepage's #login section,
+        # preserving `next` so they land back here after logging in (unlike a
+        # suspended/inactive member, who logging in again wouldn't help).
+        url = reverse('projects:category-detail', kwargs={'key': 'agricoltura'})
+        response = self.client.get(url)
+        self.assertRedirects(response, f'/login/?next={url}', fetch_redirect_response=False)
 
     def test_suspended_member_redirected_to_home(self):
         user = self._make_member('sospeso@example.com', status='sospeso')

@@ -39,6 +39,19 @@ class RegistrationForm(forms.Form):
         return self.cleaned_data['address_province'].strip().upper()
 
 
+class LoginRequestForm(forms.Form):
+    # Capped at 150 to match the email->username lookup used in login_verify().
+    email = forms.EmailField(max_length=150, widget=forms.EmailInput(attrs=FORM_CONTROL))
+    # Honeypot — same convention as RegistrationForm.website.
+    website = forms.CharField(required=False, widget=forms.HiddenInput)
+
+    def clean_email(self):
+        # Deliberately does NOT reveal whether this email has an account — the
+        # inverse of RegistrationForm.clean_email's rationale. Handled
+        # indistinguishably in login_views.login_request().
+        return self.cleaned_data['email'].strip().lower()
+
+
 class OTPVerifyForm(forms.Form):
     code = forms.CharField(
         min_length=6,

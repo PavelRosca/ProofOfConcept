@@ -14,6 +14,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail import urls as wagtail_urls
 from core.views import contact_submit
+from members import pages as member_pages
 from .views import api_status, cms_page, legacy_html_page_redirect
 
 urlpatterns = [
@@ -29,10 +30,25 @@ urlpatterns = [
     path('members/', include('members.urls')),
     path('categories/', include('projects.urls')),
     path('api/auth/', include('rest_framework.urls')),
-    path('accounts/', include('allauth.urls')),
+    # allauth remains in INSTALLED_APPS/AUTHENTICATION_BACKENDS (SITE_ID etc.
+    # depend on it), but its URLs are deliberately NOT mounted: it was wired
+    # here unconfigured (no ACCOUNT_* settings, stock unstyled templates,
+    # no rate limiting, no i18n) and its username+password login can never
+    # succeed for a member anyway (members.views.verify_otp gives every
+    # account an unusable password by design). Leaving it live was a real,
+    # unaudited second authentication surface — see members.login_views for
+    # the site's actual (OTP-based) login.
 ]
 
 urlpatterns += i18n_patterns(
+    # Mounted here (not in the flat urlpatterns list above) so /en/login/ and
+    # /en/join/ work correctly "for free" via Django's own i18n_patterns
+    # machinery, instead of needing bespoke language-prefix handling like the
+    # rest of the flat routes (members/, categories/, etc.) — see lang.js's
+    # NON_I18N_PREFIXES for why those still need special handling and these
+    # two deliberately don't.
+    path('login/', member_pages.login_page, name='login-page'),
+    path('join/', member_pages.join_page, name='join-page'),
     path('', include(wagtail_urls)),
     prefix_default_language=False,
 )

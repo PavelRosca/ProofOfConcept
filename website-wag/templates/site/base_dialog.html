@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="{% if request.LANGUAGE_CODE == 'en' %}en{% else %}it{% endif %}">
+<head>
+  {% include 'site/partials/favicon.html' %}
+  <meta name="msapplication-TileColor" content="#d9622a" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fffaf5" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#211a15" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+  <base href="/" />
+  <title>{% block page_title %}Sciarrone{% endblock %}</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="/static/plugins/font-awesome/v6/brands.css" />
+  <link rel="stylesheet" href="/static/plugins/font-awesome/v6/solid.css" />
+  <link rel="stylesheet" href="/static/plugins/font-awesome/v6/fontawesome.css" />
+  <link href="/static/styles/main.css" rel="stylesheet" />
+</head>
+<body class="dialog-page">
+<div class="dialog-topbar">
+  <a href="/" class="shrink-0">
+    <img class="block h-10 w-auto" src="/static/images/Logo-IT.svg" alt="logo" />
+  </a>
+  <div class="flex flex-wrap items-center space-x-3" style="row-gap: 8px;">
+    <button id="theme-toggle" class="header-action" type="button">🌙 Night mode</button>
+    <div class="flex items-center space-x-2">
+      <button id="lang-it" data-lang="it" class="header-lang">IT</button>
+      <button id="lang-en" data-lang="en" class="header-lang">EN</button>
+    </div>
+    <a class="dialog-close" href="/" aria-label="{% if request.LANGUAGE_CODE == 'en' %}Close{% else %}Chiudi{% endif %}">&times;</a>
+  </div>
+</div>
+
+<div class="dialog-backdrop">
+  {% block content %}{% endblock %}
+</div>
+
+<script src="/static/scripts/lang.js"></script>
+<script src="/static/scripts/main.js"></script>
+</body>
+</html>

@@ -42,3 +42,27 @@ class RegistrationOTP(models.Model):
 
     def __str__(self):
         return f"{self.email} ({'verified' if self.verified_at else 'pending'})"
+
+
+class LoginOTP(models.Model):
+    """Pending, unverified login attempt for a returning member. Unlike
+    RegistrationOTP, carries no personal info — it only proves the requester
+    controls the mailbox of an existing account, so django.contrib.auth.login()
+    can be called for the matching User on successful verification."""
+
+    email = models.EmailField(db_index=True)
+
+    otp_hash = models.CharField(max_length=128)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    last_sent_at = models.DateTimeField()
+    attempts = models.PositiveSmallIntegerField(default=0)
+    resend_count = models.PositiveSmallIntegerField(default=0)
+    verified_at = models.DateTimeField(null=True, blank=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.email} ({'verified' if self.verified_at else 'pending'})"

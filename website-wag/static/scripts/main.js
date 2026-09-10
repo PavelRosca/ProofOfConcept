@@ -42,42 +42,48 @@
 
   //sticky header
   const header = document.querySelector(".header");
-  window.addEventListener("scroll", () => {
-    const scrollY = window.scrollY;
-    if (scrollY > 0) {
-      header.classList.add("header-sticky");
-    } else {
-      header.classList.remove("header-sticky");
-    }
-  });
+  if (header) {
+    window.addEventListener("scroll", () => {
+      const scrollY = window.scrollY;
+      if (scrollY > 0) {
+        header.classList.add("header-sticky");
+      } else {
+        header.classList.remove("header-sticky");
+      }
+    });
+  }
 
-  //reviews-carousel
-  new Swiper(".reviews-carousel", {
-    loop: true,
-    spaceBetween: 20,
-    pagination: {
-      el: ".reviews-carousel-pagination",
-      clickable: true,
-    },
-    breakpoints: {
-      768: {
-        slidesPerView: 2,
+  // Swiper isn't loaded on every page (e.g. the login/join dialog pages skip
+  // it entirely) — guard both instantiations so main.js doesn't throw there.
+  if (typeof Swiper !== "undefined") {
+    //reviews-carousel
+    new Swiper(".reviews-carousel", {
+      loop: true,
+      spaceBetween: 20,
+      pagination: {
+        el: ".reviews-carousel-pagination",
+        clickable: true,
       },
-      992: {
-        slidesPerView: 3,
+      breakpoints: {
+        768: {
+          slidesPerView: 2,
+        },
+        992: {
+          slidesPerView: 3,
+        },
       },
-    },
-  });
+    });
 
-  //auth-banner-carousel
-  new Swiper(".auth-banner-carousel", {
-    slidesPerView: 1,
-    pagination: {
-      el: ".auth-banner-carousel .pagination",
-      type: "bullets",
-      clickable: true,
-    },
-  });
+    //auth-banner-carousel
+    new Swiper(".auth-banner-carousel", {
+      slidesPerView: 1,
+      pagination: {
+        el: ".auth-banner-carousel .pagination",
+        type: "bullets",
+        clickable: true,
+      },
+    });
+  }
 
   // for tab component
   // Get all the tab groups on the page
