@@ -35,23 +35,34 @@
     });
   }
 
+  // Mobile nav menu: make the back button close the menu instead of leaving the site
+  const navToggle = document.getElementById("nav-toggle");
+  if (navToggle) {
+    const MENU_STATE_KEY = "mobileMenuOpen";
+    const isMobileNav = () => window.matchMedia("(max-width: 1023.98px)").matches;
+
+    navToggle.addEventListener("change", () => {
+      if (!isMobileNav()) {
+        return;
+      }
+      if (navToggle.checked) {
+        history.pushState({ [MENU_STATE_KEY]: true }, "");
+      } else if (history.state && history.state[MENU_STATE_KEY]) {
+        history.back();
+      }
+    });
+
+    window.addEventListener("popstate", () => {
+      if (navToggle.checked) {
+        navToggle.checked = false;
+      }
+    });
+  }
+
   // Preloader js
   // window.addEventListener("load", (e) => {
   //   document.querySelector(".preloader").style.display = "none";
   // });
-
-  //sticky header
-  const header = document.querySelector(".header");
-  if (header) {
-    window.addEventListener("scroll", () => {
-      const scrollY = window.scrollY;
-      if (scrollY > 0) {
-        header.classList.add("header-sticky");
-      } else {
-        header.classList.remove("header-sticky");
-      }
-    });
-  }
 
   // Swiper isn't loaded on every page (e.g. the login/join dialog pages skip
   // it entirely) — guard both instantiations so main.js doesn't throw there.

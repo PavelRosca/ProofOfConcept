@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{% if request.LANGUAGE_CODE == 'en' %}en{% else %}it{% endif %}">
 <head>
   {% include 'site/partials/favicon.html' %}
@@ -19,9 +19,11 @@
 
   <script>
     (function () {
+      // Day mode is the default for first-time visitors, regardless of OS/browser
+      // dark-mode preference. Dark mode only applies once the user explicitly
+      // picks it via the Night mode toggle (saved to localStorage below).
       const savedTheme = localStorage.getItem("theme");
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+      if (savedTheme === "dark") {
         document.documentElement.classList.add("dark");
       }
     })();
@@ -49,13 +51,19 @@
         <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
       </svg>
     </label>
-    <label id="hide-button" for="nav-toggle" class="order-2 hidden cursor-pointer items-center lg:order-1">
-      <svg class="h-6 fill-current" viewBox="0 0 20 20">
-        <title>Menu Close</title>
-        <polygon points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2" transform="rotate(45 10 10)"></polygon>
-      </svg>
-    </label>
+    <label id="nav-backdrop" for="nav-toggle" class="nav-backdrop lg:hidden" aria-hidden="true"></label>
     <ul id="nav-menu" class="navbar-nav order-2 hidden w-full flex-[0_0_100%] lg:order-1 lg:flex lg:w-auto lg:flex-auto lg:justify-center lg:space-x-5">
+      <li class="nav-menu-header lg:hidden">
+        <a href="/" class="nav-menu-logo">
+          <img class="block h-8 w-auto" src="/static/images/Logo-IT.svg" alt="logo" />
+        </a>
+        <label id="hide-button" for="nav-toggle" class="nav-menu-close" aria-label="Chiudi menu">
+          <svg class="h-6 fill-current" viewBox="0 0 20 20">
+            <title>Menu Close</title>
+            <polygon points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2" transform="rotate(45 10 10)"></polygon>
+          </svg>
+        </label>
+      </li>
       <li class="nav-item">
         <a href="/" class="nav-link{% if request.path == '/' %} active{% endif %}" data-i18n="nav.home">{% if request.LANGUAGE_CODE == 'en' %}Home{% else %}Home{% endif %}</a>
       </li>
@@ -71,6 +79,7 @@
       <li class="nav-item">
         <a href="/contact/" class="nav-link{% if request.path == '/contact/' %} active{% endif %}" data-i18n="nav.contact">{% if request.LANGUAGE_CODE == 'en' %}Contact{% else %}Contatti{% endif %}</a>
       </li>
+      <li class="nav-menu-divider lg:hidden" aria-hidden="true"></li>
       <li class="nav-item lg:hidden">
         <button id="theme-toggle-mobile" class="nav-link w-full text-left" type="button">ðŸŒ™ Night mode</button>
       </li>
@@ -100,7 +109,7 @@
       </li>
       {% endif %}
     </ul>
-    <div class="order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex space-x-3">
+    <div class="header-actions order-1 ml-auto hidden items-center md:order-2 md:ml-0 lg:flex space-x-3">
       <button id="theme-toggle" class="header-action" type="button">ðŸŒ™ Night mode</button>
       <div class="flex items-center space-x-2">
         <button id="lang-it" data-lang="it" class="header-lang">IT</button>
