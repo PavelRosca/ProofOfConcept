@@ -49,7 +49,7 @@ urlpatterns += i18n_patterns(
     # two deliberately don't.
     path('login/', member_pages.login_page, name='login-page'),
     path('join/', member_pages.join_page, name='join-page'),
-    path('', include(wagtail_urls)),
+    path('sciarrone/', include(wagtail_urls)),
     prefix_default_language=False,
 )
 

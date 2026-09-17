@@ -10,7 +10,7 @@ def login_page(request):
     context HomePage.get_context() used to build when this lived in a homepage
     anchor section, just relocated here."""
     if request.user.is_authenticated:
-        return redirect('/')
+        return redirect('/sciarrone/')
 
     context = {
         'pending_login': bool(request.session.get('pending_login_id')),
@@ -28,7 +28,7 @@ def join_page(request):
     context HomePage.get_context() used to build when this lived in a homepage
     anchor section, just relocated here."""
     if request.user.is_authenticated:
-        return redirect('/')
+        return redirect('/sciarrone/')
 
     context = {
         'pending_registration': bool(request.session.get('pending_registration_id')),

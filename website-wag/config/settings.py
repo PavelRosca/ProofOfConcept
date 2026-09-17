@@ -228,8 +228,8 @@ AUTHENTICATION_BACKENDS = [
 # app's own views always redirect via members.views._redirect_next or
 # members.access.active_member_required instead of consulting these settings.
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/sciarrone/'
+LOGOUT_REDIRECT_URL = '/sciarrone/'
 
 # Media files
 MEDIA_URL = '/media/'

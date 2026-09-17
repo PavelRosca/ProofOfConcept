@@ -36,7 +36,7 @@ class CategoryDetailViewTests(TestCase):
         user = self._make_member('sospeso@example.com', status='sospeso')
         self.client.force_login(user)
         response = self.client.get(reverse('projects:category-detail', kwargs={'key': 'agricoltura'}))
-        self.assertRedirects(response, '/', fetch_redirect_response=False)
+        self.assertRedirects(response, '/sciarrone/', fetch_redirect_response=False)
 
     def test_active_member_sees_category_page(self):
         user = self._make_member('attivo@example.com')
@@ -62,4 +62,4 @@ class CategoryDetailViewTests(TestCase):
         user = User.objects.create_superuser(username='admin2@example.com', email='admin2@example.com', password='irrelevant')
         self.client.force_login(user)
         response = self.client.get(reverse('projects:category-detail', kwargs={'key': 'agricoltura'}))
-        self.assertRedirects(response, '/', fetch_redirect_response=False)
+        self.assertRedirects(response, '/sciarrone/', fetch_redirect_response=False)

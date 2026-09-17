@@ -13,14 +13,14 @@ class HomepageCategoryGridTests(TestCase):
         return user
 
     def test_anonymous_visitor_sees_no_grid(self):
-        response = self.client.get('/')
+        response = self.client.get('/sciarrone/')
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'Agricoltura')
 
     def test_active_member_sees_grid_with_all_categories(self):
         user = self._make_member('gridactive@example.com')
         self.client.force_login(user)
-        response = self.client.get('/')
+        response = self.client.get('/sciarrone/')
         self.assertEqual(response.status_code, 200)
         for category in Category.objects.filter(is_active=True):
             url = reverse('projects:category-detail', kwargs={'key': category.key})
@@ -29,7 +29,7 @@ class HomepageCategoryGridTests(TestCase):
     def test_inactive_member_sees_welcome_but_no_grid(self):
         user = self._make_member('gridinactive@example.com', status='inattivo')
         self.client.force_login(user)
-        response = self.client.get('/')
+        response = self.client.get('/sciarrone/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Benvenuto')
         self.assertNotContains(response, 'Agricoltura')
@@ -37,6 +37,6 @@ class HomepageCategoryGridTests(TestCase):
     def test_user_without_member_no_crash(self):
         user = User.objects.create_superuser(username='gridadmin@example.com', email='gridadmin@example.com', password='irrelevant')
         self.client.force_login(user)
-        response = self.client.get('/')
+        response = self.client.get('/sciarrone/')
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'Agricoltura')

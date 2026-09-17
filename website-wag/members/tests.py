@@ -52,7 +52,7 @@ class RegisterSubmitHoneypotTests(TestCase):
             'address_postal_code': '00100',
             'address_city': 'Roma',
             'address_province': 'RM',
-            'next': '/',
+            'next': '/sciarrone/',
         }
         payload.update(overrides)
         return payload
@@ -71,7 +71,7 @@ class RegisterSubmitHoneypotTests(TestCase):
 @override_settings(RATELIMIT_ENABLE=False)
 class LoginRequestHoneypotTests(TestCase):
     def _payload(self, **overrides):
-        payload = {'email': 'honeypot-login@example.com', 'next': '/'}
+        payload = {'email': 'honeypot-login@example.com', 'next': '/sciarrone/'}
         payload.update(overrides)
         return payload
 
@@ -91,18 +91,18 @@ class LoginRequestAntiEnumerationTests(TestCase):
     def test_identical_response_registered_vs_unregistered(self):
         User.objects.create_user(username='member@example.com', email='member@example.com')
         response_registered = self.client.post(
-            reverse('members:login-request'), {'email': 'member@example.com', 'next': '/'}
+            reverse('members:login-request'), {'email': 'member@example.com', 'next': '/sciarrone/'}
         )
         response_unregistered = self.client.post(
-            reverse('members:login-request'), {'email': 'unregistered@example.com', 'next': '/'}
+            reverse('members:login-request'), {'email': 'unregistered@example.com', 'next': '/sciarrone/'}
         )
         self.assertEqual(response_registered.status_code, response_unregistered.status_code)
         self.assertEqual(response_registered.url, response_unregistered.url)
 
     def test_email_content_differs_by_account_existence(self):
         User.objects.create_user(username='member2@example.com', email='member2@example.com')
-        self.client.post(reverse('members:login-request'), {'email': 'member2@example.com', 'next': '/'})
-        self.client.post(reverse('members:login-request'), {'email': 'ghost@example.com', 'next': '/'})
+        self.client.post(reverse('members:login-request'), {'email': 'member2@example.com', 'next': '/sciarrone/'})
+        self.client.post(reverse('members:login-request'), {'email': 'ghost@example.com', 'next': '/sciarrone/'})
         self.assertEqual(len(mail.outbox), 2)
         self.assertIn('accesso', mail.outbox[0].subject.lower())
         self.assertIn('nessun account', mail.outbox[1].subject.lower())
@@ -130,7 +130,7 @@ class LoginVerifyTests(TestCase):
         user = User.objects.create_user(username='login-ok@example.com', email='login-ok@example.com')
         otp = self._make_pending_otp('login-ok@example.com')
         self._set_pending(otp.pk)
-        response = self.client.post(reverse('members:login-verify'), {'code': '123456', 'next': '/'})
+        response = self.client.post(reverse('members:login-verify'), {'code': '123456', 'next': '/sciarrone/'})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(int(self.client.session['_auth_user_id']), user.pk)
 
@@ -138,7 +138,7 @@ class LoginVerifyTests(TestCase):
         User.objects.create_user(username='login-wrong@example.com', email='login-wrong@example.com')
         otp = self._make_pending_otp('login-wrong@example.com')
         self._set_pending(otp.pk)
-        response = self.client.post(reverse('members:login-verify'), {'code': '000000', 'next': '/'})
+        response = self.client.post(reverse('members:login-verify'), {'code': '000000', 'next': '/sciarrone/'})
         self.assertEqual(response.status_code, 302)
         self.assertNotIn('_auth_user_id', self.client.session)
         otp.refresh_from_db()
@@ -148,7 +148,7 @@ class LoginVerifyTests(TestCase):
         User.objects.create_user(username='login-exp@example.com', email='login-exp@example.com')
         otp = self._make_pending_otp('login-exp@example.com', expires_at=timezone.now() - timedelta(minutes=1))
         self._set_pending(otp.pk)
-        response = self.client.post(reverse('members:login-verify'), {'code': '123456', 'next': '/'})
+        response = self.client.post(reverse('members:login-verify'), {'code': '123456', 'next': '/sciarrone/'})
         self.assertEqual(response.status_code, 302)
         self.assertNotIn('_auth_user_id', self.client.session)
 
@@ -157,7 +157,7 @@ class LoginVerifyTests(TestCase):
         # the code was requested.
         otp = self._make_pending_otp('login-ghost@example.com')
         self._set_pending(otp.pk)
-        response = self.client.post(reverse('members:login-verify'), {'code': '123456', 'next': '/'})
+        response = self.client.post(reverse('members:login-verify'), {'code': '123456', 'next': '/sciarrone/'})
         self.assertEqual(response.status_code, 302)
         self.assertNotIn('_auth_user_id', self.client.session)
 
@@ -167,7 +167,7 @@ class LoginVerifyTests(TestCase):
         )
         otp = self._make_pending_otp('login-inactive@example.com')
         self._set_pending(otp.pk)
-        response = self.client.post(reverse('members:login-verify'), {'code': '123456', 'next': '/'})
+        response = self.client.post(reverse('members:login-verify'), {'code': '123456', 'next': '/sciarrone/'})
         self.assertEqual(response.status_code, 302)
         self.assertNotIn('_auth_user_id', self.client.session)
 
@@ -180,7 +180,7 @@ class LogoutTests(TestCase):
     def test_post_logs_out_and_clears_session(self):
         user = User.objects.create_user(username='logout-me@example.com', email='logout-me@example.com')
         self.client.force_login(user)
-        response = self.client.post(reverse('members:logout'), {'next': '/'})
+        response = self.client.post(reverse('members:logout'), {'next': '/sciarrone/'})
         self.assertEqual(response.status_code, 302)
         self.assertNotIn('_auth_user_id', self.client.session)
 
@@ -200,13 +200,13 @@ class LoginJoinPageTests(TestCase):
         user = User.objects.create_user(username='pageuser@example.com', email='pageuser@example.com')
         self.client.force_login(user)
         response = self.client.get(reverse('login-page'))
-        self.assertRedirects(response, '/', fetch_redirect_response=False)
+        self.assertRedirects(response, '/sciarrone/', fetch_redirect_response=False)
 
     def test_join_page_authenticated_redirects_home(self):
         user = User.objects.create_user(username='pageuser2@example.com', email='pageuser2@example.com')
         self.client.force_login(user)
         response = self.client.get(reverse('join-page'))
-        self.assertRedirects(response, '/', fetch_redirect_response=False)
+        self.assertRedirects(response, '/sciarrone/', fetch_redirect_response=False)
 
     def test_login_page_pending_shows_otp_step(self):
         session = self.client.session
@@ -237,36 +237,36 @@ class RateLimitInlineNoticeTests(TestCase):
         return response
 
     def test_register_submit_rate_limited_inline(self):
-        self._hammer(reverse('members:register-submit'), {'next': '/'}, 8)
+        self._hammer(reverse('members:register-submit'), {'next': '/sciarrone/'}, 8)
         self.assertEqual(
             self.client.session.get('registration_errors'), {'__all__': [members_views.RATE_LIMIT_ERROR]}
         )
 
     def test_resend_otp_rate_limited_inline(self):
-        self._hammer(reverse('members:otp-resend'), {'next': '/'}, 6)
+        self._hammer(reverse('members:otp-resend'), {'next': '/sciarrone/'}, 6)
         self.assertEqual(self.client.session.get('otp_errors'), [members_views.RATE_LIMIT_ERROR])
 
     def test_verify_otp_rate_limited_inline(self):
         # No pending_registration_id set — pending_registration_key() then
         # keys on the shared 'anon' bucket, so the 8/10m per-pending-id limit
         # (not the 15/h per-IP one) is the one that trips first.
-        self._hammer(reverse('members:otp-verify'), {'code': '000000', 'next': '/'}, 11)
+        self._hammer(reverse('members:otp-verify'), {'code': '000000', 'next': '/sciarrone/'}, 11)
         self.assertEqual(self.client.session.get('otp_errors'), [members_views.RATE_LIMIT_ERROR])
 
     def test_login_request_rate_limited_inline(self):
-        self._hammer(reverse('members:login-request'), {'email': 'ratelimit@example.com', 'next': '/'}, 8)
+        self._hammer(reverse('members:login-request'), {'email': 'ratelimit@example.com', 'next': '/sciarrone/'}, 8)
         self.assertEqual(self.client.session.get('login_errors'), {'__all__': [members_views.RATE_LIMIT_ERROR]})
 
     def test_login_resend_rate_limited_inline(self):
-        self._hammer(reverse('members:login-resend'), {'next': '/'}, 6)
+        self._hammer(reverse('members:login-resend'), {'next': '/sciarrone/'}, 6)
         self.assertEqual(self.client.session.get('login_otp_errors'), [members_views.RATE_LIMIT_ERROR])
 
     def test_login_verify_rate_limited_inline(self):
-        self._hammer(reverse('members:login-verify'), {'code': '000000', 'next': '/'}, 11)
+        self._hammer(reverse('members:login-verify'), {'code': '000000', 'next': '/sciarrone/'}, 11)
         self.assertEqual(self.client.session.get('login_otp_errors'), [members_views.RATE_LIMIT_ERROR])
 
     def test_contact_submit_rate_limited_inline(self):
-        self._hammer(reverse('contact-submit'), {'next': '/'}, 13)
+        self._hammer(reverse('contact-submit'), {'next': '/sciarrone/'}, 13)
         self.assertEqual(
             self.client.session.get('contact_errors'), {'__all__': [core_views.CONTACT_RATE_LIMIT_ERROR]}
         )

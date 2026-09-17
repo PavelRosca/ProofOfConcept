@@ -7,14 +7,14 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#211a15" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-  <base href="/" />
+  <base href="/sciarrone/" />
   <title>{% block page_title %}{% if request.LANGUAGE_CODE == 'en' %}Sciarrone{% else %}Sciarrone{% endif %}{% endblock %}</title>
   <meta name="robots" content="index, follow" />
   <meta name="description" content="{% if request.LANGUAGE_CODE == 'en' %}A civic movement for families, dignified work, and citizen participation.{% else %}Un movimento civico per la famiglia, il lavoro dignitoso e la partecipazione civica.{% endif %}" />
   <meta property="og:title" content="{% block og_title %}Sciarrone{% endblock %}" />
   <meta property="og:description" content="{% if request.LANGUAGE_CODE == 'en' %}A civic movement for families, dignified work, and citizen participation.{% else %}Un movimento civico per la famiglia, il lavoro dignitoso e la partecipazione civica.{% endif %}" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="/" />
+  <meta property="og:url" content="/sciarrone/" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <script>
@@ -40,7 +40,7 @@
 <header class="header">
   <nav class="navbar container">
     <div class="order-0 overflow-visible shrink-0">
-      <a href="/">
+      <a href="/sciarrone/">
         <img class="block h-10 w-auto" src="/static/images/Logo-IT.svg" alt="logo" />
       </a>
     </div>
@@ -54,7 +54,7 @@
     <label id="nav-backdrop" for="nav-toggle" class="nav-backdrop lg:hidden" aria-hidden="true"></label>
     <ul id="nav-menu" class="navbar-nav order-2 hidden w-full flex-[0_0_100%] lg:order-1 lg:flex lg:w-auto lg:flex-auto lg:justify-center lg:space-x-5">
       <li class="nav-menu-header lg:hidden">
-        <a href="/" class="nav-menu-logo">
+        <a href="/sciarrone/" class="nav-menu-logo">
           <img class="block h-8 w-auto" src="/static/images/Logo-IT.svg" alt="logo" />
         </a>
         <label id="hide-button" for="nav-toggle" class="nav-menu-close" aria-label="Chiudi menu">
@@ -65,19 +65,19 @@
         </label>
       </li>
       <li class="nav-item">
-        <a href="/" class="nav-link{% if request.path == '/' %} active{% endif %}" data-i18n="nav.home">{% if request.LANGUAGE_CODE == 'en' %}Home{% else %}Home{% endif %}</a>
+        <a href="/sciarrone/" class="nav-link{% if request.path == '/sciarrone/' %} active{% endif %}" data-i18n="nav.home">{% if request.LANGUAGE_CODE == 'en' %}Home{% else %}Home{% endif %}</a>
       </li>
       <li class="nav-item">
-        <a href="/projects/" class="nav-link{% if request.path == '/projects/' %} active{% endif %}" data-i18n="nav.projects">{% if request.LANGUAGE_CODE == 'en' %}Projects{% else %}Progetti{% endif %}</a>
+        <a href="/sciarrone/projects/" class="nav-link{% if request.path == '/sciarrone/projects/' %} active{% endif %}" data-i18n="nav.projects">{% if request.LANGUAGE_CODE == 'en' %}Projects{% else %}Progetti{% endif %}</a>
       </li>
       <li class="nav-item">
-        <a href="/support/" class="nav-link{% if request.path == '/support/' %} active{% endif %}" data-i18n="nav.support">{% if request.LANGUAGE_CODE == 'en' %}Support Us{% else %}Sostienici{% endif %}</a>
+        <a href="/sciarrone/support/" class="nav-link{% if request.path == '/sciarrone/support/' %} active{% endif %}" data-i18n="nav.support">{% if request.LANGUAGE_CODE == 'en' %}Support Us{% else %}Sostienici{% endif %}</a>
       </li>
       <li class="nav-item">
         <a href="{% url 'join-page' %}" class="nav-link" data-i18n="nav.join">{% if request.LANGUAGE_CODE == 'en' %}Join{% else %}Iscriviti{% endif %}</a>
       </li>
       <li class="nav-item">
-        <a href="/contact/" class="nav-link{% if request.path == '/contact/' %} active{% endif %}" data-i18n="nav.contact">{% if request.LANGUAGE_CODE == 'en' %}Contact{% else %}Contatti{% endif %}</a>
+        <a href="/sciarrone/contact/" class="nav-link{% if request.path == '/sciarrone/contact/' %} active{% endif %}" data-i18n="nav.contact">{% if request.LANGUAGE_CODE == 'en' %}Contact{% else %}Contatti{% endif %}</a>
       </li>
       <li class="nav-menu-divider lg:hidden" aria-hidden="true"></li>
       <li class="nav-item lg:hidden">
@@ -136,7 +136,7 @@
   <div class="container">
     <div class="row gx-5 pb-10 pt-[52px]">
       <div class="col-12 mt-12 md:col-6 lg:col-3">
-        <a href="/">
+        <a href="/sciarrone/">
           <img class="max-h-12 w-auto" src="/static/images/Logo-IT.svg" alt="" />
         </a>
         <p class="mt-6" data-i18n="footer.about">{% if request.LANGUAGE_CODE == 'en' %}We are a movement dedicated to supporting families and civic participation. Transparency, solidarity, responsibility.{% else %}Siamo un movimento dedicato al sostegno delle famiglie e alla partecipazione civica. Trasparenza, solidarietà, responsabilità.{% endif %}</p>
@@ -148,11 +148,11 @@
       <div class="col-12 mt-12 md:col-6 lg:col-3">
         <h6 data-i18n="footer.links">Link rapidi</h6>
         <ul>
-          <li><a href="/" data-i18n="nav.home">Home</a></li>
-          <li><a href="/projects/" data-i18n="nav.projects">Progetti</a></li>
-          <li><a href="/support/" data-i18n="nav.support">Sostienici</a></li>
+          <li><a href="/sciarrone/" data-i18n="nav.home">Home</a></li>
+          <li><a href="/sciarrone/projects/" data-i18n="nav.projects">Progetti</a></li>
+          <li><a href="/sciarrone/support/" data-i18n="nav.support">Sostienici</a></li>
           <li><a href="{% url 'join-page' %}" data-i18n="nav.join">Iscriviti</a></li>
-          <li><a href="/contact/" data-i18n="nav.contact">Contatti</a></li>
+          <li><a href="/sciarrone/contact/" data-i18n="nav.contact">Contatti</a></li>
         </ul>
       </div>
       <div class="col-12 mt-12 md:col-6 lg:col-3">

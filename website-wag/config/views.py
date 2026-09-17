@@ -14,8 +14,8 @@ def cms_page(request, slug):
 @require_http_methods(["GET"])
 def legacy_html_page_redirect(request, page):
     if page == 'index':
-        return redirect('/', permanent=True)
-    return redirect(f'/{page}/', permanent=True)
+        return redirect('/sciarrone/', permanent=True)
+    return redirect(f'/sciarrone/{page}/', permanent=True)
 
 
 @require_http_methods(["GET"])

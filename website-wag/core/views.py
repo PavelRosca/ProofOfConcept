@@ -157,9 +157,9 @@ def _redirect_next(request):
     hardcoding '/', which would silently bounce an /en/ visitor back to the default
     language homepage. 'next' is a same-origin path the template sets from
     request.path — validated to rule out an open-redirect via a forged POST."""
-    next_url = request.POST.get('next', '/')
+    next_url = request.POST.get('next', '/sciarrone/')
     if not url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
-        next_url = '/'
+        next_url = '/sciarrone/'
     return redirect(next_url)
 
 
