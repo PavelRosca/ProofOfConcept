@@ -13,12 +13,18 @@ from .views import GENERIC_OTP_ERROR, RATE_LIMIT_ERROR, SEND_FAILURE_ERROR, _cli
 
 
 def _send_login_otp_email(otp_obj, code):
-    subject = 'Il tuo codice di accesso'
+    subject = 'Il tuo codice di accesso / Your login code'
+    minutes = int(OTP_TTL.total_seconds() // 60)
     message = (
         f"Ciao,\n\n"
         f"Il tuo codice di accesso è: {code}\n"
-        f"Il codice scade tra {int(OTP_TTL.total_seconds() // 60)} minuti.\n\n"
-        "Se non hai richiesto questo codice, ignora pure questa email."
+        f"Il codice scade tra {minutes} minuti.\n\n"
+        "Se non hai richiesto questo codice, ignora pure questa email.\n\n"
+        "----------\n\n"
+        f"Hi,\n\n"
+        f"Your login code is: {code}\n"
+        f"The code expires in {minutes} minutes.\n\n"
+        "If you didn't request this code, you can safely ignore this email."
     )
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [otp_obj.email], fail_silently=False)
 
@@ -27,12 +33,17 @@ def _send_no_account_email(otp_obj):
     """Sent instead of a login code when no account exists for this address —
     keeps the HTTP response identical to a real login request so the form
     can't be used to enumerate members by email (see login_request())."""
-    subject = 'Nessun account trovato'
+    subject = 'Nessun account trovato / No account found'
     message = (
         "Ciao,\n\n"
         "Non risulta nessun account registrato con questo indirizzo email. "
         "Se vuoi iscriverti, visita la homepage e compila il modulo di registrazione.\n\n"
-        "Se non hai richiesto questa email, ignorala pure."
+        "Se non hai richiesto questa email, ignorala pure.\n\n"
+        "----------\n\n"
+        "Hi,\n\n"
+        "There's no account registered with this email address. "
+        "If you'd like to join, visit the homepage and fill in the registration form.\n\n"
+        "If you didn't request this email, you can safely ignore it."
     )
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [otp_obj.email], fail_silently=False)
 

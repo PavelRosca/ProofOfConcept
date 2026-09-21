@@ -54,12 +54,18 @@ def _safe_next_param(request):
 
 
 def _send_otp_email(otp_obj, code):
-    subject = 'Il tuo codice di verifica'
+    subject = 'Il tuo codice di verifica / Your verification code'
+    minutes = int(OTP_TTL.total_seconds() // 60)
     message = (
         f"Ciao {otp_obj.first_name},\n\n"
         f"Il tuo codice di verifica è: {code}\n"
-        f"Il codice scade tra {int(OTP_TTL.total_seconds() // 60)} minuti.\n\n"
-        "Se non hai richiesto questo codice, ignora pure questa email."
+        f"Il codice scade tra {minutes} minuti.\n\n"
+        "Se non hai richiesto questo codice, ignora pure questa email.\n\n"
+        "----------\n\n"
+        f"Hi {otp_obj.first_name},\n\n"
+        f"Your verification code is: {code}\n"
+        f"The code expires in {minutes} minutes.\n\n"
+        "If you didn't request this code, you can safely ignore this email."
     )
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [otp_obj.email], fail_silently=False)
 
@@ -68,11 +74,15 @@ def _send_already_registered_email(otp_obj):
     """Sent instead of an OTP code when the address already has an account — keeps
     the HTTP response identical to a fresh registration so the form can't be used to
     enumerate registered members by email (membership reveals political affiliation)."""
-    subject = 'Hai già un account'
+    subject = 'Hai già un account / You already have an account'
     message = (
         f"Ciao {otp_obj.first_name},\n\n"
         "Risulta che questo indirizzo email sia già registrato. Prova ad accedere invece di registrarti di nuovo.\n\n"
-        "Se non hai richiesto questa email, ignorala pure."
+        "Se non hai richiesto questa email, ignorala pure.\n\n"
+        "----------\n\n"
+        f"Hi {otp_obj.first_name},\n\n"
+        "This email address is already registered. Try logging in instead of registering again.\n\n"
+        "If you didn't request this email, you can safely ignore it."
     )
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [otp_obj.email], fail_silently=False)
 

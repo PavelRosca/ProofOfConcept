@@ -143,20 +143,20 @@
       </div>
       <div class="col-12 mt-12 md:col-6 lg:col-3">
         <h6 data-i18n="footer.socials">Social</h6>
-        <p>info@partitoesempio.it</p>
+        <p>contact@sistemaimpreseitalia.it</p>
       </div>
       <div class="col-12 mt-12 md:col-6 lg:col-3">
-        <h6 data-i18n="footer.links">Link rapidi</h6>
+        <h6 data-i18n="footer.links">{% if request.LANGUAGE_CODE == 'en' %}Quick Links{% else %}Link rapidi{% endif %}</h6>
         <ul>
-          <li><a href="/sciarrone/" data-i18n="nav.home">Home</a></li>
-          <li><a href="/sciarrone/projects/" data-i18n="nav.projects">Progetti</a></li>
-          <li><a href="/sciarrone/support/" data-i18n="nav.support">Sostienici</a></li>
-          <li><a href="{% url 'join-page' %}" data-i18n="nav.join">Iscriviti</a></li>
-          <li><a href="/sciarrone/contact/" data-i18n="nav.contact">Contatti</a></li>
+          <li><a href="/sciarrone/" data-i18n="nav.home">{% if request.LANGUAGE_CODE == 'en' %}Home{% else %}Home{% endif %}</a></li>
+          <li><a href="/sciarrone/projects/" data-i18n="nav.projects">{% if request.LANGUAGE_CODE == 'en' %}Projects{% else %}Progetti{% endif %}</a></li>
+          <li><a href="/sciarrone/support/" data-i18n="nav.support">{% if request.LANGUAGE_CODE == 'en' %}Support Us{% else %}Sostienici{% endif %}</a></li>
+          <li><a href="{% url 'join-page' %}" data-i18n="nav.join">{% if request.LANGUAGE_CODE == 'en' %}Join{% else %}Iscriviti{% endif %}</a></li>
+          <li><a href="/sciarrone/contact/" data-i18n="nav.contact">{% if request.LANGUAGE_CODE == 'en' %}Contact{% else %}Contatti{% endif %}</a></li>
         </ul>
       </div>
       <div class="col-12 mt-12 md:col-6 lg:col-3">
-        <h6 data-i18n="footer.contact">Sede & Contatti</h6>
+        <h6 data-i18n="footer.contact">{% if request.LANGUAGE_CODE == 'en' %}Address & Contacts{% else %}Sede & Contatti{% endif %}</h6>
         <p>Via Esempio 12, Roma, Italia</p>
         <p>+39 06 1234 5678</p>
       </div>
