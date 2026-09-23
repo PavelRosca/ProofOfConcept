@@ -55,19 +55,19 @@ class MemberAdmin(admin.ModelAdmin):
     search_fields = ('user__first_name', 'user__last_name', 'user__email', 'tessera_number')
     readonly_fields = ('date_joined', 'last_updated')
     fieldsets = (
-        ('User Info', {
+        ('Utente', {
             'fields': ('user', 'profile_image')
         }),
-        ('Organization', {
+        ('Organizzazione', {
             'fields': ('region', 'tessera_number', 'status')
         }),
-        ('Contact', {
+        ('Contatti', {
             'fields': ('phone', 'bio')
         }),
-        ('Address', {
+        ('Indirizzo', {
             'fields': ('address_street', 'address_number', 'address_postal_code', 'address_city', 'address_province')
         }),
-        ('Dates', {
+        ('Date', {
             'fields': ('date_joined', 'last_updated'),
             'classes': ('collapse',)
         }),

@@ -236,7 +236,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Wagtail
-WAGTAIL_SITE_NAME = 'Partito CMS'
+WAGTAIL_SITE_NAME = 'Sciarrone CMS'
+# The "Wagtail upgrade available" banner is a developer notice; editors can't
+# act on it and it reads like something is wrong with the site.
+WAGTAIL_ENABLE_UPDATE_CHECK = False
 WAGTAILADMIN_BASE_URL = config(
     'WAGTAILADMIN_BASE_URL',
     default=f'https://{RENDER_EXTERNAL_HOSTNAME}' if RENDER_EXTERNAL_HOSTNAME else 'http://127.0.0.1:8000'

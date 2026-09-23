@@ -86,26 +86,29 @@ class Member(models.Model):
         ('sospeso', 'Sospeso'),
     ]
     
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='member')
-    region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True, blank=True, related_name='members')
-    tessera_number = models.CharField(max_length=50, unique=True, blank=True, null=True)  # Membership card
-    status = models.CharField(max_length=20, choices=MEMBERSHIP_STATUS, default='attivo')
-    phone = models.CharField(max_length=20, blank=True, null=True)
-    address_street = models.CharField(max_length=200, blank=True, default='')  # Via
-    address_number = models.CharField(max_length=20, blank=True, default='')  # N. civico (e.g. "12/A")
-    address_postal_code = models.CharField(max_length=10, blank=True, default='')  # Cod. Pos. (text, preserves leading zeros)
-    address_city = models.CharField(max_length=100, blank=True, default='')  # Città
-    address_province = models.CharField(max_length=2, blank=True, default='')  # Provincia (2-letter code)
-    bio = models.TextField(blank=True, null=True)
-    profile_image = models.ImageField(upload_to='profiles/', blank=True, null=True)
-    date_joined = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='member', verbose_name='Utente')
+    region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True, blank=True, related_name='members', verbose_name='Regione')
+    tessera_number = models.CharField('Numero tessera', max_length=50, unique=True, blank=True, null=True)  # Membership card
+    status = models.CharField('Stato', max_length=20, choices=MEMBERSHIP_STATUS, default='attivo')
+    phone = models.CharField('Telefono', max_length=20, blank=True, null=True)
+    address_street = models.CharField('Via', max_length=200, blank=True, default='')  # Via
+    address_number = models.CharField('Numero civico', max_length=20, blank=True, default='')  # N. civico (e.g. "12/A")
+    address_postal_code = models.CharField('CAP', max_length=10, blank=True, default='')  # Cod. Pos. (text, preserves leading zeros)
+    address_city = models.CharField('Città', max_length=100, blank=True, default='')  # Città
+    address_province = models.CharField('Provincia', max_length=2, blank=True, default='')  # Provincia (2-letter code)
+    bio = models.TextField('Note', blank=True, null=True)
+    profile_image = models.ImageField('Foto', upload_to='profiles/', blank=True, null=True)
+    date_joined = models.DateTimeField('Iscritto il', auto_now_add=True)
+    last_updated = models.DateTimeField('Ultima modifica', auto_now=True)
     
     class Meta:
         ordering = ['-date_joined']
+        verbose_name = 'Socio'
+        verbose_name_plural = 'Soci'
         
     def __str__(self):
-        return f"{self.user.get_full_name() or self.user.username} ({self.tessera_number})"
+        name = self.user.get_full_name() or self.user.username
+        return f'{name} ({self.tessera_number})' if self.tessera_number else name
 
 
 class Donation(models.Model):
@@ -170,12 +173,14 @@ class StaticPage(models.Model):
 
 class ContactLead(models.Model):
     """Email-only lead captured from the gated contact form (Phase 2)."""
-    email = models.EmailField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    email = models.EmailField('Email')
+    created_at = models.DateTimeField('Ricevuta il', auto_now_add=True)
+    ip_address = models.GenericIPAddressField('Indirizzo IP', null=True, blank=True)
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = 'Richiesta di contatto'
+        verbose_name_plural = 'Richieste di contatto'
 
     def __str__(self):
         return self.email

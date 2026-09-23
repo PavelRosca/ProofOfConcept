@@ -5977,7 +5977,8 @@ label {
 .card-warm:hover {
   transform: scale(1.02);
 }
-.card-warm h3 {
+.card-warm h3,
+.card-warm h4 {
   margin: 0;
   font-size: 17px;
   font-weight: 700;
@@ -5989,7 +5990,8 @@ label {
   line-height: 1.6;
   color: #6b5f54;
 }
-.dark .card-warm h3 {
+.dark .card-warm h3,
+.dark .card-warm h4 {
   color: #f5efe9;
 }
 .dark .card-warm p {
@@ -6160,4 +6162,16 @@ label {
 .dialog-backdrop > * {
   width: 100%;
   max-width: 32rem;
+}
+
+/* CMS content blocks (website/partials/content_blocks.html): space-y-8
+   was never used by the original theme, so the compiled Tailwind build
+   has no rule for it; hand-written here with Tailwind's own output. */
+.space-y-8 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 2rem;
+}
+/* A heading block belongs to the content right below it, not to the
+   section above: keep it closer to what follows. */
+.space-y-8 > h2:not([hidden]) + :not([hidden]) {
+  margin-top: 1rem;
 }

@@ -12,13 +12,16 @@
 
 <section class="section pt-4 pb-8">
   <div class="container">
-    <div class="lg:col-8 mx-auto">
+    <div class="lg:col-8">
       {% if cms_page and cms_page.intro %}
       <div class="text-gray-700">{{ cms_page.intro|richtext }}</div>
       {% else %}
       <p class="text-gray-700">
         {% if request.LANGUAGE_CODE == 'en' %}We are a civic movement putting families, dignified work, and citizen participation in public life at the centre. We combine transparency, accountability, and close attention to local communities to build concrete proposals tailored to the people we represent.{% else %}Siamo un movimento civico che mette al centro la famiglia, il lavoro dignitoso e la partecipazione dei cittadini alla vita pubblica. Uniamo trasparenza, responsabilità e ascolto del territorio per costruire proposte concrete su misura delle comunità che rappresentiamo.{% endif %}
       </p>
+      {% endif %}
+      {% if cms_page.body %}
+      <div class="mt-6 text-gray-700">{{ cms_page.body|richtext }}</div>
       {% endif %}
     </div>
   </div>

@@ -14,6 +14,9 @@
     {% if not cms_page.intro %}
     <p class="text-gray-700" data-i18n="projects.page.intro">{% if request.LANGUAGE_CODE == 'en' %}List of initiatives and ongoing projects, organized by region and sector.{% else %}Elenco delle iniziative e dei progetti in corso, divisi per regione e settore.{% endif %}</p>
     {% endif %}
+    {% if cms_page.body %}
+    <div class="mt-6 text-gray-700">{{ cms_page.body|richtext }}</div>
+    {% endif %}
     <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
       <article class="card-warm card-warm-terracotta">
         <h3 data-i18n="projects.card1.title">{% if request.LANGUAGE_CODE == 'en' %}Family Support Center — NORTH-01{% else %}Centro di supporto familiare — NORD-01{% endif %}</h3>

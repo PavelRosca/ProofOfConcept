@@ -152,8 +152,8 @@
         <p class="mt-2">{{ cms_home.cta_text|default:"Con il tuo contributo possiamo ampliare i servizi e raggiungere più famiglie. Ogni donazione conta." }}</p>
       </div>
       <div class="lg:col-4 text-right field-inactive">
-        <button type="button" class="btn btn-pill-primary" disabled>Dona ora</button>
-        <button type="button" class="btn btn-pill-outline ml-3" disabled style="color:#fdf3ea; border-color:rgba(253,243,234,0.4);">Iscriviti</button>
+        <button type="button" class="btn btn-pill-primary" disabled>{% if request.LANGUAGE_CODE == 'en' %}Donate now{% else %}Dona ora{% endif %}</button>
+        <button type="button" class="btn btn-pill-outline ml-3" disabled style="color:#fdf3ea; border-color:rgba(253,243,234,0.4);">{% if request.LANGUAGE_CODE == 'en' %}Sign up{% else %}Iscriviti{% endif %}</button>
         <span class="badge-coming-soon">{% if request.LANGUAGE_CODE == 'en' %}Coming soon{% else %}Prossimamente{% endif %}</span>
       </div>
     </div>

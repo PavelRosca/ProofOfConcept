@@ -1,7 +1,7 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 {% for block in content_blocks %}
   {% if block.block_type == 'heading' %}
-    <h2>{{ block.value }}</h2>
+    <h2 class="text-2xl lg:text-3xl font-semibold">{{ block.value }}</h2>
   {% elif block.block_type == 'paragraph' %}
     <div class="text-gray-700">{{ block.value|richtext }}</div>
   {% elif block.block_type == 'cta' %}
@@ -55,10 +55,10 @@
     </section>
   {% elif block.block_type == 'image_text_split' %}
     <section>
-      <div class="row items-center gap-6">
+      <div class="row items-center" style="row-gap:1.5rem;">
         {% if block.value.image_position == 'left' %}
           <div class="md:col-6">
-            <img class="w-full rounded-xl object-cover" src="{{ block.value.image.url }}" alt="{{ block.value.title }}" />
+            {% image block.value.image width-1200 class="w-full rounded-xl object-cover" alt=block.value.title %}
           </div>
         {% endif %}
 
@@ -74,7 +74,7 @@
 
         {% if block.value.image_position != 'left' %}
           <div class="md:col-6">
-            <img class="w-full rounded-xl object-cover" src="{{ block.value.image.url }}" alt="{{ block.value.title }}" />
+            {% image block.value.image width-1200 class="w-full rounded-xl object-cover" alt=block.value.title %}
           </div>
         {% endif %}
       </div>

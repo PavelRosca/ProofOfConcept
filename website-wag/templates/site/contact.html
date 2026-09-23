@@ -16,6 +16,9 @@
         {% if not cms_page.intro %}
         <p class="text-gray-700" data-i18n="contact.page.intro">{% if request.LANGUAGE_CODE == 'en' %}For information, collaborations, or reports, contact us.{% else %}Per informazioni, collaborazioni o segnalazioni, contattaci.{% endif %}</p>
         {% endif %}
+        {% if cms_page.body %}
+        <div class="mt-6 text-gray-700">{{ cms_page.body|richtext }}</div>
+        {% endif %}
         {% if contact_success %}
         <div class="mt-4 notice info">
           <div class="notice-body">
